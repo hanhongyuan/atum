@@ -4,7 +4,7 @@ spring:
     config:
       server:
         git:
-          uri: http://git.oschina.net/borntorain/atum
+          uri: https://github.com/BornToRain/atum
           search-paths: config-repo
 
 server:
@@ -46,7 +46,7 @@ spring:
     config:
       server:
         git:
-          uri: https://git.oschina.net/borntorain/atum
+          uri: https://github.com/BornToRain/atum
           search-paths: config-repo
 
 server:
@@ -88,7 +88,7 @@ spring:
     config:
       server:
         git:
-          uri: https://git.oschina.net/borntorain/atum
+          uri: https://github.com/BornToRain/atum
           search-paths: config-repo
 
 server:
@@ -130,7 +130,7 @@ spring:
     config:
       server:
         git:
-          uri: https://git.oschina.net/borntorain/ra
+          uri: https://github.com/BornToRain/atum
           search-paths: config-repo
 
 server:
