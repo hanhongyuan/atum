@@ -29,6 +29,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
+            <!-- WEB容器 Netty -->
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>

@@ -1,17 +1,24 @@
 package com.oasis.atum.base.infrastructure.config;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.val;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.Executor;
 
 /**
  * Http配置
@@ -48,5 +55,39 @@ public class HttpConfiguration
 				configurer.defaultCodecs().jackson2Encoder(new Jackson2JsonEncoder(mapper));
 			}
 		};
+	}
+
+	/**
+	 * 同步Http
+	 * @return
+	 */
+	@Bean
+	public RestTemplate restTemplate()
+	{
+		val jsonConvert = new FastJsonHttpMessageConverter4();
+		// 初始化一个转换器配置
+		FastJsonConfig fastJsonConfig = new FastJsonConfig();
+		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat, SerializerFeature.PrettyFormat);
+		// 将配置设置给转换器并添加到HttpMessageConverter转换器列表中
+		jsonConvert.setFastJsonConfig(fastJsonConfig);
+
+		return new RestTemplateBuilder().additionalMessageConverters(jsonConvert).build();
+	}
+
+	/**
+	 * 异步调度线程池
+	 * @return
+	 */
+	@Bean
+	public Executor asyncExecutor()
+	{
+		val executor = new ThreadPoolTaskExecutor();
+		//核心数
+		val core = Runtime.getRuntime().availableProcessors();
+		executor.setCorePoolSize(core);
+		executor.setMaxPoolSize(core * 2);
+		executor.setQueueCapacity(1024);
+		executor.initialize();
+		return executor;
 	}
 }

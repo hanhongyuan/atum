@@ -1,0 +1,324 @@
+spring:
+  data:
+    #mongodb设置
+    mongodb:
+      host: wxtest.oasisapp.cn
+      port: 27017
+      database: wechat
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 60.205.106.190
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 3333
+  tomcat:
+    #容器编码
+    uri-encoding: utf-8
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: wechat
+      clientSecret: wechat
+      #token获取Uri
+      accessTokenUri: http://localhost:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+feign:
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+    response.enable: true
+  hystrix.enabled: true
+  httpclient.enabled: true
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      wechat:
+        source: queueMessageSource
+
+#微信设置
+wechat:
+  #是否启用Js-SDK
+  enable-js-api: true
+  #是否启用微信卡券
+  enable-api-ticket: true
+
+---
+
+#开发环境
+spring:
+  profiles: dev
+  data:
+    #mongodb设置
+    mongodb:
+      host: wxtest.oasisapp.cn
+      port: 27017
+      database: wechat
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 60.205.106.190
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 3333
+  tomcat:
+    #容器编码
+    uri-encoding: utf-8
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: wechat
+      clientSecret: wechat
+      #token获取Uri
+      accessTokenUri: http://wxtest.oasisapp.cn:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+feign:
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+    response.enable: true
+  hystrix.enabled: true
+  httpclient.enabled: true
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      wechat:
+        source: queueMessageSource
+
+#微信设置
+wechat:
+  #是否启用Js-SDK
+  enable-js-api: true
+  #是否启用微信卡券
+  enable-api-ticket: true
+  wx-id: 112
+
+---
+
+#正式环境
+spring:
+  profiles: prod
+  data:
+    #mongodb设置
+    mongodb:
+      host: wechat.oasiscare.cn
+      port: 27017
+      database: wechat
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 10.25.95.108
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 3333
+  tomcat:
+    #容器编码
+    uri-encoding: utf-8
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: wechat
+      clientSecret: wechat
+      #token获取Uri
+      accessTokenUri: http://wechat.oasiscare.cn:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+feign:
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+    response.enable: true
+  hystrix.enabled: true
+  httpclient.enabled: true
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      wechat:
+        source: queueMessageSource
+
+#微信设置
+wechat:
+  #应用AD
+  app-id: wxe758bf1b8f5dfbcf
+  #应用密钥
+  secret: f3fddd69a3bc8064340729d0c9e529ab
+  #商户号
+  mchId: 1238751702
+  #微信后台设置的Key
+  key: theonlythingwehavetofearisfearit
+  #微信后台设置的令牌
+  token: weixinZoffConn
+  #证书路径
+  cert-path:
+  #证书密码
+  cert-password:
+  #是否启用Js-SDK
+  enable-js-api: true
+  #是否启用微信卡券
+  enable-api-ticket: true
+  #支付回调地址
+  payment-notify-uri: https://buz.oasisapp.cn/honghclient/servlet/WeChatTrade
+  #关注标签ID
+  wx-id: 103
+  #模版ID
+  template:
+    register: l39CoZRkUmOsku6Puwf7boAcBi6ilu1b-bHE0iSI7ig
+    success: D8SjqFLk1_U3M29urX57tlv9v4Ru_Iz2IFVOsZLfYp8

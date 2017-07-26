@@ -1,0 +1,62 @@
+package com.oasis.atum.wechat.interfaces.api.v2;
+
+import com.oasis.atum.base.infrastructure.constant.RequestField;
+import com.oasis.atum.base.infrastructure.util.Restful;
+import com.oasis.atum.wechat.application.service.QRCodeService;
+import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+/**
+ * 二维码接口
+ */
+@Slf4j
+@RestController
+@RequestMapping("v2/qrcodes")
+public class QRCodeApi
+{
+	private final QRCodeService service;
+
+	public QRCodeApi(final QRCodeService service)
+	{
+		this.service = service;
+	}
+
+	@GetMapping(params = {RequestField.PAGE, RequestField.SIZE})
+	public Mono<ResponseEntity> list(@RequestParam final Integer page, @RequestParam final Integer size)
+	{
+		log.info("二维码列表");
+		val pageable = PageRequest.of(page, size);
+		return service.getQRCodes(pageable)
+						 .collectList()
+						 .map(Restful::ok);
+
+	}
+
+	@PostMapping
+	@SneakyThrows(Exception.class)
+	public Mono<ResponseEntity> create(@RequestBody final Mono<QRCodeDTO> data)
+	{
+		log.info("创建二维码");
+		return data.flatMap(service::create).map(Restful::ok);
+	}
+
+	@GetMapping(RequestField.PK)
+	public Mono<ResponseEntity> show(@PathVariable final Mono<String> id)
+	{
+		log.info("查询二维码");
+		return id.flatMap(service::getQRCodeById).map(Restful::ok);
+//		return service.getQRCodeById(id).map(Restful::ok);
+	}
+}

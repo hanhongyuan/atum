@@ -2,9 +2,9 @@ server:
   profiles: default,dev,prod,docker
   #端口
   port: 10000
-#  tomcat:
-#    #容器编码
-#    uri-encoding: utf-8
+  tomcat:
+    #容器编码
+    uri-encoding: utf-8
   #开启压缩
   compression:
     enabled: true
