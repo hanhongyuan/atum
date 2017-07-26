@@ -1,0 +1,39 @@
+server:
+  profiles: default,dev,prod,docker
+  #端口
+  port: 10000
+#  tomcat:
+#    #容器编码
+#    uri-encoding: utf-8
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#Spring-boot监控
+management:
+  #权限关闭
+  security:
+    enabled: false
+
+#网关设置
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+  #路由设置
+  routes:
+    #公用
+    commons:
+      path: /commons/**
+      stripPrefix: true
+      sensitiveHeaders:
+    #微信
+    wechat:
+      path: /wechat/**
+      stripPrefix: true
+      sensitiveHeaders:

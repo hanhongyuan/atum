@@ -1,0 +1,132 @@
+server:
+  #端口
+  port: 8761
+
+#服务注册
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #不把自己注册为服务
+    register-with-eureka: false
+    fetch-registry: false
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+
+---
+
+spring:
+  #配置环境
+  profiles: dev
+
+server:
+  #端口
+  port: 8761
+
+#服务注册
+eureka:
+  instance:
+    hostname: wxtest.oasisapp.cn
+  client:
+    #不把自己注册为服务
+    register-with-eureka: false
+    fetch-registry: false
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+
+---
+
+spring:
+  #配置环境
+  profiles: prod
+
+server:
+  #端口
+  port: 8761
+
+#服务注册
+eureka:
+  instance:
+    hostname: wechat.oasiscare.cn
+  client:
+    #不把自己注册为服务
+    register-with-eureka: false
+    fetch-registry: false
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+
+---
+
+spring:
+  #配置环境
+  profiles: docker
+
+server:
+  #端口
+  port: 8761
+
+#服务注册
+eureka:
+  client:
+    #不把自己注册为服务
+    register-with-eureka: false
+    fetch-registry: false
+    #注册地址
+    service-url:
+      defaultZone: ${EUREKA_SERVER_LIST}
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+

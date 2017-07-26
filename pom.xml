@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.oasis.atum</groupId>
+	<artifactId>atum</artifactId>
+	<version>2.0</version>
+	<modules>
+		<module>registry</module>
+        <module>commons</module>
+		<module>base</module>
+        <module>config</module>
+        <module>wechat</module>
+		<module>edge</module>
+	</modules>
+	<packaging>pom</packaging>
+
+	<name>atum</name>
+	<description>Atum-Ra</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.M2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.M1</spring-cloud.version>
+		<!-- docker镜像前缀 -->
+		<docker.image.prefix>atum</docker.image.prefix>
+		<!-- docker插件版本 -->
+		<docker.plugin.version>0.4.13</docker.plugin.version>
+		<!-- axon版本 -->
+		<axon.version>3.0.5</axon.version>
+		<!-- swagger版本 -->
+		<swagger.version>2.5.0</swagger.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- JSON解析 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.35</version>
+			</dependency>
+			<!-- Axon框架 start -->
+			<dependency>
+				<groupId>org.axonframework</groupId>
+				<artifactId>axon-spring-boot-starter</artifactId>
+				<version>${axon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.axonframework</groupId>
+				<artifactId>axon-distributed-commandbus-springcloud</artifactId>
+				<version>${axon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.axonframework</groupId>
+				<artifactId>axon-mongo</artifactId>
+				<version>${axon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.axonframework</groupId>
+				<artifactId>axon-amqp</artifactId>
+				<version>${axon.version}</version>
+			</dependency>
+			<!-- Axon框架 end -->
+			<!-- Swagger2 start -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<!-- Swagger2 end -->
+			<!-- 阿里云短信jar start -->
+			<dependency>
+				<groupId>com.aliyun.mns</groupId>
+				<artifactId>aliyun-sdk-mns</artifactId>
+				<version>1.1.8</version>
+				<classifier>jar-with-dependencies</classifier>
+			</dependency>
+			<!-- 阿里云短信jar end  -->
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- 打包以及Docker构建 -->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>${docker.plugin.version}</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>build</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<imageName>${docker.image.prefix}-${project.artifactId}</imageName>
+						<dockerDirectory>${project.basedir}/</dockerDirectory>
+						<resources>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>${project.build.finalName}.jar</include>
+							</resource>
+						</resources>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+</project>

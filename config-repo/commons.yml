@@ -1,0 +1,233 @@
+spring:
+  data:
+    #mongodb设置
+    mongodb:
+      host: wxtest.oasisapp.cn
+      port: 27017
+      database: commons
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 60.205.106.190
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 2222
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: commons
+      clientSecret: commons
+      #token获取Uri
+      accessTokenUri: http://localhost:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      commons:
+        source: queueMessageSource
+
+---
+
+spring:
+  profiles: dev
+  data:
+    #mongodb设置
+    mongodb:
+      host: wxtest.oasisapp.cn
+      port: 27017
+      database: commons
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 60.205.106.190
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 2222
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: commons
+      clientSecret: commons
+      #token获取Uri
+      accessTokenUri: http://wxtest.oasisapp.cn:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      commons:
+        source: queueMessageSource
+
+---
+
+spring:
+  profiles: prod
+  data:
+    #mongodb设置
+    mongodb:
+      host: wechat.oasiscare.cn
+      port: 27017
+      database: commons
+      events:
+        collection.name: events
+        snapshot.collection.name: snapshots
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 10.25.95.108
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: oasisadmin
+
+server:
+  #端口
+  port: 2222
+  #开启压缩
+  compression:
+    enabled: true
+    #需要压缩的类型
+    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
+    #最小压缩响应字节数
+    min-response-size: 1024
+
+#权限设置
+security:
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #oauth2授权
+  oauth2:
+    #客户端设置
+    client:
+      clientId: commons
+      clientSecret: commons
+      #token获取Uri
+      accessTokenUri: http://wechat.oasiscare.cn:${accounts.port}/oauth/token
+      #授权类型 客户端
+      grant-type: client_credentials
+      #授权范围
+      scope: server
+
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+
+axon:
+  #DistributedCommandBus
+  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
+  distributed:
+    enabled: true
+  amqp:
+    exchange: amq.fanout
+  eventhandling:
+    processors:
+      commons:
+        source: queueMessageSource

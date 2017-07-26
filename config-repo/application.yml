@@ -1,0 +1,207 @@
+#application 统一配置
+#Spring配置
+spring:
+  #队列配置
+  rabbitmq:
+    host: 60.205.106.190
+    port: 5672
+
+logging:
+  #日志存放位置
+  file: logs/${spring.application.name}.log
+
+#服务注册
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
+
+#方便其他配置文件调用
+accounts:
+  port: 1111
+
+#超时设置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+  #oauth2授权
+  oauth2:
+    #资源设置
+    resource:
+      #获取用户信息Uri
+      user-info-uri: http://${eureka.instance.hostname}:${accounts.port}/v2/me
+      #不使用check_token
+      prefer-token-info: false
+      #令牌类型 Json Web Token
+      token-type: Bearer
+
+---
+
+#application 统一配置
+#Spring配置
+spring:
+  profiles: dev
+  #队列配置
+  rabbitmq:
+    host: 60.205.106.190
+    port: 5672
+
+logging:
+  #日志存放位置
+  file: logs/${spring.application.name}.log
+
+#服务注册
+eureka:
+  instance:
+    hostname: wxtest.oasisapp.cn
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
+
+#方便其他配置文件调用
+accounts:
+  port: 1111
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+  #oauth2授权
+  oauth2:
+    #资源设置
+    resource:
+      #获取用户信息Uri
+      user-info-uri: http://wxtest.oasisapp.cn:${accounts.port}/v2/me
+      #不使用check_token
+      prefer-token-info: false
+      #令牌类型 Json Web Token
+      token-type: Bearer
+
+---
+
+#application 统一配置
+#Spring配置
+spring:
+  profiles: prod
+  #队列配置
+  rabbitmq:
+    host: 123.56.188.106
+    port: 5672
+
+logging:
+  #日志存放位置
+  file: logs/${spring.application.name}.log
+
+#服务注册
+eureka:
+  instance:
+    hostname: wechat.oasiscare.cn
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
+
+#方便其他配置文件调用
+accounts:
+  port: 1111
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+  #oauth2授权
+  oauth2:
+    #资源设置
+    resource:
+      #获取用户信息Uri
+      user-info-uri: http://wechat.oasiscare.cn:${accounts.port}/v2/me
+      #不使用check_token
+      prefer-token-info: false
+      #令牌类型 Json Web Token
+      token-type: Bearer
+
+---
+
+#application 统一配置
+#Spring配置
+spring:
+  profiles: docker
+  #队列配置
+  rabbitmq:
+    host: 123.56.188.106
+    port: 5672
+
+logging:
+  #日志存放位置
+  file: logs/${spring.application.name}.log
+
+#服务注册
+eureka:
+  client:
+    #注册地址
+    service-url:
+      defaultZone: ${EUREKA_SERVER_LIST}
+
+#方便其他配置文件调用
+accounts:
+  port: 1111
+
+#权限设置
+security:
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+  #oauth2授权
+  oauth2:
+    #资源设置
+    resource:
+      #获取用户信息Uri
+      user-info-uri: http://wechat.oasiscare.cn:${accounts.port}/v2/me
+      #不使用check_token
+      prefer-token-info: false
+      #令牌类型 Json Web Token
+      token-type: Bearer
