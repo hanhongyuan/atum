@@ -41,11 +41,9 @@ public class QRCodeApi
 		return service.getQRCodes(pageable)
 						 .collectList()
 						 .map(Restful::ok);
-
 	}
 
 	@PostMapping
-	@SneakyThrows(Exception.class)
 	public Mono<ResponseEntity> create(@RequestBody final Mono<QRCodeDTO> data)
 	{
 		log.info("创建二维码");
@@ -53,10 +51,9 @@ public class QRCodeApi
 	}
 
 	@GetMapping(RequestField.PK)
-	public Mono<ResponseEntity> show(@PathVariable final Mono<String> id)
+	public Mono<ResponseEntity> show(@PathVariable final String id)
 	{
 		log.info("查询二维码");
-		return id.flatMap(service::getQRCodeById).map(Restful::ok);
-//		return service.getQRCodeById(id).map(Restful::ok);
+		return service.getQRCodeById(id).map(Restful::ok);
 	}
 }

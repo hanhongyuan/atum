@@ -1,7 +1,7 @@
 package com.oasis.atum.wechat.interfaces.dto;
 
-import com.alibaba.fastjson.annotation.JSONCreator;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.oasis.atum.wechat.domain.enums.qrcode.QRCodeType;
 import lombok.Builder;
 
@@ -19,11 +19,11 @@ public class QRCodeDTO
 	public final String     ticket;
 	public final String     uri;
 
-	@JSONCreator
-	public QRCodeDTO(@JSONField(name = "id") final String id, @JSONField(name = "type") final QRCodeType type,
-									 @JSONField(name = "sceneId") final String sceneId, @JSONField(name = "sceneStr") final String sceneStr,
-									 @JSONField(name = "expireSeconds") final Integer expireSeconds, @JSONField(name = "ticket") final String ticket,
-									 @JSONField(name = "uri") final String uri)
+	@JsonCreator
+	public QRCodeDTO(@JsonProperty("id") final String id, @JsonProperty("type") final QRCodeType type,
+									 @JsonProperty("sceneId") final String sceneId, @JsonProperty("sceneStr") final String sceneStr,
+									 @JsonProperty("expireSeconds") final Integer expireSeconds, @JsonProperty("ticket") final String ticket,
+									 @JsonProperty("uri") final String uri)
 	{
 		this.id = id;
 		this.type = type;

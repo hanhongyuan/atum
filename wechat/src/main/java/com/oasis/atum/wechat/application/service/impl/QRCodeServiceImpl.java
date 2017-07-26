@@ -61,6 +61,7 @@ public class QRCodeServiceImpl implements QRCodeService
 							 //请求微信创建二维码
 							 return client.createQRCode(d).flatMap(j ->
 							 {
+								 System.out.println(j);
 								 //票根
 								 val ticket = j.getString("ticket");
 								 //票根换取二维码图片并转成短链接

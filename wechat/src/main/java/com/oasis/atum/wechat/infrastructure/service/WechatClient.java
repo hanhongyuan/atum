@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Charsets;
 import com.oasis.atum.base.infrastructure.service.RedisClient;
+import com.oasis.atum.base.infrastructure.util.CommonUtil;
+import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
 import com.oasis.atum.wechat.domain.request.qrcode.QRCodeRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import lombok.NonNull;
@@ -105,7 +107,7 @@ public class WechatClient
 															 .ifNoneMatch("*")
 															 .contentType(MediaType.APPLICATION_JSON_UTF8)
 															 .acceptCharset(Charsets.UTF_8)
-															 .body(JSON.toJSONString(data));
+															 .body(data);
 							 return template.postForObject(URI.create(s), request, clazz);
 						 });
 	}
@@ -175,7 +177,7 @@ public class WechatClient
 	 * @param code
 	 * @return
 	 */
-	public Mono<JSONObject> oAuth2(final String code)
+	public Mono<JSONObject> oauth2(final String code)
 	{
 		return get("sns/oauth2/access_token", String.class, "appid=" + config.getAppId(),
 			"secret=" + config.getSecret(), "code=" + code, "grant_type=authorization_code")
@@ -203,7 +205,6 @@ public class WechatClient
 	}
 
 
-
 	/**
 	 * 初始化微信
 	 */
@@ -217,5 +218,42 @@ public class WechatClient
 			//获取ApiTicket
 			if (config.isEnableApiTicket()) apiTicket().subscribe();
 		});
+	}
+
+	/**
+	 * js-sdk签名
+	 * @param timeStamp
+	 * @param nonceStr
+	 * @param uri
+	 * @return
+	 */
+	public Mono<String> jsSign(final long timeStamp, final String nonceStr, final String uri)
+	{
+		return jsApiTicket()
+						 .map(s -> CommonUtil.getStringBuilder().append("jsapi_ticket=").append(s))
+						 .map(sb -> sb.append("&noncestr=").append(nonceStr).append("&timestamp=")
+													.append(timeStamp).append("&url=")
+													.append(uri).toString())
+						 .map(EncryptionUtil::SHA1);
+	}
+
+	/**
+	 * 校验微信服务器签名
+	 * @param signature
+	 * @param timestamp
+	 * @param nonce
+	 * @return
+	 */
+	public Mono<Boolean> check(final String signature, final String timestamp, final String nonce)
+	{
+		return Flux.just(config.getToken(), timestamp, nonce)
+						 // 将token、timestamp、nonce三个参数进行字典序排序
+						 .sort()
+						 // 将三个参数字符串拼接成一个字符串进行sha1加密
+						 .reduce((x, y) -> x + y)
+						 //sha1加密后
+						 .map(EncryptionUtil::SHA1)
+						 // 字符串与signature对比，标识该请求来源于微信
+						 .map(s -> s.equalsIgnoreCase(signature));
 	}
 }

@@ -38,7 +38,7 @@ public final class Restful
 		return data.map(o -> ResponseEntity.ok()
 													 .contentType(MediaType.APPLICATION_JSON_UTF8)
 													 .cacheControl(CacheControl.noCache())
-													 .body(data)
+													 .body(JSONObject.toJSON(data))
 		).orElseGet(() -> ResponseEntity.notFound().cacheControl(CacheControl.noCache()).build());
 	}
 

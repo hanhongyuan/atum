@@ -1,7 +1,6 @@
 package com.oasis.atum.wechat.domain.request.qrcode;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONCreator;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.oasis.atum.wechat.domain.enums.qrcode.QRCodeType;
 import lombok.Builder;
@@ -24,16 +23,6 @@ public class QRCodeRequest
 	public final QRCodeInfo qrCodeInfo;
 	@JSONField(name = "expire_seconds")
 	public final Integer    expireSeconds;
-
-	@JSONCreator
-	public QRCodeRequest(@JSONField(serialize = false) final String id, @JSONField(name = "action_name") final QRCodeType actionName,
-											 @JSONField(name = "action_info") final QRCodeInfo qrCodeInfo, @JSONField(name = "expire_seconds") final Integer expireSeconds)
-	{
-		this.id = id;
-		this.actionName = actionName;
-		this.qrCodeInfo = qrCodeInfo;
-		this.expireSeconds = expireSeconds;
-	}
 
 	/**
 	 * 长链接转短链接

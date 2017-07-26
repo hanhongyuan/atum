@@ -30,7 +30,7 @@ public class QRCodeEventHandler
 	{
 		log.info("二维码创建事件处理");
 
-		repository.load(event.id).execute(persistence::insert);
+		repository.load(event.id).execute(d -> persistence.insert(d).subscribe());
 	}
 
 	@EventHandler
@@ -38,6 +38,6 @@ public class QRCodeEventHandler
 	{
 		log.info("二维码修改事件处理");
 
-		repository.load(event.id).execute(persistence::save);
+		repository.load(event.id).execute(d -> persistence.save(d).subscribe());
 	}
 }

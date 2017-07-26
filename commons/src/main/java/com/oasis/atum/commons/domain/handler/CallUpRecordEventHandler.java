@@ -30,7 +30,7 @@ public class CallUpRecordEventHandler
 	{
 		log.info("通话记录创建事件处理");
 
-		repository.load(event.id).execute(persistence::insert);
+		repository.load(event.id).execute(d -> persistence.insert(d).subscribe());
 	}
 
 	@EventHandler
@@ -59,6 +59,6 @@ public class CallUpRecordEventHandler
 
 	private void update(String id)
 	{
-		repository.load(id).execute(persistence::save);
+		repository.load(id).execute(d -> persistence.save(d).subscribe());
 	}
 }

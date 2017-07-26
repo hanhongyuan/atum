@@ -10,6 +10,7 @@ import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.BindingRequest;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,18 +95,16 @@ public class MoorApi
 	}
 
 	@GetMapping(params = "mobile")
-	public Mono<ResponseEntity> callUpTo(@RequestParam Mono<String> mobile)
+	public Mono<ResponseEntity> callUpTo(@RequestParam String mobile)
 	{
 		log.info("容联七陌回调 =====> {}", mobile);
 		//从Redis获取绑定关系
-		return mobile.map(s -> REDIS_KEY_BINDING + mobile)
-						 //key是否存在
-						 .flatMap(s -> redis.exists(s)
-														 .filter(k -> k)
-														 //存在删除
-														 .map(b -> redis.delete(s))
-														 //200 return key
-														 .map(b -> Restful.ok(s)));
+		val key = REDIS_KEY_BINDING + mobile;
+		return redis.exists(key)
+						 //存在删除
+						 .map(b -> redis.delete(key))
+						 //200 return key
+						 .map(b -> Restful.ok(key));
 	}
 
 	/**

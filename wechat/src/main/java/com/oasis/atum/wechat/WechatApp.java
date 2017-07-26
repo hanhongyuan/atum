@@ -5,6 +5,7 @@ import com.oasis.atum.base.infrastructure.config.HttpConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
@@ -26,6 +27,11 @@ public class WechatApp implements CommandLineRunner
 	public WechatApp(final WechatClient client)
 	{
 		this.client = client;
+	}
+
+	public static void main(final String[] args)
+	{
+		SpringApplication.run(WechatApp.class,args);
 	}
 
 	@Override
