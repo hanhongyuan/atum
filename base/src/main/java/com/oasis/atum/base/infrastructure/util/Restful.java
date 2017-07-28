@@ -43,6 +43,17 @@ public final class Restful
 	}
 
 	/**
+	 * 204 删除资源
+	 * @return
+	 */
+	public static ResponseEntity noContent()
+	{
+		return ResponseEntity.noContent()
+						 .cacheControl(CacheControl.noCache())
+						 .build();
+	}
+
+	/**
 	 * 400请求
 	 * @return
 	 */
@@ -86,13 +97,11 @@ public final class Restful
 	}
 
 	/**
-	 * 删除资源
+	 * 404资源不存在
 	 * @return
 	 */
-	public static ResponseEntity noContent()
+	public static ResponseEntity notFound()
 	{
-		return ResponseEntity.noContent()
-						 .cacheControl(CacheControl.noCache())
-						 .build();
+		return ResponseEntity.notFound().cacheControl(CacheControl.noCache()).build();
 	}
 }

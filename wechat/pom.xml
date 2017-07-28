@@ -90,6 +90,11 @@
             <artifactId>axon-amqp</artifactId>
         </dependency>
         <!-- Axon框架 end -->
+        <!-- XML解析 -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
 
         <!-- Linux下使用Epoll -->
         <dependency>

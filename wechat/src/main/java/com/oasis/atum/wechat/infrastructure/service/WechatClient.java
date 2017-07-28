@@ -8,6 +8,7 @@ import com.oasis.atum.base.infrastructure.util.CommonUtil;
 import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
 import com.oasis.atum.wechat.domain.request.qrcode.QRCodeRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
+import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -204,6 +205,15 @@ public class WechatClient
 		return post("https://api.weixin.qq.com/cgi-bin/shorturl?access_token=#", json);
 	}
 
+	/**
+	 * 发送模版
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> sendTemplate(final TemplateRequest data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#", data);
+	}
 
 	/**
 	 * 初始化微信

@@ -80,7 +80,7 @@ public class MoorApi
 	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
 	{
 		log.info("打电话");
-		return data.map(service::callUp).map(Restful::ok);
+		return data.map(service::callUp).flatMap(Restful::ok);
 	}
 
 	@PostMapping("call-up/back")

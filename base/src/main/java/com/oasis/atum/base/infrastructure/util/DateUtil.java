@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * 日期工具包
  */
-public class DateUtil
+public final class DateUtil
 {
 	private static final String FULLDATE = "yyyy-MM-dd HH:mm:ss";
 
@@ -24,6 +24,15 @@ public class DateUtil
 		val now = DateTime.now().getYear();
 		val bir = new DateTime(birthday).getYear();
 		return now - bir;
+	}
+
+	/**
+	 * 时间戳
+	 * @return
+	 */
+	public static long timeStamp()
+	{
+		return System.currentTimeMillis() / 1000;
 	}
 
 	/**
