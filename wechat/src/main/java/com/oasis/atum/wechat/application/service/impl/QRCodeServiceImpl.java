@@ -2,7 +2,7 @@ package com.oasis.atum.wechat.application.service.impl;
 
 import com.oasis.atum.wechat.application.service.QRCodeService;
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
-import com.oasis.atum.wechat.domain.request.qrcode.QRCodeRequest;
+import com.oasis.atum.wechat.domain.request.QRCodeRequest;
 import com.oasis.atum.wechat.infrastructure.repository.QRCodeRepository;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.assembler.QRCodeAssembler;

@@ -1,6 +1,6 @@
 package com.oasis.atum.wechat.domain.cmd;
 
-import com.oasis.atum.wechat.domain.enums.qrcode.QRCodeType;
+import com.oasis.atum.wechat.domain.enums.QRCodeType;
 import lombok.Builder;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 

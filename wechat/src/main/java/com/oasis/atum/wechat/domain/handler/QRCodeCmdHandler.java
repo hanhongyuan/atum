@@ -2,8 +2,8 @@ package com.oasis.atum.wechat.domain.handler;
 
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
 import com.oasis.atum.wechat.domain.entity.QRCode;
-import com.oasis.atum.wechat.domain.request.qrcode.QRCodeInfo;
-import com.oasis.atum.wechat.domain.request.qrcode.QRCodeRequest;
+import com.oasis.atum.wechat.domain.request.QRCodeInfo;
+import com.oasis.atum.wechat.domain.request.QRCodeRequest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.axonframework.commandhandling.CommandHandler;

@@ -1,4 +1,4 @@
-package com.oasis.atum.wechat.domain.enums.qrcode;
+package com.oasis.atum.wechat.domain.enums;
 
 /**
  * 二维码类型

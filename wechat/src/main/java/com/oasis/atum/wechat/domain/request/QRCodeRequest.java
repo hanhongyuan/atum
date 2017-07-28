@@ -1,8 +1,8 @@
-package com.oasis.atum.wechat.domain.request.qrcode;
+package com.oasis.atum.wechat.domain.request;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.oasis.atum.wechat.domain.enums.qrcode.QRCodeType;
+import com.oasis.atum.wechat.domain.enums.QRCodeType;
 import lombok.Builder;
 import lombok.val;
 

@@ -31,7 +31,7 @@ public class WechatApp implements CommandLineRunner
 
 	public static void main(final String[] args)
 	{
-		SpringApplication.run(WechatApp.class,args);
+		SpringApplication.run(WechatApp.class, args);
 	}
 
 	@Override
@@ -40,5 +40,6 @@ public class WechatApp implements CommandLineRunner
 		//每隔110分钟运行一次
 		Flux.interval(Duration.ofMinutes(110L), Schedulers.parallel())
 			.subscribe(l -> client.initWechat());
+
 	}
 }

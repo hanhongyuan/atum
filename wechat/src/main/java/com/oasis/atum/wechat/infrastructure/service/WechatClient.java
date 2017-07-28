@@ -6,7 +6,8 @@ import com.google.common.base.Charsets;
 import com.oasis.atum.base.infrastructure.service.RedisClient;
 import com.oasis.atum.base.infrastructure.util.CommonUtil;
 import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
-import com.oasis.atum.wechat.domain.request.qrcode.QRCodeRequest;
+import com.oasis.atum.wechat.domain.request.MenuRequest;
+import com.oasis.atum.wechat.domain.request.QRCodeRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import lombok.NonNull;
@@ -20,10 +21,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
-import java.time.Duration;
 import java.time.ZonedDateTime;
 
 /**
@@ -88,12 +87,12 @@ public class WechatClient
 
 	}
 
-	private <REQ> Mono<JSONObject> post(final String uri, final REQ data)
+	public <REQ> Mono<JSONObject> post(final String uri, final REQ data)
 	{
 		return post(uri, data, JSONObject.class);
 	}
 
-	private <REQ, REP> Mono<REP> post(final String uri, final REQ data, final Class<REP> clazz)
+	public <REQ, REP> Mono<REP> post(final String uri, final REQ data, final Class<REP> clazz)
 	{
 		return Mono.just(uri)
 						 //uri是否包含access_token=#
@@ -213,6 +212,26 @@ public class WechatClient
 	public Mono<JSONObject> sendTemplate(final TemplateRequest data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#", data);
+	}
+
+	/**
+	 * 重置菜单
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> resetMenu(final MenuRequest data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=#", data);
+	}
+
+	/**
+	 * 客制化菜单
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> customMenu(final MenuRequest data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=#", data);
 	}
 
 	/**

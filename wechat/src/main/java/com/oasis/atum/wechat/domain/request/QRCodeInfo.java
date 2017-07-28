@@ -1,4 +1,4 @@
-package com.oasis.atum.wechat.domain.request.qrcode;
+package com.oasis.atum.wechat.domain.request;
 
 import com.alibaba.fastjson.JSONObject;
 
