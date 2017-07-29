@@ -32,12 +32,12 @@ public interface CallUpService
 	 * @param recordFile
 	 * @param fileServer
 	 */
-	void hangUp(String callNo, String calledNo, CallType callType, Date ring, Date begin, Date end, CallState callState, String actionId,
+	Mono<Void> hangUp(String callNo, String calledNo, CallType callType, Date ring, Date begin, Date end, CallState callState, String actionId,
 							String recordFile, String fileServer);
 
 	/**
 	 * 异步回调更新通话记录
 	 * @param data
 	 */
-	void updateCallUp(CallUpCallBack data);
+	Mono<Void> updateCallUp(CallUpCallBack data);
 }

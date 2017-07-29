@@ -8,12 +8,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * 公用模块
  */
-@EnableAsync
 @EnableMongoAuditing
 @SpringCloudApplication
 @ImportAutoConfiguration(value = {AxonConfiguration.class, RedisConfiguration.class, HttpConfiguration.class})

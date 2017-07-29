@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import javax.xml.ws.Response;
 import java.util.Objects;
 
 /**
@@ -80,18 +81,18 @@ public class MoorApi
 	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
 	{
 		log.info("打电话");
-		return data.map(service::callUp).flatMap(Restful::ok);
+		return data.flatMap(service::callUp).map(Restful::ok);
 	}
 
 	@PostMapping("call-up/back")
-	public ResponseEntity calUpBack(@RequestBody final Mono<CallUpCallBack> data)
+	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<CallUpCallBack> data)
 	{
 		log.info("打电话回调");
 		log.info("data =====> {}", data);
 
-		data.subscribe(service::updateCallUp);
-
-		return Restful.ok();
+		return data
+						 .flatMap(service::updateCallUp)
+						 .map(v -> Restful.ok());
 	}
 
 	@GetMapping(params = "mobile")
@@ -102,7 +103,7 @@ public class MoorApi
 		val key = REDIS_KEY_BINDING + mobile;
 		return redis.exists(key)
 						 //存在删除
-						 .map(b -> redis.delete(key))
+						 .flatMap(b -> redis.delete(key))
 						 //200 return key
 						 .map(b -> Restful.ok(key));
 	}
@@ -112,29 +113,29 @@ public class MoorApi
 	 * @return
 	 */
 	@GetMapping("hang-up")
-	public ResponseEntity hangUp(@RequestParam(name = "CallNo") final String callNo, @RequestParam(name = "CalledNo") final String calledNo,
-															 @RequestParam(name = "CallSheetID", required = false) final String callSheetID,
-															 @RequestParam(name = "CallType", required = false) final CallType callType,
-															 @RequestParam(name = "Ring", required = false) final String ring,
-															 @RequestParam(name = "Begin", required = false) final String begin,
-															 @RequestParam(name = "End", required = false) final String end,
-															 @RequestParam(name = "QueueTime", required = false) final String queueTime,
-															 @RequestParam(name = "Agent", required = false) final String agent,
-															 @RequestParam(name = "Exten", required = false) final String exten,
-															 @RequestParam(name = "AgentName", required = false) final String agentName,
-															 @RequestParam(name = "Queue", required = false) final String queue,
-															 @RequestParam(name = "State", required = false) final CallState state,
-															 @RequestParam(name = "CallState", required = false) final String callState,
-															 @RequestParam(name = "ActionID", required = false) final String actionID,
-															 @RequestParam(name = "WebcallActionID", required = false) final String webcallActionID,
-															 @RequestParam(name = "RecordFile", required = false) final String recordFile,
-															 @RequestParam(name = "FileServer", required = false) final String fileServer,
-															 @RequestParam(name = "Province", required = false) final String province,
-															 @RequestParam(name = "District", required = false) final String district,
-															 @RequestParam(name = "CallID", required = false) final String callID,
-															 @RequestParam(name = "IVRKEY", required = false) final String IVRKEY,
-															 @RequestParam(name = "AccountId", required = false) final String accountId,
-															 @RequestParam(name = "AccountName", required = false) final String accountName)
+	public Mono<ResponseEntity> hangUp(@RequestParam(name = "CallNo") final String callNo, @RequestParam(name = "CalledNo") final String calledNo,
+																		 @RequestParam(name = "CallSheetID", required = false) final String callSheetID,
+																		 @RequestParam(name = "CallType", required = false) final CallType callType,
+																		 @RequestParam(name = "Ring", required = false) final String ring,
+																		 @RequestParam(name = "Begin", required = false) final String begin,
+																		 @RequestParam(name = "End", required = false) final String end,
+																		 @RequestParam(name = "QueueTime", required = false) final String queueTime,
+																		 @RequestParam(name = "Agent", required = false) final String agent,
+																		 @RequestParam(name = "Exten", required = false) final String exten,
+																		 @RequestParam(name = "AgentName", required = false) final String agentName,
+																		 @RequestParam(name = "Queue", required = false) final String queue,
+																		 @RequestParam(name = "State", required = false) final CallState state,
+																		 @RequestParam(name = "CallState", required = false) final String callState,
+																		 @RequestParam(name = "ActionID", required = false) final String actionID,
+																		 @RequestParam(name = "WebcallActionID", required = false) final String webcallActionID,
+																		 @RequestParam(name = "RecordFile", required = false) final String recordFile,
+																		 @RequestParam(name = "FileServer", required = false) final String fileServer,
+																		 @RequestParam(name = "Province", required = false) final String province,
+																		 @RequestParam(name = "District", required = false) final String district,
+																		 @RequestParam(name = "CallID", required = false) final String callID,
+																		 @RequestParam(name = "IVRKEY", required = false) final String IVRKEY,
+																		 @RequestParam(name = "AccountId", required = false) final String accountId,
+																		 @RequestParam(name = "AccountName", required = false) final String accountName)
 	{
 		log.info("通话事件推送更新回调");
 		log.info(callNo);
@@ -162,11 +163,9 @@ public class MoorApi
 		log.info(accountId);
 		log.info(accountName);
 
-		service.hangUp(callNo, calledNo, callType, DateUtil.toDate(ring),
+		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(ring),
 			DateUtil.toDate(begin), DateUtil.toDate(end),
 			state, webcallActionID,
-			recordFile, fileServer);
-
-		return Restful.ok();
+			recordFile, fileServer).map(v -> Restful.ok());
 	}
 }

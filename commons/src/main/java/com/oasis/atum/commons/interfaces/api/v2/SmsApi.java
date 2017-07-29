@@ -68,34 +68,31 @@ public class SmsApi
 
 	@PostMapping("success")
 	@SneakyThrows(Exception.class)
-	public ResponseEntity success(final InputStream inputStream)
+	public Mono<ResponseEntity> success(final InputStream inputStream)
 	{
-		getData(inputStream)
-			.map(SmsApi::toData)
-			.subscribe(service::success);
-
-		return Restful.noContent();
+		return getData(inputStream)
+						 .map(SmsApi::toData)
+						 .flatMap(service::success)
+						 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("fail")
 	@SneakyThrows(Exception.class)
-	public ResponseEntity fail(final InputStream inputStream)
+	public Mono<ResponseEntity> fail(final InputStream inputStream)
 	{
-		getData(inputStream)
-			.map(SmsApi::toData)
-			.subscribe(service::fail);
-
-		return Restful.noContent();
+		return getData(inputStream)
+						 .map(SmsApi::toData)
+						 .flatMap(service::fail)
+						 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("reply")
-	public ResponseEntity reply(final InputStream inputStream)
+	public Mono<ResponseEntity> reply(final InputStream inputStream)
 	{
-		getData(inputStream)
-			.map(SmsApi::toData)
-			.subscribe(service::reply);
-
-		return Restful.noContent();
+		return getData(inputStream)
+						 .map(SmsApi::toData)
+						 .flatMap(service::reply)
+						 .map(v -> Restful.noContent());
 	}
 
 	/**
