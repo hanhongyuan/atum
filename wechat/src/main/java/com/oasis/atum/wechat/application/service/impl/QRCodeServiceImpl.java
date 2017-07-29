@@ -47,30 +47,39 @@ public class QRCodeServiceImpl implements QRCodeService
 	@Override
 	public Mono<Void> create(final QRCodeDTO dto)
 	{
-		//二维码创建命令
-		val cmd = QRCodeCmd.Create.builder().id(dto.id).type(dto.type).sceneId(dto.sceneId)
-								.sceneStr(dto.sceneStr).expireSeconds(dto.expireSeconds).createTime(new Date()).build();
-		//异步命令处理结果
-		val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest>();
-		//发送命令
-		commandGateway.send(cmd, future);
-
-		return Mono.fromFuture(future.toCompletableFuture())
-						 .flatMap(d ->
+		return Mono.justOrEmpty(dto)
+						 //二维码创建命令
+						 .map(d -> QRCodeCmd.Create.builder().id(dto.id).type(dto.type).sceneId(dto.sceneId)
+												 .sceneStr(dto.sceneStr).expireSeconds(dto.expireSeconds).createTime(new Date()).build())
+						 .map(c ->
 						 {
-							 //请求微信创建二维码
-							 return client.createQRCode(d).flatMap(j ->
-							 {
-								 System.out.println(j);
-								 //票根
-								 val ticket = j.getString("ticket");
-								 //票根换取二维码图片并转成短链接
-								 val json = d.long2Short(ticket);
-								 //请求微信生成短链接
-								 return client.createShortURI(json).map(js -> QRCodeCmd.Update.builder().id(d.id).type(dto.type).sceneId(dto.sceneId)
-																																.sceneStr(dto.sceneStr).ticket(ticket).uri(js.getString("short_url")).build());
-							 });
+							 //异步命令处理结果
+							 val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest>();
+							 //发送命令 创建二维码
+							 commandGateway.send(c, future);
+							 return future.toCompletableFuture();
 						 })
+						 .flatMap(Mono::fromFuture)
+						 //请求微信创建二维码
+						 .flatMap(d -> client.createQRCode(d)
+														 .flatMap(j ->
+														 {
+															 //票根
+															 val ticket = j.getString("ticket");
+															 //票根换取二维码图片并转成短链接
+															 val json = d.long2Short(ticket);
+															 //请求微信生成短链接
+															 return client.createShortURI(json)
+																				.map(js -> QRCodeCmd.Update.builder()
+																										 .id(d.id)
+																										 .type(dto.type)
+																										 .sceneId(dto.sceneId)
+																										 .sceneStr(dto.sceneStr)
+																										 .ticket(ticket)
+																										 .uri(js.getString("short_url"))
+																										 .build());
+														 })
+						 )
 						 //发送命令 修改二维码
 						 .map(commandGateway::send)
 						 .then();

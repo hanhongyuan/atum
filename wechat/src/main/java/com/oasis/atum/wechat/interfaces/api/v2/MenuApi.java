@@ -38,9 +38,11 @@ public class MenuApi
 	}
 
 	@PostMapping("custom")
-	public Mono<ResponseEntity> custom(@RequestBody String body)
+	public Mono<ResponseEntity> custom(@RequestBody Mono<String> data)
 	{
 		log.info("创建自定义菜单");
-		return service.createCustom(Integer.parseInt(body)).map(Restful::ok);
+		return data.map(Integer::parseInt)
+						 .flatMap(service::createCustom)
+						 .map(Restful::ok);
 	}
 }

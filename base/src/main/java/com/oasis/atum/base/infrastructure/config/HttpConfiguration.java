@@ -13,12 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 import java.text.SimpleDateFormat;
-import java.util.concurrent.Executor;
 
 /**
  * Http配置
@@ -74,20 +72,20 @@ public class HttpConfiguration
 		return new RestTemplateBuilder().additionalMessageConverters(jsonConvert).build();
 	}
 
-	/**
-	 * 异步调度线程池
-	 * @return
-	 */
-	@Bean
-	public Executor asyncExecutor()
-	{
-		val executor = new ThreadPoolTaskExecutor();
-		//核心数
-		val core = Runtime.getRuntime().availableProcessors();
-		executor.setCorePoolSize(core);
-		executor.setMaxPoolSize(core * 2);
-		executor.setQueueCapacity(1024);
-		executor.initialize();
-		return executor;
-	}
+//	/**
+//	 * 异步调度线程池
+//	 * @return
+//	 */
+//	@Bean
+//	public Executor asyncExecutor()
+//	{
+//		val executor = new ThreadPoolTaskExecutor();
+//		//核心数
+//		val core = Runtime.getRuntime().availableProcessors();
+//		executor.setCorePoolSize(core);
+//		executor.setMaxPoolSize(core * 2);
+//		executor.setQueueCapacity(1024);
+//		executor.initialize();
+//		return executor;
+//	}
 }
