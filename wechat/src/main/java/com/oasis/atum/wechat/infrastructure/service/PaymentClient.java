@@ -58,46 +58,48 @@ public class PaymentClient
 	 */
 	public Mono<String> payment(final PaymentRequest data, final boolean... type)
 	{
-		val builder = PaymentRequest.builder()
-										.body(data.body)
-										.detail(data.detail)
-										.attach(data.attach)
-										.out_trade_no(data.out_trade_no)
-										//换算
-										.total_fee(new BigDecimal(data.total_fee).multiply(BigDecimal.valueOf(100)).toBigInteger().toString())
-										.spbill_create_ip(data.spbill_create_ip)
-										.trade_type(data.trade_type)
-										.product_id(data.product_id)
-										.openid(data.openid)
-										//设备号
-										.device_info("WEB")
-										.nonce_str(CommonUtil.random(32))
-										//通知回调地址
-										.notify_url(config.getPaymentNotifyUri());
-
-		//小程序
-		if (type.length != 0)
-		{
-			//填了appId就用传的
-			Optional.ofNullable(data.appid).map(builder::appid)
-				//没有就取值
-				.orElseGet(() -> builder.appid(config.getAppletId()));
-			//商户号
-			builder.mch_id(config.getAppletMchId());
-		}
-		//其他支付
-		else
-		{
-			builder.appid(config.getAppId());
-			builder.mch_id(config.getMchId());
-		}
-		//签名
-		val sign = paymentSign(builder.build(), type);
-		builder.sign(sign);
-		val xml = XMLUtil.toXML(builder.build());
-		log.info("发起微信支付 =====> {}", xml);
-
-		return post("pay/unifiedorder", xml);
+		return Mono.justOrEmpty(data)
+						 //构建微信支付请求
+						 .map(d -> PaymentRequest.builder()
+												 .body(data.body)
+												 .detail(data.detail)
+												 .attach(data.attach)
+												 .out_trade_no(data.out_trade_no)
+												 //换算
+												 .total_fee(new BigDecimal(data.total_fee).multiply(BigDecimal.valueOf(100)).toBigInteger().toString())
+												 .spbill_create_ip(data.spbill_create_ip)
+												 .trade_type(data.trade_type)
+												 .product_id(data.product_id)
+												 .openid(data.openid)
+												 //设备号
+												 .device_info("WEB")
+												 .nonce_str(CommonUtil.random(32))
+												 //通知回调地址
+												 .notify_url(config.getPaymentNotifyUri()))
+						 .map(b ->
+						 {
+							 //小程序
+							 if (type.length != 0)
+							 {
+								 //填了appId就用传的
+								 Optional.ofNullable(data.appid).map(b::appid)
+									 //没有就取值
+									 .orElseGet(() -> b.appid(config.getAppletId()));
+								 //商户号
+								 b.mch_id(config.getAppletMchId());
+							 }
+							 //其他支付
+							 else
+							 {
+								 b.appid(config.getAppId());
+								 b.mch_id(config.getMchId());
+							 }
+							 val sign = paymentSign(b.build(), type);
+							 val xml  = XMLUtil.toXML(b.sign(sign).build());
+							 log.info("发起微信支付 =====> {}", xml);
+							 return xml;
+						 })
+						 .flatMap(s -> post("pay/unifiedorder", s));
 	}
 
 	/**
@@ -109,7 +111,8 @@ public class PaymentClient
 	public String paymentSign(final Object object, final boolean... type)
 	{
 		//转JSON字符串并过滤空字段
-		return Optional.of(object).map(JSON::toJSONString)
+		return Optional.of(object)
+						 .map(JSON::toJSONString)
 						 //转JSON对象
 						 .map(JSON::parseObject)
 						 .flatMap(j -> j.entrySet().stream()

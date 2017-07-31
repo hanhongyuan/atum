@@ -49,8 +49,8 @@ public class QRCodeServiceImpl implements QRCodeService
 	{
 		return Mono.justOrEmpty(dto)
 						 //二维码创建命令
-						 .map(d -> QRCodeCmd.Create.builder().id(dto.id).type(dto.type).sceneId(dto.sceneId)
-												 .sceneStr(dto.sceneStr).expireSeconds(dto.expireSeconds).createTime(new Date()).build())
+						 .map(d -> QRCodeCmd.Create.builder().id(d.id).type(d.type).sceneId(d.sceneId)
+												 .sceneStr(d.sceneStr).expireSeconds(d.expireSeconds).createTime(new Date()).build())
 						 .map(c ->
 						 {
 							 //异步命令处理结果

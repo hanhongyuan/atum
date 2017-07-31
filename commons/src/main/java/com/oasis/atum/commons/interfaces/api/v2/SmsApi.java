@@ -10,7 +10,9 @@ import com.oasis.atum.commons.interfaces.request.SmsCallBack;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,11 +48,7 @@ public class SmsApi
 	{
 		log.info("发送验证码");
 
-		return data.map(d ->
-		{
-			service.sendCaptcha(d);
-			return Restful.ok();
-		});
+		return data.flatMap(service::sendCaptcha).map(v -> Restful.ok());
 	}
 
 	@PostMapping("validation")
@@ -68,9 +66,9 @@ public class SmsApi
 
 	@PostMapping("success")
 	@SneakyThrows(Exception.class)
-	public Mono<ResponseEntity> success(final InputStream inputStream)
+	public Mono<ResponseEntity> success(final ServerHttpRequest request)
 	{
-		return getData(inputStream)
+		return getData(request)
 						 .map(SmsApi::toData)
 						 .flatMap(service::success)
 						 .map(v -> Restful.noContent());
@@ -78,18 +76,18 @@ public class SmsApi
 
 	@PostMapping("fail")
 	@SneakyThrows(Exception.class)
-	public Mono<ResponseEntity> fail(final InputStream inputStream)
+	public Mono<ResponseEntity> fail(final ServerHttpRequest request)
 	{
-		return getData(inputStream)
+		return getData(request)
 						 .map(SmsApi::toData)
 						 .flatMap(service::fail)
 						 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("reply")
-	public Mono<ResponseEntity> reply(final InputStream inputStream)
+	public Mono<ResponseEntity> reply(final ServerHttpRequest request)
 	{
-		return getData(inputStream)
+		return getData(request)
 						 .map(SmsApi::toData)
 						 .flatMap(service::reply)
 						 .map(v -> Restful.noContent());
@@ -119,21 +117,27 @@ public class SmsApi
 
 	/**
 	 * 解析流
-	 * @param inputStream
+	 * @param request
 	 * @return
 	 */
-	private static Mono<String> getData(final InputStream inputStream)
+	private static Mono<String> getData(final ServerHttpRequest request)
 	{
-		try
-		{
-			val bytes = new byte[1024];
-			inputStream.read(bytes);
-			return Mono.just(new String(bytes, StandardCharsets.UTF_8));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			return Mono.empty();
-		}
+		return request.getBody()
+						 .map(DataBuffer::asInputStream)
+						 .map(is ->
+						 {
+							 val bytes = new byte[1024];
+							 try
+							 {
+								 is.read(bytes);
+								 return new String(bytes, StandardCharsets.UTF_8);
+							 }
+							 catch (IOException e)
+							 {
+								 log.error("解析阿里云短信回调出错", e);
+								 return null;
+							 }
+						 })
+						 .elementAt(0);
 	}
 }

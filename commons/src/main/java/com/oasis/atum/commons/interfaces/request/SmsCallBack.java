@@ -1,12 +1,13 @@
 package com.oasis.atum.commons.interfaces.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson.annotation.JSONCreator;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.ToString;
 
 /**
  * 阿里云短信回调
+ * Created by ryze on 2017/7/10.
  */
 @Builder
 @ToString
@@ -41,14 +42,14 @@ public class SmsCallBack
 	public final String extra;
 	public final String bizId;
 
-	@JsonCreator
-	public SmsCallBack(@JsonProperty("messageID") final String messageId, @JsonProperty("template_code") final String templateCode,
-										 @JsonProperty("sms_count") final String smsCount, @JsonProperty("receiver") final String receiver,
-										 @JsonProperty("state") final String state, @JsonProperty("receive_time") final String receiveTime,
-										 @JsonProperty("err_code") final String errCode, @JsonProperty("event") final String event,
-										 @JsonProperty("sender") final String sender, @JsonProperty("content") final String content,
-										 @JsonProperty("extend_code") final String extendCode, @JsonProperty("ver") final String ver,
-										 @JsonProperty("extra") final String extra, @JsonProperty("biz_id") final String bizId)
+	@JSONCreator
+	public SmsCallBack(@JSONField(name = "messageID") final String messageId, @JSONField(name = "template_code") final String templateCode,
+										 @JSONField(name = "sms_count") final String smsCount, @JSONField(name = "receiver") final String receiver,
+										 @JSONField(name = "state") final String state, @JSONField(name = "receive_time") final String receiveTime,
+										 @JSONField(name = "err_code") final String errCode, @JSONField(name = "event") final String event,
+										 @JSONField(name = "sender") final String sender, @JSONField(name = "content") final String content,
+										 @JSONField(name = "extend_code") final String extendCode, @JSONField(name = "ver") final String ver,
+										 @JSONField(name = "extra") final String extra, @JSONField(name = "biz_id") final String bizId)
 	{
 		this.messageId = messageId;
 		this.templateCode = templateCode;

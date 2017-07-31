@@ -49,8 +49,8 @@ public class HttpConfiguration
 			@Override
 			public void configureHttpMessageCodecs(final ServerCodecConfigurer configurer)
 			{
-				configurer.defaultCodecs().jackson2Decoder(new Jackson2JsonDecoder(mapper));
-				configurer.defaultCodecs().jackson2Encoder(new Jackson2JsonEncoder(mapper));
+				configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper));
+				configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper));
 			}
 		};
 	}

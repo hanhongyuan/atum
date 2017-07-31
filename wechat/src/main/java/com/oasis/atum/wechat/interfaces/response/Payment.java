@@ -30,14 +30,13 @@ public interface Payment
 	@Builder
 	final class H5
 	{
-		//不序列化
-		public final transient String appId;
-		public final           String nonceStr;
-		public final           long   timeStamp;
+		public final String appId;
+		public final String nonceStr;
+		public final long   timeStamp;
 		@JSONField(name = "package")
-		public final           String pazkage;
-		public final           String signType;
-		public final           String paySign;
+		public final String pazkage;
+		public final String signType;
+		public final String paySign;
 	}
 
 	@Builder

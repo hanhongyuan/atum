@@ -2,12 +2,14 @@ package com.oasis.atum.wechat.interfaces.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
+import lombok.ToString;
 
 /**
  * Js-SDK响应数据结构
  * Created by ryze on 2017/5/19.
  */
 @Builder
+@ToString
 public class JsSDK
 {
 	public final String appId;

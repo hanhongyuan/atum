@@ -150,7 +150,7 @@ public class WechatClient
 															.map(j ->
 															{
 																val jsApiTicket = j.getString("ticket");
-																log.info("获取微信JsApiTicket: {}", jsApiTicket);
+																log.info("获取微信JsApiTicket =====> {}", jsApiTicket);
 																redis.put(REDIS_KEY_JSAPI_TICKET, jsApiTicket, 109L).subscribe();
 																return jsApiTicket;
 															}));
@@ -169,7 +169,7 @@ public class WechatClient
 															.map(j ->
 															{
 																val apiTicket = j.getString("ticket");
-																log.info("获取微信ApiTicket: {}", apiTicket);
+																log.info("获取微信ApiTicket =====> {}", apiTicket);
 																redis.put(REDIS_KEY_API_TICKET, apiTicket, 109L).subscribe();
 																return apiTicket;
 															}));

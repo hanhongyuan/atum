@@ -1,5 +1,7 @@
 package com.oasis.atum.wechat.interfaces.response;
 
+import com.alibaba.fastjson.annotation.JSONCreator;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 
 /**
@@ -14,15 +16,15 @@ public class Location
 	public final String label;
 	public final String precision;
 
-//	@JSONCreator
-//	public Location(@JSONField(name = "latitude") final String latitude, @JSONField(name = "longitude") final String longitude,
-//									@JSONField(name = "scale") final String scale, @JSONField(name = "label") final String label,
-//									@JSONField(name = "precision") final String precision)
-//	{
-//		this.latitude = latitude;
-//		this.longitude = longitude;
-//		this.scale = scale;
-//		this.label = label;
-//		this.precision = precision;
-//	}
+	@JSONCreator
+	public Location(@JSONField(name = "latitude") final String latitude, @JSONField(name = "longitude") final String longitude,
+									@JSONField(name = "scale") final String scale, @JSONField(name = "label") final String label,
+									@JSONField(name = "precision") final String precision)
+	{
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.scale = scale;
+		this.label = label;
+		this.precision = precision;
+	}
 }

@@ -1,8 +1,13 @@
 package com.oasis.atum.base.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+import lombok.val;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
 import org.axonframework.commandhandling.distributed.CommandBusConnector;
@@ -37,13 +42,19 @@ import java.util.Arrays;
 public class AxonConfiguration
 {
 	@Value("${spring.data.mongodb.host}")
-	private String mongoUri;
+	private String  mongoUri;
+	@Value("${spring.data.mongodb.port}")
+	private Integer port;
 	@Value("${spring.data.mongodb.database}")
-	private String dbName;
+	private String  dbName;
+	@Value("${spring.data.mongodb.username}")
+	private String  username;
+	@Value("${spring.data.mongodb.password}")
+	private String  password;
 	@Value("${spring.data.mongodb.events.collection.name}")
-	private String eventsCollectionName;
+	private String  eventsCollectionName;
 	@Value("${spring.data.mongodb.events.snapshot.collection.name}")
-	private String snapshotCollectionName;
+	private String  snapshotCollectionName;
 
 	@Bean
 	public JacksonSerializer axonJsonSerializer(final ObjectMapper mapper)
@@ -69,6 +80,8 @@ public class AxonConfiguration
 		MongoFactory mongoFactory = new MongoFactory();
 		mongoFactory.setMongoAddresses(Arrays.asList(new ServerAddress(mongoUri)));
 		return mongoFactory.createMongo();
+//		return new MongoClient(new ServerAddress(mongoUri, port),
+//														Arrays.asList(MongoCredential.createCredential(username, dbName, password.toCharArray())));
 	}
 
 	@Bean
