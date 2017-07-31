@@ -11,6 +11,7 @@ import com.oasis.atum.wechat.domain.request.QRCodeRequest;
 import com.oasis.atum.wechat.domain.request.TagRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
+import com.oasis.atum.wechat.interfaces.response.WechatResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -24,6 +25,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 
 /**
@@ -263,6 +265,29 @@ public class WechatClient
 	public Mono<JSONObject> addTagFans(final TagRequest.AddFans data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=#", data);
+	}
+
+	/**
+	 * 获取指定素材
+	 * @param mediaId
+	 * @return
+	 */
+	public Mono<Flux<WechatResponse.NewsItem>> getNewsMaterials(final String mediaId)
+	{
+		val request = new JSONObject();
+		request.put("media_id", mediaId);
+		return post("https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=#", request, String.class)
+						 //微信数据编码格式需要转换
+						 .map(s -> new String(s.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8))
+						 //转成JSON
+						 .map(JSON::parseObject)
+						 //获取JSONArray
+						 .map(j -> j.getJSONArray("news_item").stream()
+												 .map(JSON::toJSONString)
+												 //转成NewsItem对象
+												 .map(s -> JSONObject.parseObject(s, WechatResponse.NewsItem.class))
+						 )
+						 .map(Flux::fromStream);
 	}
 
 	/**
