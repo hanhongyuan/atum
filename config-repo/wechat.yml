@@ -8,7 +8,7 @@ spring:
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:
@@ -114,7 +114,7 @@ spring:
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:
@@ -221,7 +221,7 @@ spring:
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:
