@@ -19,10 +19,6 @@ management:
   security:
     enabled: false
 
-security:
-  basic:
-    enabled: false
-
 #网关设置
 zuul:
   ignoredServices: '*'
