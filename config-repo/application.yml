@@ -35,7 +35,7 @@ hystrix:
 #权限设置
 security:
   basic:
-    enable: false
+    enabled: false
   user:
     name: admin
     password: admin
@@ -88,7 +88,7 @@ accounts:
 #权限设置
 security:
   basic:
-    enable: false
+    enabled: false
   user:
     name: admin
     password: admin
@@ -141,7 +141,7 @@ accounts:
 #权限设置
 security:
   basic:
-    enable: false
+    enabled: false
   user:
     name: admin
     password: admin
@@ -192,7 +192,7 @@ accounts:
 #权限设置
 security:
   basic:
-    enable: false
+    enabled: false
   user:
     name: admin
     password: admin
