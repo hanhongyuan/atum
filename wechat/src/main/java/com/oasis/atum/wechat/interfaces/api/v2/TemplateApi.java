@@ -30,8 +30,8 @@ public class TemplateApi
 		this.template = template;
 	}
 
-	@PostMapping("register")
-	public Mono<ResponseEntity> registered(@RequestBody final Mono<TemplateRequest> data)
+	@PostMapping("registered")
+	public Mono<ResponseEntity> registered(@RequestBody final Mono<TemplateRequest.Send> data)
 	{
 		log.info("预约挂号成功通知");
 
@@ -42,8 +42,8 @@ public class TemplateApi
 						 .map(Restful::ok);
 	}
 
-	@PostMapping("success")
-	public Mono<ResponseEntity> succeed(@RequestBody final Mono<TemplateRequest> data)
+	@PostMapping("succeed")
+	public Mono<ResponseEntity> succeed(@RequestBody final Mono<TemplateRequest.Send> data)
 	{
 		log.info("订单支付成功通知");
 
@@ -55,7 +55,7 @@ public class TemplateApi
 	}
 
 	@PostMapping("cancel")
-	public Mono<ResponseEntity> cancel(@RequestBody final Mono<TemplateRequest> data)
+	public Mono<ResponseEntity> cancel(@RequestBody final Mono<TemplateRequest.Send> data)
 	{
 		log.info("订单取消通知");
 
@@ -66,8 +66,8 @@ public class TemplateApi
 						 .map(Restful::ok);
 	}
 
-	@PostMapping("submit")
-	public Mono<ResponseEntity> submitted(@RequestBody final Mono<TemplateRequest> data)
+	@PostMapping("submitted")
+	public Mono<ResponseEntity> submitted(@RequestBody final Mono<TemplateRequest.Send> data)
 	{
 		log.info("订单提交完成通知");
 

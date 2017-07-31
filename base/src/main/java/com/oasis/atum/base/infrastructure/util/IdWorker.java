@@ -80,6 +80,11 @@ public final class IdWorker
 		}).map(t -> t - this.epoch << this.timestampLeftShift | this.workerId << this.workerIdShift | this.sequence).get();
 	}
 
+	public String nextSID()
+	{
+		return nextId() + "";
+	}
+
 	public static void main(String[] args) throws Exception
 	{
 

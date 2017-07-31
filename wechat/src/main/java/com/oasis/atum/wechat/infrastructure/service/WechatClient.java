@@ -8,6 +8,7 @@ import com.oasis.atum.base.infrastructure.util.CommonUtil;
 import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
 import com.oasis.atum.wechat.domain.request.MenuRequest;
 import com.oasis.atum.wechat.domain.request.QRCodeRequest;
+import com.oasis.atum.wechat.domain.request.TagRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import lombok.NonNull;
@@ -189,7 +190,7 @@ public class WechatClient
 	 * @param data
 	 * @return
 	 */
-	public Mono<JSONObject> createQRCode(final QRCodeRequest data)
+	public Mono<JSONObject> createQRCode(final QRCodeRequest.Create data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#", data);
 	}
@@ -209,7 +210,7 @@ public class WechatClient
 	 * @param data
 	 * @return
 	 */
-	public Mono<JSONObject> sendTemplate(final TemplateRequest data)
+	public Mono<JSONObject> sendTemplate(final TemplateRequest.Send data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#", data);
 	}
@@ -219,7 +220,7 @@ public class WechatClient
 	 * @param data
 	 * @return
 	 */
-	public Mono<JSONObject> resetMenu(final MenuRequest data)
+	public Mono<JSONObject> resetMenu(final MenuRequest.Create data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=#", data);
 	}
@@ -229,9 +230,39 @@ public class WechatClient
 	 * @param data
 	 * @return
 	 */
-	public Mono<JSONObject> customMenu(final MenuRequest data)
+	public Mono<JSONObject> customMenu(final MenuRequest.Create data)
 	{
 		return post("https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=#", data);
+	}
+
+	/**
+	 * 创建标签
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> createTag(final TagRequest.Create data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/tags/create?access_token=#", data);
+	}
+
+	/**
+	 * 修改标签
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> updateTag(final TagRequest.Update data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/tags/update?access_token=#", data);
+	}
+
+	/**
+	 * 添加标签粉丝
+	 * @param data
+	 * @return
+	 */
+	public Mono<JSONObject> addTagFans(final TagRequest.AddFans data)
+	{
+		return post("https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=#", data);
 	}
 
 	/**

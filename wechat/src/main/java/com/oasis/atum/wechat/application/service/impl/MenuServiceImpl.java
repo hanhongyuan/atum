@@ -2,13 +2,11 @@ package com.oasis.atum.wechat.application.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oasis.atum.wechat.application.service.MenuService;
-import com.oasis.atum.wechat.domain.request.Matchrule;
 import com.oasis.atum.wechat.domain.request.MenuRequest;
 import com.oasis.atum.wechat.domain.service.MenuDomainService;
 import com.oasis.atum.wechat.infrastructure.repository.MenuRepository;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -54,7 +52,7 @@ public class MenuServiceImpl implements MenuService
 		//菜单领域服务获取数据
 		return domain.reset()
 						 //按标签匹配
-						 .map(d -> MenuRequest.builder().button(d.button).matchrule(Matchrule.builder().tagId(wxId).build()).build())
+						 .map(d -> MenuRequest.Create.builder().button(d.button).matchrule(MenuRequest.Matchrule.builder().tagId(wxId).build()).build())
 						 //请求微信重置微信菜单
 						 .flatMap(client::customMenu)
 						 .map(s -> s.getString("menuid"));

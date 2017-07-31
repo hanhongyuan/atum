@@ -2,6 +2,7 @@ package com.oasis.atum.wechat.infrastructure.config;
 
 import com.oasis.atum.wechat.domain.entity.Menu;
 import com.oasis.atum.wechat.domain.entity.QRCode;
+import com.oasis.atum.wechat.domain.entity.Tag;
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventsourcing.EventSourcingRepository;
 import org.axonframework.eventsourcing.eventstore.EventStore;
@@ -31,5 +32,11 @@ public class RepositoryConfiguration
 	public Repository<Menu> menuAggregateRepository()
 	{
 		return new EventSourcingRepository<>(Menu.class, eventStore);
+	}
+
+	@Bean
+	public Repository<Tag> tagAggregateRepository()
+	{
+		return new EventSourcingRepository<>(Tag.class, eventStore);
 	}
 }

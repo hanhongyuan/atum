@@ -10,38 +10,62 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * 二维码请求
+ * 二维码请求集
  */
-@Builder
-public class QRCodeRequest
+public interface QRCodeRequest
 {
-	@JSONField(serialize = false)
-	public final String     id;
-	@JSONField(name = "action_name")
-	public final QRCodeType actionName;
-	@JSONField(name = "action_info")
-	public final QRCodeInfo qrCodeInfo;
-	@JSONField(name = "expire_seconds")
-	public final Integer    expireSeconds;
+	/**
+	 * 二维码信息值对象
+	 */
+	final class QRCodeInfo
+	{
+		public final JSONObject scene = new JSONObject();
+
+		public void setSceneStr(final String sceneStr)
+		{
+			scene.put("scene_str", sceneStr);
+		}
+
+		public void setSceneId(final String sceneId)
+		{
+			scene.put("scene_id", sceneId);
+		}
+	}
 
 	/**
-	 * 长链接转短链接
-	 * @param ticket
-	 * @return
+	 * 创建
 	 */
-	public JSONObject long2Short(final String ticket)
+	@Builder
+	final class Create
 	{
-		try
+		@JSONField(serialize = false)
+		public final String     id;
+		@JSONField(name = "action_name")
+		public final QRCodeType actionName;
+		@JSONField(name = "action_info")
+		public final QRCodeInfo qrCodeInfo;
+		@JSONField(name = "expire_seconds")
+		public final Integer    expireSeconds;
+
+		/**
+		 * 长链接转短链接
+		 * @param ticket
+		 * @return
+		 */
+		public JSONObject long2Short(final String ticket)
 		{
-			val json = new JSONObject();
-			json.put("action", "long2short");
-			json.put("long_url", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(ticket, "UTF-8"));
-			return json;
+			try
+			{
+				val json = new JSONObject();
+				json.put("action", "long2short");
+				json.put("long_url", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(ticket, "UTF-8"));
+				return json;
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
 		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
 	}
 }

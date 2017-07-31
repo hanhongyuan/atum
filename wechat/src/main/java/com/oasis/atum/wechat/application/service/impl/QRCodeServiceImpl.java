@@ -54,7 +54,7 @@ public class QRCodeServiceImpl implements QRCodeService
 						 .map(c ->
 						 {
 							 //异步命令处理结果
-							 val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest>();
+							 val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest.Create>();
 							 //发送命令 创建二维码
 							 commandGateway.send(c, future);
 							 return future.toCompletableFuture();

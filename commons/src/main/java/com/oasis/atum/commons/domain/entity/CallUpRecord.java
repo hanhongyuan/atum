@@ -72,7 +72,7 @@ public class CallUpRecord
 
 	public CallUpRecord(final CallUpRecordCmd.Create cmd)
 	{
-		val id = IdWorker.getFlowIdWorkerInstance().nextId() + "";
+		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布通话记录创建事件
 		val event = CallUpRecordEvent.Created.builder().id(id).cmd(cmd).build();
 		apply(event);

@@ -67,7 +67,7 @@ public class Menu
 	public Menu(final MenuCmd.Create cmd)
 	{
 		log.info("菜单创建命令处理");
-		val id = IdWorker.getFlowIdWorkerInstance().nextId() + "";
+		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布菜单创建事件
 		apply(MenuEvent.Created.builder().id(id).cmd(cmd).build());
 	}

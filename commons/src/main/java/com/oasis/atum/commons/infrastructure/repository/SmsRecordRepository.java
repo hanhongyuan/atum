@@ -15,5 +15,5 @@ public interface SmsRecordRepository extends ReactiveMongoRepository<SmsRecord,S
 	 * @param messageId
 	 * @return
 	 */
-	Mono<SmsRecord> findSmsRecordByMessageId(String messageId);
+	Mono<SmsRecord> findByMessageId(String messageId);
 }

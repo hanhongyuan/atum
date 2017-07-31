@@ -58,7 +58,7 @@ public class MenuEventHandler
 				.orElseGet(() ->
 				{
 					//子类菜单
-					return persistence.findMenusByParentIdAndIsShowOrderBySortAsc(event.id, true)
+					return persistence.findByParentIdAndIsShowOrderBySortAsc(event.id, true)
 									 .collectList()
 									 //批量删除所有子类
 									 .flatMap(persistence::deleteAll)

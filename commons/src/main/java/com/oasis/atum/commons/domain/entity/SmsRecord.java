@@ -58,7 +58,7 @@ public class SmsRecord
 
 	public SmsRecord(final SmsRecordCmd.Create cmd)
 	{
-		val id = IdWorker.getFlowIdWorkerInstance().nextId() + "";
+		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布短信记录创建事件
 		apply(SmsRecordEvent.Created.builder().id(id).cmd(cmd).build());
 	}

@@ -48,7 +48,7 @@ public class SmsServiceImpl implements SmsService
 	@Override
 	public Mono<Void> success(final SmsCallBack data)
 	{
-		return persistence.findSmsRecordByMessageId(data.messageId)
+		return persistence.findByMessageId(data.messageId)
 						 //创建命令
 						 .map(d -> SmsRecordCmd.Success.builder().id(d.getId())
 												 .isSuccess(true)
@@ -63,7 +63,7 @@ public class SmsServiceImpl implements SmsService
 	@Override
 	public Mono<Void> fail(final SmsCallBack data)
 	{
-		return persistence.findSmsRecordByMessageId(data.messageId)
+		return persistence.findByMessageId(data.messageId)
 						 .map(d -> SmsRecordCmd.Fail.builder().id(d.getId())
 												 .isSuccess(false)
 												 .errCode(data.errCode)

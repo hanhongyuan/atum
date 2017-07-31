@@ -1,55 +1,81 @@
 package com.oasis.atum.wechat.interfaces.request;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONCreator;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 import java.util.Map;
 
 /**
- * 模版消息请求
- * Created by ryze on 2017/6/16.
+ * 模版消息请求集
  */
-@Builder
-public class TemplateRequest
+public interface TemplateRequest
 {
-	@JSONField(name = "touser")
-	public final String                  toUser;
-	@JSONField(name = "template_id")
-	public final String                  templateId;
-	@JSONField(name = "url")
-	public final String                  uri;
-	@JSONField(name = "miniprogram")
-	public final TemplateMiniProgram     miniProgram;
-	public final Map<String, JSONObject> data;
-
-	@JSONCreator
-	public TemplateRequest(@JSONField(name = "toUser") final String toUser, @JSONField(name = "templateId") final String templateId,
-												 @JSONField(name = "uri") final String uri, @JSONField(name = "miniProgram") final TemplateMiniProgram miniProgram,
-												 @JSONField(name = "data") final Map<String, JSONObject> data)
+	/**
+	 * 发送模版消息
+	 */
+	@Builder
+	final class Send
 	{
-		this.toUser = toUser;
-		this.templateId = templateId;
-		this.uri = uri;
-		this.miniProgram = miniProgram;
-		this.data = data;
+		@JSONField(name = "touser")
+		public final String                  toUser;
+		@JSONField(name = "template_id")
+		public final String                  templateId;
+		@JSONField(name = "url")
+		public final String                  uri;
+		@JSONField(name = "miniprogram")
+		public final TemplateMiniProgram     miniProgram;
+		public final Map<String, JSONObject> data;
+
+		@JsonCreator
+		public Send(@JsonProperty("toUser") final String toUser, @JsonProperty("templateId") final String templateId,
+								@JsonProperty("uri") final String uri, @JsonProperty("miniProgram") final TemplateMiniProgram miniProgram,
+								@JsonProperty("data") final Map<String, JSONObject> data)
+		{
+			this.toUser = toUser;
+			this.templateId = templateId;
+			this.uri = uri;
+			this.miniProgram = miniProgram;
+			this.data = data;
+		}
+
+		/**
+		 * 设置模版ID
+		 * @param templateId
+		 * @return
+		 */
+		public TemplateRequest.Send setTemplateId(final String templateId)
+		{
+			return TemplateRequest.Send.builder()
+							 .templateId(templateId)
+							 .toUser(this.toUser)
+							 .uri(this.uri)
+							 .miniProgram(this.miniProgram)
+							 .data(this.data)
+							 .build();
+		}
 	}
 
 	/**
-	 * 设置模版ID
-	 * @param templateId
-	 * @return
+	 * 小程序
 	 */
-	public TemplateRequest setTemplateId(final String templateId)
+	@Builder
+	final class TemplateMiniProgram
 	{
-		return TemplateRequest.builder()
-						 .templateId(templateId)
-						 .toUser(this.toUser)
-						 .uri(this.uri)
-						 .miniProgram(this.miniProgram)
-						 .data(this.data)
-						 .build();
+		@JSONField(name = "appid")
+		public final String appId;
+		@JSONField(name = "pagepath")
+		public final String pagePath;
+
+		@JsonCreator
+		public TemplateMiniProgram(@JsonProperty("appId") final String appId, @JsonProperty("pagePath") final String pagePath)
+		{
+			this.appId = appId;
+			this.pagePath = pagePath;
+		}
 	}
+
 
 }

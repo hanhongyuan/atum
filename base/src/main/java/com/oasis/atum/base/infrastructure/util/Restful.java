@@ -43,6 +43,18 @@ public final class Restful
 	}
 
 	/**
+	 * 201 创建资源
+	 * @return
+	 */
+	public static ResponseEntity created()
+	{
+		return ResponseEntity.created(null)
+						 .cacheControl(CacheControl.noCache())
+						 .contentType(MediaType.APPLICATION_JSON_UTF8)
+						 .build();
+	}
+
+	/**
 	 * 204 删除资源
 	 * @return
 	 */

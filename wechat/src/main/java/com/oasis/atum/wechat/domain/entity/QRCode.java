@@ -57,7 +57,7 @@ public class QRCode
 	 */
 	public QRCode(final QRCodeCmd.Create cmd)
 	{
-		val id = IdWorker.getFlowIdWorkerInstance().nextId() + "";
+		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布二维码创建事件
 		val event = QRCodeEvent.Created.builder().id(id).cmd(cmd).build();
 		apply(event);

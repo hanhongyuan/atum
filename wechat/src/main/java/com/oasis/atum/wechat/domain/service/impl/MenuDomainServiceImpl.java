@@ -1,7 +1,6 @@
 package com.oasis.atum.wechat.domain.service.impl;
 
 import com.oasis.atum.wechat.domain.entity.Menu;
-import com.oasis.atum.wechat.domain.request.Button;
 import com.oasis.atum.wechat.domain.request.MenuRequest;
 import com.oasis.atum.wechat.domain.service.MenuDomainService;
 import com.oasis.atum.wechat.infrastructure.repository.MenuRepository;
@@ -25,7 +24,7 @@ public class MenuDomainServiceImpl implements MenuDomainService
 	}
 
 	@Override
-	public Mono<MenuRequest> reset()
+	public Mono<MenuRequest.Create> reset()
 	{
 		return persistence.findAll()
 						 //顶级菜单
@@ -33,10 +32,10 @@ public class MenuDomainServiceImpl implements MenuDomainService
 						 //sort越小越前面
 						 .sort(Comparator.comparing(Menu::getSort))
 						 //对应子菜单
-						 .flatMap(d -> persistence.findMenusByParentIdAndIsShowOrderBySortAsc(d.getId(), true)
+						 .flatMap(d -> persistence.findByParentIdAndIsShowOrderBySortAsc(d.getId(), true)
 														 //转成微信需要请求格式数据
-														 .map(Button::new).collectList().map(l -> new Button(d, l)))
+														 .map(MenuRequest.Button::new).collectList().map(l -> new MenuRequest.Button(d, l)))
 						 .collectList()
-						 .map(l -> MenuRequest.builder().button(l).build());
+						 .map(l -> MenuRequest.Create.builder().button(l).build());
 	}
 }

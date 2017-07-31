@@ -12,5 +12,5 @@ public interface MenuDomainService
 	 * 重置微信菜单
 	 * @return
 	 */
-	Mono<MenuRequest> reset();
+	Mono<MenuRequest.Create> reset();
 }

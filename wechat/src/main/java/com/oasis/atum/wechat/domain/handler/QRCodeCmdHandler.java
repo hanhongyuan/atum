@@ -2,7 +2,6 @@ package com.oasis.atum.wechat.domain.handler;
 
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
 import com.oasis.atum.wechat.domain.entity.QRCode;
-import com.oasis.atum.wechat.domain.request.QRCodeInfo;
 import com.oasis.atum.wechat.domain.request.QRCodeRequest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -27,7 +26,7 @@ public class QRCodeCmdHandler
 	}
 
 	@CommandHandler
-	public QRCodeRequest handle(final QRCodeCmd.Create cmd)
+	public QRCodeRequest.Create handle(final QRCodeCmd.Create cmd)
 	{
 		log.info("二维码创建命令处理");
 		try
@@ -35,13 +34,13 @@ public class QRCodeCmdHandler
 			return repository.newInstance(() -> new QRCode(cmd)).invoke(q ->
 			{
 				//转成微信请求格式数据
-				val info = new QRCodeInfo();
+				val info = new QRCodeRequest.QRCodeInfo();
 				//场景Str
 				val scene = q.getSceneStr();
 				if (Objects.isNull(scene)) info.setSceneId(q.getSceneId());
 				else info.setSceneStr(q.getSceneStr());
 
-				return QRCodeRequest.builder().id(q.getId()).actionName(q.getType())
+				return QRCodeRequest.Create.builder().id(q.getId()).actionName(q.getType())
 								 .qrCodeInfo(info).expireSeconds(q.getExpireSeconds()).build();
 			});
 		}
