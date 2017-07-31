@@ -215,7 +215,7 @@ spring:
   data:
     #mongodb设置
     mongodb:
-      host: wechat.oasiscare.cn
+      host: 127.0.0.1
       port: 27017
       database: wechat
       events:
