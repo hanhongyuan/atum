@@ -42,6 +42,8 @@ server:
 
 #权限设置
 security:
+  basic:
+    enable: false
   #基础认证账号密码
   user:
     name: admin
@@ -144,6 +146,8 @@ server:
 
 #权限设置
 security:
+  basic:
+    enable: false
   #基础认证账号密码
   user:
     name: admin
@@ -247,6 +251,8 @@ server:
 
 #权限设置
 security:
+  basic:
+    enable: false
   #基础认证账号密码
   user:
     name: admin
