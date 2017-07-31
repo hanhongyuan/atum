@@ -221,8 +221,8 @@ spring:
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-#      username: root
-#      password: oasisadmin
+      username: root
+      password: oasisadmin
   #Redis配置
   redis:
     port: 6379
