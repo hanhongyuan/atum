@@ -162,8 +162,8 @@ axon:
         source: queueMessageSource
 
 #容联七陌
-moor:
-  account: "01080455629"
+#moor:
+#  account: "01080455629"
 
 ---
 
