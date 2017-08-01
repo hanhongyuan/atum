@@ -3,12 +3,12 @@ spring:
     #mongodb设置
     mongodb:
       host: wxtest.oasisapp.cn
-      port: 27017
+      port: 9999
       database: commons
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:
@@ -86,12 +86,12 @@ spring:
     #mongodb设置
     mongodb:
       host: wxtest.oasisapp.cn
-      port: 27017
+      port: 9999
       database: commons
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:
@@ -169,12 +169,12 @@ spring:
     #mongodb设置
     mongodb:
       host: wechat.oasiscare.cn
-      port: 27017
+      port: 9999
       database: commons
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: root
+      username: oasis
       password: oasisadmin
   #Redis配置
   redis:

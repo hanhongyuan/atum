@@ -1,12 +1,16 @@
 package com.oasis.atum.base.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
+import com.mongodb.client.MongoDatabase;
+import com.oasis.atum.base.infrastructure.util.CommonUtil;
 import lombok.val;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
@@ -31,7 +35,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.client.RestOperations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Axon框架配置
@@ -77,11 +83,15 @@ public class AxonConfiguration
 	@Bean
 	public MongoClient mongoClient()
 	{
-		MongoFactory mongoFactory = new MongoFactory();
-		mongoFactory.setMongoAddresses(Arrays.asList(new ServerAddress(mongoUri)));
-		return mongoFactory.createMongo();
-//		return new MongoClient(new ServerAddress(mongoUri, port),
-//														Arrays.asList(MongoCredential.createCredential(username, dbName, password.toCharArray())));
+		val uri = CommonUtil.getStringBuilder()
+								.append("mongodb://")
+								.append(username).append(":")
+								.append(password).append("@")
+								.append(mongoUri).append(":")
+								.append(port).append("/")
+								.append(dbName).toString();
+		val clientUri = new MongoClientURI(uri);
+		return new MongoClient(clientUri);
 	}
 
 	@Bean

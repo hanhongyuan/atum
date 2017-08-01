@@ -3,7 +3,7 @@ spring:
     #mongodb设置
     mongodb:
       host: wxtest.oasisapp.cn
-      port: 27017
+      port: 9999
       database: wechat
       events:
         collection.name: events
@@ -109,7 +109,7 @@ spring:
     #mongodb设置
     mongodb:
       host: wxtest.oasisapp.cn
-      port: 27017
+      port: 9999
       database: wechat
       events:
         collection.name: events
@@ -216,7 +216,7 @@ spring:
     #mongodb设置
     mongodb:
       host: wechat.oasiscare.cn
-      port: 27017
+      port: 9999
       database: wechat
       events:
         collection.name: events
