@@ -28,7 +28,7 @@ spring:
     timeout: 2000
     password: oasisadmin
 
-test: '{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU='
+test: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
 
 
 server:
