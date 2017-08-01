@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 @ImportAutoConfiguration(value = {AxonConfiguration.class, RedisConfiguration.class, HttpConfiguration.class})
 public class CommonsApp implements CommandLineRunner
 {
+
 	public static void main(final String[] args)
 	{
 		SpringApplication.run(CommonsApp.class,args);
@@ -25,6 +26,5 @@ public class CommonsApp implements CommandLineRunner
 	@Override
 	public void run(final String... args) throws Exception
 	{
-
 	}
 }

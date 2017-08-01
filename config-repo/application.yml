@@ -36,9 +36,10 @@ hystrix:
 security:
   basic:
     enabled: false
+  #基础认证账号密码
   user:
-    name: "{cipher}AQAY0laliUc6whqoJBQJXa/LXTB7W8w5TE2uq9bj5KqBUhLKYkduzvyQzQkf8MweiZy87FlTLjO8l4KDMjxYhnwluYxyenA4vqvrUYYmTdWEjhiblZ79zpVWsk4oa+tKEaPdIH9r7kQsF8s2nPtfsoicJsPcSZFVMH85JlYW+4iglorP9p3RthkwE44gA8RNSgu/7qQDlc0ErMhWA93cbYINTgLHJnOQT7dxOAkIPsmbtQtFUKFN1O7Ha9gqtws8Kc/oiRp2bIBkL9MFdnY6mVKQtRIIQFnqDEbzZ/WxQOhkASGYdR2tpdeRujD+/CnnaW9O474Bjazv/AkaTqnD+rk1H2jcRR7rGB7tEwSLDN0aiJeReo9arS+nEHJhkI7TVaI="
-    password: "{cipher}AQAY0laliUc6whqoJBQJXa/LXTB7W8w5TE2uq9bj5KqBUhLKYkduzvyQzQkf8MweiZy87FlTLjO8l4KDMjxYhnwluYxyenA4vqvrUYYmTdWEjhiblZ79zpVWsk4oa+tKEaPdIH9r7kQsF8s2nPtfsoicJsPcSZFVMH85JlYW+4iglorP9p3RthkwE44gA8RNSgu/7qQDlc0ErMhWA93cbYINTgLHJnOQT7dxOAkIPsmbtQtFUKFN1O7Ha9gqtws8Kc/oiRp2bIBkL9MFdnY6mVKQtRIIQFnqDEbzZ/WxQOhkASGYdR2tpdeRujD+/CnnaW9O474Bjazv/AkaTqnD+rk1H2jcRR7rGB7tEwSLDN0aiJeReo9arS+nEHJhkI7TVaI="
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #无状态
   sessions: stateless
   headers:
@@ -89,9 +90,10 @@ accounts:
 security:
   basic:
     enabled: false
+  #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #无状态
   sessions: stateless
   headers:
@@ -142,9 +144,10 @@ accounts:
 security:
   basic:
     enabled: false
+  #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #无状态
   sessions: stateless
   headers:
@@ -193,9 +196,10 @@ accounts:
 security:
   basic:
     enabled: false
+  #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #无状态
   sessions: stateless
   headers:
