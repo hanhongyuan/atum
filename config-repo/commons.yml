@@ -161,6 +161,10 @@ axon:
       commons:
         source: queueMessageSource
 
+#容联七陌
+moor:
+  service-no: 01080455629
+
 ---
 
 spring:
@@ -243,3 +247,7 @@ axon:
     processors:
       commons:
         source: queueMessageSource
+
+#容联七陌
+moor:
+  service-no: 01080455629
