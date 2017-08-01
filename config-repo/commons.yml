@@ -8,8 +8,8 @@ spring:
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: oasis
-      password: oasisadmin
+      username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
+      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
   #Redis配置
   redis:
     port: 6379
@@ -26,10 +26,7 @@ spring:
       min-idle: 3
     #连接超时时间，毫秒单位
     timeout: 2000
-    password: oasisadmin
-
-test: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
-
+    password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
 
 server:
   #端口
@@ -48,8 +45,8 @@ security:
     enable: false
   #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #oauth2授权
   oauth2:
     #客户端设置
@@ -131,8 +128,8 @@ security:
     enable: false
   #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #oauth2授权
   oauth2:
     #客户端设置
@@ -214,8 +211,8 @@ security:
     enable: false
   #基础认证账号密码
   user:
-    name: admin
-    password: admin
+    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
+    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
   #oauth2授权
   oauth2:
     #客户端设置
