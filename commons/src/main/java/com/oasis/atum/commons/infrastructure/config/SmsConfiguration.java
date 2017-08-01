@@ -20,7 +20,8 @@ public class SmsConfiguration
 	/**
 	 * 阿里云密钥
 	 */
-	private String accessSecret = "FJeiAjpjMbM6Ac5lSOGC5e0ShHjLnR";
+	//FJeiAjpjMbM6Ac5lSOGC5e0ShHjLnR"
+	private String accessSecret;
 
 	/**
 	 * 访问端点

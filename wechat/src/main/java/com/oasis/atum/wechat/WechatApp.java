@@ -3,6 +3,7 @@ package com.oasis.atum.wechat;
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
 import com.oasis.atum.base.infrastructure.config.HttpConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
+import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

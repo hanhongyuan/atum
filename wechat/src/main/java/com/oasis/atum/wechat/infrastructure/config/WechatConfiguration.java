@@ -16,16 +16,15 @@ public class WechatConfiguration
 	/**
 	 * 应用ID
 	 */
-	private String appId       = "wx846dd6977628a1e6";
+	private String appId    = "wx846dd6977628a1e6";
 	/**
 	 * 微信小程序ID
 	 */
-	private String appletId    = "wx1deb8f7f1a3ca5cf";
+	private String appletId = "wx1deb8f7f1a3ca5cf";
 	/**
 	 * 密钥
 	 */
-	//ec2dbcaafdc21a7d41eb167f1b30eba6
-	private String secret      = "{cipher}AQBR6tsxWQ17PDbuiPtIulPpeJvoQ6baRer5ssDC69ZMEuW/M9Fhe1RfJh54PGAYqBnLnwDetIUL5mPsTBedhag8aZpcKz7h0GkiYd1+M1AYJvA8UOzWtq29k/7Lm/IrNbhHkwt89MzcnjxCGfz0mZrJtjovlHpPTLVv6BzWqjP5oFszdj+PsIgC2+YZ6eIck6A7Pz6psMr4pAPP+g0CjrSVVmhV1wAUPGv0/V4wZ+3kebHdPag0nO51AnJtTo3jDZlLzMKZJGH4DPFt6LlvLMYC1ugHy0nPL6MaKxV8PjNh3o7e3kSZxvDzDPx+szeyI8jV3qWBliElL6rYXf57V0d3BMn8NXxmub+dxf8ITT57w8wHu53aj2VoHlGXhX3iRTYW6XnpdfAbr7gGCpD7xslzd3YjNpGzErm3wIyEFKWgSQ==";
+	private String secret;
 	/**
 	 * 商户号
 	 */

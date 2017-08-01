@@ -78,6 +78,11 @@ axon:
       commons:
         source: queueMessageSource
 
+#阿里云短信
+sms:
+  #阿里云密钥
+  access-secret: "{cipher}AQAEOQq1sw3KWxNzK9cSmSdi17Xxpn/xegH85izd6Kq58rWUIfS/7hd5tXK0uwTpdd2bDuySMwdWSc+PlesNQEg5y0pxpsqhy/334X3Y80oBDnd9FxV6IqIQqvpUSygFHlcLsq7k6keyACIGC+8cpjsrTQnjLD7tMBtfh/JW0Fnv4+r/xF/avehYU65mZHYX5cEe41/FCQZ3ylXu7fAmDAwu3UtchQ7t1sjhcryNM2c7hsBTVWVIMu6XBALgEHIFgYWNSKaT3Soa8PAyFq/sU+i3ytlrIXA5686WyGfQVCTJU5JKhBkSeFKYe+WCFDkl2E7ULqUGIa2Q3fQJCeKR8BK/fAKOT2QUd+H2aswxehJ5vOSmGZF+aFeoNX7LWj/COIwwVMRDzyceKj5o9K9wT0YI"
+
 ---
 
 spring:
@@ -161,6 +166,12 @@ axon:
       commons:
         source: queueMessageSource
 
+#阿里云短信
+sms:
+  #阿里云密钥
+  access-secret: "{cipher}AQAEOQq1sw3KWxNzK9cSmSdi17Xxpn/xegH85izd6Kq58rWUIfS/7hd5tXK0uwTpdd2bDuySMwdWSc+PlesNQEg5y0pxpsqhy/334X3Y80oBDnd9FxV6IqIQqvpUSygFHlcLsq7k6keyACIGC+8cpjsrTQnjLD7tMBtfh/JW0Fnv4+r/xF/avehYU65mZHYX5cEe41/FCQZ3ylXu7fAmDAwu3UtchQ7t1sjhcryNM2c7hsBTVWVIMu6XBALgEHIFgYWNSKaT3Soa8PAyFq/sU+i3ytlrIXA5686WyGfQVCTJU5JKhBkSeFKYe+WCFDkl2E7ULqUGIa2Q3fQJCeKR8BK/fAKOT2QUd+H2aswxehJ5vOSmGZF+aFeoNX7LWj/COIwwVMRDzyceKj5o9K9wT0YI"
+
+
 ---
 
 spring:
@@ -243,3 +254,8 @@ axon:
     processors:
       commons:
         source: queueMessageSource
+
+#阿里云短信
+sms:
+  #阿里云密钥
+  access-secret: "{cipher}AQAEOQq1sw3KWxNzK9cSmSdi17Xxpn/xegH85izd6Kq58rWUIfS/7hd5tXK0uwTpdd2bDuySMwdWSc+PlesNQEg5y0pxpsqhy/334X3Y80oBDnd9FxV6IqIQqvpUSygFHlcLsq7k6keyACIGC+8cpjsrTQnjLD7tMBtfh/JW0Fnv4+r/xF/avehYU65mZHYX5cEe41/FCQZ3ylXu7fAmDAwu3UtchQ7t1sjhcryNM2c7hsBTVWVIMu6XBALgEHIFgYWNSKaT3Soa8PAyFq/sU+i3ytlrIXA5686WyGfQVCTJU5JKhBkSeFKYe+WCFDkl2E7ULqUGIa2Q3fQJCeKR8BK/fAKOT2QUd+H2aswxehJ5vOSmGZF+aFeoNX7LWj/COIwwVMRDzyceKj5o9K9wT0YI"
