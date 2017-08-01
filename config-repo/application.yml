@@ -37,8 +37,8 @@ security:
   basic:
     enabled: false
   user:
-    name: admin
-    password: admin
+    name: {cipher}AQAY0laliUc6whqoJBQJXa/LXTB7W8w5TE2uq9bj5KqBUhLKYkduzvyQzQkf8MweiZy87FlTLjO8l4KDMjxYhnwluYxyenA4vqvrUYYmTdWEjhiblZ79zpVWsk4oa+tKEaPdIH9r7kQsF8s2nPtfsoicJsPcSZFVMH85JlYW+4iglorP9p3RthkwE44gA8RNSgu/7qQDlc0ErMhWA93cbYINTgLHJnOQT7dxOAkIPsmbtQtFUKFN1O7Ha9gqtws8Kc/oiRp2bIBkL9MFdnY6mVKQtRIIQFnqDEbzZ/WxQOhkASGYdR2tpdeRujD+/CnnaW9O474Bjazv/AkaTqnD+rk1H2jcRR7rGB7tEwSLDN0aiJeReo9arS+nEHJhkI7TVaI=
+    password: {cipher}AQAY0laliUc6whqoJBQJXa/LXTB7W8w5TE2uq9bj5KqBUhLKYkduzvyQzQkf8MweiZy87FlTLjO8l4KDMjxYhnwluYxyenA4vqvrUYYmTdWEjhiblZ79zpVWsk4oa+tKEaPdIH9r7kQsF8s2nPtfsoicJsPcSZFVMH85JlYW+4iglorP9p3RthkwE44gA8RNSgu/7qQDlc0ErMhWA93cbYINTgLHJnOQT7dxOAkIPsmbtQtFUKFN1O7Ha9gqtws8Kc/oiRp2bIBkL9MFdnY6mVKQtRIIQFnqDEbzZ/WxQOhkASGYdR2tpdeRujD+/CnnaW9O474Bjazv/AkaTqnD+rk1H2jcRR7rGB7tEwSLDN0aiJeReo9arS+nEHJhkI7TVaI=
   #无状态
   sessions: stateless
   headers:
