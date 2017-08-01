@@ -26,7 +26,10 @@ spring:
       min-idle: 3
     #连接超时时间，毫秒单位
     timeout: 2000
-    password: '{cipher}AQA5+rEnAyUVHy/dYT0bVWlKFQd3fe0gU2jPNwAZJBfmX7V5ADTKrUwGcNwYt3op2a1hdhDCcp7MtlxoLL0w4u+3HqxF0NWfB1LZ0YOTSHvV0A28BlvLxoeMYmFZGq+pBJKcOC+xCTzbAXhvzhPI2PBB3WBSaMjnOOo6PMVtI8l8n+8IrRDHa73ho+yeOEcLvQCk7DK2FQj+VX0/o+FPr+bfY8XSoGbxkOA+/F6suwr9ZqtrbS84yBkEbmD4Lt9NdIgRGKOucZMIORegCopqtC8Oaxwa9iJuXD15S5+mM/veVnkeVPHXRoXjmKcJ26GwkFkTlo2E83TkiVNeXnHhpvAA9tKdlTJZcL3QeqcBcpsd7QMXNGkSurNQAj3BGZk+RHg='
+    password: oasisadmin
+
+test: '{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU='
+
 
 server:
   #端口
