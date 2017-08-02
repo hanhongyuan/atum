@@ -1,36 +1,4 @@
 spring:
-  #应用名
-  application:
-    name: wechat
-  #云配置
-  cloud:
-    config:
-      uri: http://localhost:8888
-      username: admin
-      password: admin
-logging:
-  level:
-    org.springframework.web.client.RestTemplate: debug
-    org.springframework.http.ResponseEntity: debug
-
-
----
-
-spring:
-  profiles: dev
-  #应用名
-  application:
-    name: wechat
-  #云配置
-  cloud:
-    config:
-      uri: http://wxtest.oasisapp.cn:8888
-      username: admin
-      password: admin
-
----
-
-spring:
   profiles: prod
   #应用名
   application:

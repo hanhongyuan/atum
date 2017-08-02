@@ -1,0 +1,61 @@
+version: '2'
+services:
+  #服务注册
+  registry:
+    container_name: registry
+    image: oasis/registry
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_SERVER_LIST=http://admin:admin:@registry:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+  #配置中心
+  config:
+    container_name: config
+    image: oasis/config
+    ports:
+      - "8888:8888"
+    links:
+      - registry
+    environment:
+      - EUREKA_SERVER_LIST=http://admin:admin:@registry:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+  #网关
+  gateway:
+    container_name: edge
+    image: oasis/edge
+    ports:
+      - "10000:10000"
+    links:
+      - config
+      - registry
+    environment:
+      - EUREKA_SERVER_LIST=http://admin:admin:@registry:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER=http://config:8888
+  #公用服务
+  commons:
+    container_name: commons
+    image: oasis/commons
+    ports:
+      - "2222:2222"
+    links:
+      - config
+      - registry
+    environment:
+      - EUREKA_SERVER_LIST=http://admin:admin:@registry:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER=http://config:8888
+  #微信服务
+  wechat:
+    container_name: wechat
+    image: oasis/wechat
+    ports:
+      - "3333:3333"
+    links:
+      - config
+      - registry
+    environment:
+      - EUREKA_SERVER_LIST=http://admin:admin:@registry:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER=http://config:8888
