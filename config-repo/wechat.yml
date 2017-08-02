@@ -14,7 +14,7 @@ spring:
     redis:
       port: 6379
       #主机地址
-      host: 60.205.106.190
+      host: wxtest.oasisapp.cn
       pool:
         #连接池最大的活跃连接数，-1表示无限
         max-active: 8
