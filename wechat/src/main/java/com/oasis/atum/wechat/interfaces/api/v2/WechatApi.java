@@ -227,8 +227,6 @@ public class WechatApi
 	private Mono<String> newsHandle(final WechatRequest wechat, boolean type)
 	{
 		log.info("图文消息处理");
-		//正式6Xjge0ynQGVPMd5ib0xckh76O4Unu0uYXJPv5OCVqfE
-		//测试utYF-mbxCfQjXVfATrQAb29mVbtQB0ldJvq96tJszac
 		//转成微信需要的图文消息格式
 		return client.getNewsMaterials("utYF-mbxCfQjXVfATrQAb29mVbtQB0ldJvq96tJszac")
 						 .map(s -> s.map(d ->
