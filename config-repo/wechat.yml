@@ -10,23 +10,23 @@ spring:
         snapshot.collection.name: snapshots
       username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
       password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
-    #Redis配置
-    redis:
-      port: 6379
-      #主机地址
-      host: wxtest.oasisapp.cn
-      pool:
-        #连接池最大的活跃连接数，-1表示无限
-        max-active: 8
-        #连接池最大的空闲连接数，-1表示无限
-        max-idle: 8
-        #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
-        max-wait: 30
-        #连接池中空闲连接的最小数量
-        min-idle: 3
-      #连接超时时间，毫秒单位
-      timeout: 2000
-      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: wxtest.oasisapp.cn
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
 
 
 server:
@@ -119,23 +119,23 @@ spring:
        snapshot.collection.name: snapshots
      username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
-   #Redis配置
-   redis:
-     port: 6379
-     #主机地址
-     host: 60.205.106.190
-     pool:
-       #连接池最大的活跃连接数，-1表示无限
-       max-active: 8
-       #连接池最大的空闲连接数，-1表示无限
-       max-idle: 8
-       #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
-       max-wait: 30
-       #连接池中空闲连接的最小数量
-       min-idle: 3
-     #连接超时时间，毫秒单位
-     timeout: 2000
-     password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
+ #Redis配置
+ redis:
+   port: 6379
+   #主机地址
+   host: wxtest.oasisapp.cn
+   pool:
+     #连接池最大的活跃连接数，-1表示无限
+     max-active: 8
+     #连接池最大的空闲连接数，-1表示无限
+     max-idle: 8
+     #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+     max-wait: 30
+     #连接池中空闲连接的最小数量
+     min-idle: 3
+   #连接超时时间，毫秒单位
+   timeout: 2000
+   password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
 
 
 server:
@@ -229,23 +229,23 @@ spring:
         snapshot.collection.name: snapshots
       username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
       password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
-    #Redis配置
-    redis:
-      port: 6379
-      #主机地址
-      host: 10.25.95.108
-      pool:
-        #连接池最大的活跃连接数，-1表示无限
-        max-active: 8
-        #连接池最大的空闲连接数，-1表示无限
-        max-idle: 8
-        #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
-        max-wait: 30
-        #连接池中空闲连接的最小数量
-        min-idle: 3
-      #连接超时时间，毫秒单位
-      timeout: 2000
-      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
+  #Redis配置
+  redis:
+    port: 6379
+    #主机地址
+    host: 10.25.95.108
+    pool:
+      #连接池最大的活跃连接数，-1表示无限
+      max-active: 8
+      #连接池最大的空闲连接数，-1表示无限
+      max-idle: 8
+      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
+      max-wait: 30
+      #连接池中空闲连接的最小数量
+      min-idle: 3
+    #连接超时时间，毫秒单位
+    timeout: 2000
+    password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
 
 server:
   #端口
