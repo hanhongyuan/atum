@@ -1,4 +1,5 @@
 spring:
+  profiles: default,dev
   data:
     #mongodb设置
     mongodb:
@@ -55,94 +56,6 @@ security:
       clientSecret: commons
       #token获取Uri
       accessTokenUri: http://localhost:${accounts.port}/oauth/token
-      #授权类型 客户端
-      grant-type: client_credentials
-      #授权范围
-      scope: server
-
-eureka:
-  instance:
-    metadata-map:
-      user.name: ${security.user.name}
-      user.password: ${security.user.password}
-
-axon:
-  #DistributedCommandBus
-  #分布式的CommandBus实现,由多个CommandBus的实例组成,并一起工作来分担负载.
-  distributed:
-    enabled: true
-  amqp:
-    exchange: amq.fanout
-  eventhandling:
-    processors:
-      commons:
-        source: queueMessageSource
-
-#阿里云短信
-sms:
-  #阿里云密钥
-  access-secret: "{cipher}AQAEOQq1sw3KWxNzK9cSmSdi17Xxpn/xegH85izd6Kq58rWUIfS/7hd5tXK0uwTpdd2bDuySMwdWSc+PlesNQEg5y0pxpsqhy/334X3Y80oBDnd9FxV6IqIQqvpUSygFHlcLsq7k6keyACIGC+8cpjsrTQnjLD7tMBtfh/JW0Fnv4+r/xF/avehYU65mZHYX5cEe41/FCQZ3ylXu7fAmDAwu3UtchQ7t1sjhcryNM2c7hsBTVWVIMu6XBALgEHIFgYWNSKaT3Soa8PAyFq/sU+i3ytlrIXA5686WyGfQVCTJU5JKhBkSeFKYe+WCFDkl2E7ULqUGIa2Q3fQJCeKR8BK/fAKOT2QUd+H2aswxehJ5vOSmGZF+aFeoNX7LWj/COIwwVMRDzyceKj5o9K9wT0YI"
-
----
-
-spring:
-  profiles: dev
-  data:
-    #mongodb设置
-    mongodb:
-      host: wxtest.oasisapp.cn
-      port: 9999
-      database: commons
-      events:
-        collection.name: events
-        snapshot.collection.name: snapshots
-      username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
-      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
-  #Redis配置
-  redis:
-    port: 6379
-    #主机地址
-    host: wxtest.oasisapp.cn
-    pool:
-      #连接池最大的活跃连接数，-1表示无限
-      max-active: 8
-      #连接池最大的空闲连接数，-1表示无限
-      max-idle: 8
-      #当连接池耗尽时，新获取连接需要等待的最大时间，以毫秒单位，-1表示无限等待
-      max-wait: 30
-      #连接池中空闲连接的最小数量
-      min-idle: 3
-    #连接超时时间，毫秒单位
-    timeout: 2000
-    password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
-
-server:
-  #端口
-  port: 2222
-  #开启压缩
-  compression:
-    enabled: true
-    #需要压缩的类型
-    mime-types: text/xml,text/plain,text/css,text/javascript,application/xml,application/json,application/javascript
-    #最小压缩响应字节数
-    min-response-size: 1024
-
-#权限设置
-security:
-  basic:
-    enable: false
-  #基础认证账号密码
-  user:
-    name: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
-    password: "{cipher}AQBZdhOg17JcQYqSpv2spWXXZwWzscY3IIFrJcv+49YOx6AJ4ASdQQrbY7/5Fj514/k5D8po05XHV0mtSJkOgQaLlH80LKt8Jg8rRK/X/N1xx81jjC5o3URFNur4lhoTnFlER6KCJ1D9d6ISoy00JhtmAhwbRirBZwjJSsJmDAZ12r4eyL56keNHFLT87JsY8XMWVaUFLD+Uw7rkecodya0ZqKt1I6E2+sVkNlzb6qKN313V2qWX7J/I1duVTXwdaCtYYkM8OwHLydDqVHS3usCfQo34PpTy1ULeXJl8Msqldlo+kFxVlBsfUK7+8Um2fGCdbyYzkU5kTesCauuibx+WksLm6Kkk8jMHn77m2oVZ5L3thdy2rLb1dArnkrYzkzY="
-  #oauth2授权
-  oauth2:
-    #客户端设置
-    client:
-      clientId: commons
-      clientSecret: commons
-      #token获取Uri
-      accessTokenUri: http://wxtest.oasisapp.cn:${accounts.port}/oauth/token
       #授权类型 客户端
       grant-type: client_credentials
       #授权范围

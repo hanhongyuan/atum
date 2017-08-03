@@ -7,13 +7,21 @@
 	<artifactId>atum</artifactId>
 	<version>2.0</version>
 	<modules>
-		<module>registry</module>
-        <module>commons</module>
+		<!-- 基础配置、工具 -->
 		<module>base</module>
-        <module>config</module>
-        <module>wechat</module>
+		<!-- 服务注册 -->
+		<module>registry</module>
+		<!-- 配置中心 -->
+		<module>config</module>
+		<!-- 网关 -->
 		<module>edge</module>
-	</modules>
+		<!-- 应用监控 -->
+		<module>monitor</module>
+		<!-- 公用模块 -->
+        <module>commons</module>
+		<!-- 微信模块 -->
+        <module>wechat</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<name>atum</name>
@@ -39,6 +47,8 @@
 		<axon.version>3.0.5</axon.version>
 		<!-- swagger版本 -->
 		<swagger.version>2.5.0</swagger.version>
+		<!-- spring-boot-admin版本 -->
+		<spring-boot-admin.version>1.5.0</spring-boot-admin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -98,6 +108,33 @@
 				<classifier>jar-with-dependencies</classifier>
 			</dependency>
 			<!-- 阿里云短信jar end  -->
+			<!-- spring-boot-admin插件 start -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui-turbine</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui-login</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<!-- spring-boot-admin插件 end -->
 		</dependencies>
 	</dependencyManagement>
 
