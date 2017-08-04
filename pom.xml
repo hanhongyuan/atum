@@ -140,6 +140,27 @@
 						</resources>
 					</configuration>
 				</plugin>
+				<!-- 生成api docs支持 -->
+				<plugin>
+					<groupId>org.asciidoctor</groupId>
+					<artifactId>asciidoctor-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>generate-docs</id>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>process-asciidoc</goal>
+							</goals>
+							<configuration>
+								<sourceDocumentName>index.adoc</sourceDocumentName>
+								<backend>html</backend>
+								<attributes>
+									<snippets>${project.build.directory}/snippets</snippets>
+								</attributes>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

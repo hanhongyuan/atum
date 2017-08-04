@@ -6,7 +6,8 @@ spring:
         git:
           uri: https://github.com/BornToRain/atum
           search-paths: config-repo
-
+          default-label: dev
+      label: dev
 server:
   #端口
   port: 8888
@@ -48,6 +49,8 @@ spring:
         git:
           uri: https://github.com/BornToRain/atum
           search-paths: config-repo
+          default-label: dev
+      label: dev
 
 server:
   #端口
