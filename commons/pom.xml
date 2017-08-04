@@ -107,21 +107,16 @@
         </dependency>
 
         <!-- 测试支持 很重要! -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-test</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>io.projectreactor</groupId>-->
-            <!--<artifactId>reactor-test</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.restdocs</groupId>-->
-            <!--<artifactId>spring-restdocs-mockmvc</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- 测试支持 很重要! -->
 
     </dependencies>
@@ -138,6 +133,11 @@
             <!--<groupId>com.spotify</groupId>-->
             <!--<artifactId>docker-maven-plugin</artifactId>-->
             <!--</plugin>-->
+            <!-- 生成api docs支持 -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 

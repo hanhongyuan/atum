@@ -1,0 +1,26 @@
+== 接口
+
+=== Js-SDK
+Js-SDK相关操作
+
+==== 获取Js-SDK签名
+include::{generated}/js-sdk/getSignature/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/js-sdk/getSignature/request-parameters.adoc[]
+
+===== 响应
+include::{generated}/js-sdk/getSignature/http-response.adoc[]
+
+=== OAuth2
+微信网页授权操作
+
+==== 获取用户OpenId
+include::{generated}/oauth2/openId/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/oauth2/openId/request-parameters.adoc[]
+
+===== 响应
+include::{generated}/oauth2/openId/http-response.adoc[]
+

@@ -1,0 +1,25 @@
+= 泓华项目V2.0(公用模块)
+
+
+== 描述
+公用模块接口描述
+
+
+=== 版本信息
+[%hardbreaks]
+__版本__ : 2.0
+
+
+=== 联系
+[%hardbreaks]
+__联系人__ : Ryze
+__联系邮箱__ : chengyin.liu@oasismedical.cn
+
+
+=== 环境
+[%hardbreaks]
+__协议__ : HTTPS
+__地址__ : wxtest.oasisapp.cn
+__路径__ : /commons/v2
+
+

@@ -14,9 +14,9 @@ import lombok.ToString;
 @ToString
 public class SmsDTO
 {
-	public final String   mobile;
-	public final SmsType  smsType;
-	public final String captcha;
+	public final String  mobile;
+	public final SmsType smsType;
+	public final String  captcha;
 
 	@JsonCreator
 	public SmsDTO(@JsonProperty("mobile") final String mobile, @JsonProperty("smsType") final SmsType smsType,

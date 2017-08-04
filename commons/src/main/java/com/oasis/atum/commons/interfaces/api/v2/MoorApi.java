@@ -48,10 +48,10 @@ public class MoorApi
 	}
 
 	@PutMapping("binding")
-	public Mono<ResponseEntity> binding(@RequestBody final Mono<BindingRequest> data)
+	public Mono<ResponseEntity> binding(@RequestBody final BindingRequest data)
 	{
 		log.info("临时绑定电话关系 =====> {}", data);
-		return data
+		return Mono.just(data)
 						 //字段非空
 						 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
 						 //暂存Redis 30分钟
@@ -61,10 +61,10 @@ public class MoorApi
 	}
 
 	@DeleteMapping("unbinding")
-	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<BindingRequest> data)
+	public Mono<ResponseEntity> unbinding(@RequestBody final BindingRequest data)
 	{
 		log.info("解除绑定关系 =====> {}", data);
-		return data
+		return Mono.just(data)
 						 //非空
 						 .filter(d -> Objects.nonNull(d.call))
 						 .map(d -> REDIS_KEY_BINDING + d.call)
@@ -78,19 +78,19 @@ public class MoorApi
 	}
 
 	@PostMapping("call-up")
-	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
+	public Mono<ResponseEntity> callUp(@RequestBody final CallUpDTO data)
 	{
 		log.info("打电话");
-		return data.flatMap(service::callUp).map(Restful::ok);
+		return Mono.just(data).flatMap(service::callUp).map(Restful::ok);
 	}
 
 	@PostMapping("call-up/back")
-	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<CallUpCallBack> data)
+	public Mono<ResponseEntity> calUpBack(@RequestBody final CallUpCallBack data)
 	{
 		log.info("打电话回调");
 		log.info("data =====> {}", data);
 
-		return data
+		return Mono.just(data)
 						 .flatMap(service::updateCallUp)
 						 .map(v -> Restful.ok());
 	}

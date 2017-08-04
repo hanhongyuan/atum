@@ -44,23 +44,23 @@ public class SmsApi
 	}
 
 	@PostMapping
-	public Mono<ResponseEntity> captcha(@RequestBody Mono<SmsDTO> data)
+	public Mono<ResponseEntity> captcha(@RequestBody SmsDTO data)
 	{
 		log.info("发送验证码");
 
-		return data.flatMap(service::sendCaptcha).map(v -> Restful.ok());
+		return Mono.just(data).flatMap(service::sendCaptcha).map(v -> Restful.ok());
 	}
 
 	@PostMapping("validation")
-	public Mono<ResponseEntity> validation(@RequestBody Mono<SmsDTO> data)
+	public Mono<ResponseEntity> validation(@RequestBody SmsDTO data)
 	{
 		log.info("校验验证码 =====> ");
 
-		return data.flatMap(d -> redis.get(d.smsType + "=>" + d.mobile)
-															 .filter(Objects::nonNull)
-															 .map(c -> c.equals(d.captcha))
-															 .map(Restful::ok)
-															 .defaultIfEmpty(Restful.ok(false)));
+		return Mono.just(data).flatMap(d -> redis.get(d.smsType + "=>" + d.mobile)
+																					.filter(Objects::nonNull)
+																					.map(c -> c.equals(d.captcha))
+																					.map(Restful::ok)
+																					.defaultIfEmpty(Restful.ok(false)));
 
 	}
 

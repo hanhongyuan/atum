@@ -1,213 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.oasis.atum</groupId>
-	<artifactId>atum</artifactId>
-	<version>2.0</version>
-	<modules>
-		<!-- 基础配置、工具 -->
-		<module>base</module>
-		<!-- 服务注册 -->
-		<module>registry</module>
-		<!-- 配置中心 -->
-		<module>config</module>
-		<!-- 网关 -->
-		<module>edge</module>
-		<!-- 公用模块 -->
+    <groupId>com.oasis.atum</groupId>
+    <artifactId>atum</artifactId>
+    <version>2.0</version>
+    <modules>
+        <!-- 基础配置、工具 -->
+        <module>base</module>
+        <!-- 服务注册 -->
+        <module>registry</module>
+        <!-- 配置中心 -->
+        <module>config</module>
+        <!-- 网关 -->
+        <module>edge</module>
+        <!-- 公用模块 -->
         <module>commons</module>
-		<!-- 微信模块 -->
+        <!-- 微信模块 -->
         <module>wechat</module>
     </modules>
-	<packaging>pom</packaging>
+    <packaging>pom</packaging>
 
-	<name>atum</name>
-	<description>Atum-Ra</description>
+    <name>atum</name>
+    <description>Atum-Ra</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.0.M3</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.M3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.M1</spring-cloud.version>
-		<!-- docker镜像前缀 -->
-		<docker.image.prefix>atum</docker.image.prefix>
-		<!-- docker插件版本 -->
-		<docker.plugin.version>0.4.13</docker.plugin.version>
-		<!-- axon版本 -->
-		<axon.version>3.0.5</axon.version>
-		<!-- swagger版本 -->
-		<swagger.version>2.5.0</swagger.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Finchley.M1</spring-cloud.version>
+        <!-- docker镜像前缀 -->
+        <docker.image.prefix>atum</docker.image.prefix>
+        <!-- docker插件版本 -->
+        <docker.plugin.version>0.4.13</docker.plugin.version>
+        <!-- axon版本 -->
+        <axon.version>3.0.5</axon.version>
+        <!-- swagger版本 -->
+        <swagger.version>2.5.0</swagger.version>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- JSON解析 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>1.2.35</version>
-			</dependency>
-			<!-- Axon框架 start -->
-			<dependency>
-				<groupId>org.axonframework</groupId>
-				<artifactId>axon-spring-boot-starter</artifactId>
-				<version>${axon.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.axonframework</groupId>
-				<artifactId>axon-distributed-commandbus-springcloud</artifactId>
-				<version>${axon.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.axonframework</groupId>
-				<artifactId>axon-mongo</artifactId>
-				<version>${axon.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.axonframework</groupId>
-				<artifactId>axon-amqp</artifactId>
-				<version>${axon.version}</version>
-			</dependency>
-			<!-- Axon框架 end -->
-			<!-- Swagger2 start -->
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<!-- Swagger2 end -->
-			<!-- 阿里云短信jar start -->
-			<dependency>
-				<groupId>com.aliyun.mns</groupId>
-				<artifactId>aliyun-sdk-mns</artifactId>
-				<version>1.1.8</version>
-				<classifier>jar-with-dependencies</classifier>
-			</dependency>
-			<!-- 阿里云短信jar end  -->
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- JSON解析 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.35</version>
+            </dependency>
+            <!-- Axon框架 start -->
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-spring-boot-starter</artifactId>
+                <version>${axon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-distributed-commandbus-springcloud</artifactId>
+                <version>${axon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-mongo</artifactId>
+                <version>${axon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-amqp</artifactId>
+                <version>${axon.version}</version>
+            </dependency>
+            <!-- Axon框架 end -->
+            <!-- Swagger2 start -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!-- Swagger2 end -->
+            <!-- 阿里云短信jar start -->
+            <dependency>
+                <groupId>com.aliyun.mns</groupId>
+                <artifactId>aliyun-sdk-mns</artifactId>
+                <version>1.1.8</version>
+                <classifier>jar-with-dependencies</classifier>
+            </dependency>
+            <!-- 阿里云短信jar end  -->
+        </dependencies>
+    </dependencyManagement>
 
-	<!-- 打包以及Docker构建 -->
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>com.spotify</groupId>
-					<artifactId>docker-maven-plugin</artifactId>
-					<version>${docker.plugin.version}</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>build</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<imageName>${docker.image.prefix}-${project.artifactId}</imageName>
-						<dockerDirectory>${project.basedir}/</dockerDirectory>
-						<resources>
-							<resource>
-								<targetPath>/</targetPath>
-								<directory>${project.build.directory}</directory>
-								<include>${project.build.finalName}.jar</include>
-							</resource>
-						</resources>
-					</configuration>
-				</plugin>
-				<!-- 生成api docs支持 -->
-				<plugin>
-					<groupId>org.asciidoctor</groupId>
-					<artifactId>asciidoctor-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>generate-docs</id>
-							<phase>prepare-package</phase>
-							<goals>
-								<goal>process-asciidoc</goal>
-							</goals>
-							<configuration>
-								<sourceDocumentName>index.adoc</sourceDocumentName>
-								<backend>html</backend>
-								<attributes>
-									<snippets>${project.build.directory}/snippets</snippets>
-								</attributes>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    <!-- 打包以及Docker构建 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <imageName>${docker.image.prefix}-${project.artifactId}</imageName>
+                        <dockerDirectory>${project.basedir}/</dockerDirectory>
+                        <resources>
+                            <resource>
+                                <targetPath>/</targetPath>
+                                <directory>${project.build.directory}</directory>
+                                <include>${project.build.finalName}.jar</include>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <!-- PDF生成支持所需jar start -->
+                    <!--<dependencies>-->
+                        <!--<dependency>-->
+                            <!--<groupId>org.asciidoctor</groupId>-->
+                            <!--<artifactId>asciidoctorj-pdf</artifactId>-->
+                            <!--<version>1.5.0-alpha.10.1</version>-->
+                        <!--</dependency>-->
+                        <!--<dependency>-->
+                            <!--<groupId>org.jruby</groupId>-->
+                            <!--<artifactId>jruby-complete</artifactId>-->
+                            <!--<version>1.7.21</version>-->
+                        <!--</dependency>-->
+                    <!--</dependencies>-->
+                    <!-- PDF生成支持 end -->
+                    <!-- 文档生成设置 start -->
+                    <configuration>
+                        <sourceDirectory>${project.basedir}/src/docs</sourceDirectory>
+                        <sourceDocumentName>index.adoc</sourceDocumentName>
+                        <attributes>
+                            <doctype>book</doctype>
+                            <toc>left</toc>
+                            <toclevels>3</toclevels>
+                            <numbered></numbered>
+                            <hardbreaks></hardbreaks>
+                            <sectlinks></sectlinks>
+                            <sectanchors></sectanchors>
+                            <generated>${project.build.directory}/generated-docs/snippets</generated>
+                        </attributes>
+                    </configuration>
+                    <executions>
+                        <!-- 生成html格式文档输出 -->
+                        <execution>
+                            <id>output-html</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>process-asciidoc</goal>
+                            </goals>
+                            <configuration>
+                                <backend>html5</backend>
+                                <outputDirectory>target/generated-docs/html</outputDirectory>
+                            </configuration>
+                        </execution>
+                        <!-- 生成pdf格式文档输出 -->
+                        <!--<execution>-->
+                            <!--<id>output-pdf</id>-->
+                            <!--<phase>test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>process-asciidoc</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<backend>pdf</backend>-->
+                                <!--<outputDirectory>target/generated-docs/pdf</outputDirectory>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 
 </project>

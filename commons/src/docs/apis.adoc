@@ -1,0 +1,53 @@
+== 接口
+
+=== 短信
+短信相关操作
+
+==== 发送验证码
+include::{generated}/sms/captcha/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/sms/captcha/request-fields.adoc[]
+
+===== 响应
+include::{generated}/sms/captcha/http-response.adoc[]
+
+==== 校验验证码
+include::{generated}/sms/validation/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/sms/validation/request-fields.adoc[]
+
+===== 响应
+include::{generated}/sms/validation/http-response.adoc[]
+
+=== 电话
+
+==== 打电话
+include::{generated}/7moor/callUp/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/7moor/callUp/request-fields.adoc[]
+
+===== 响应
+include::{generated}/7moor/callUp/http-response.adoc[]
+
+==== 绑定电话关系
+include::{generated}/7moor/binding/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/7moor/binding/request-fields.adoc[]
+
+===== 响应
+include::{generated}/7moor/binding/http-response.adoc[]
+
+==== 解除电话关系
+include::{generated}/7moor/unbinding/http-request.adoc[]
+
+===== 请求字段
+include::{generated}/7moor/unbinding/request-fields.adoc[]
+
+===== 响应
+include::{generated}/7moor/unbinding/http-response.adoc[]
+
+

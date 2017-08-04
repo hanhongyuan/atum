@@ -50,7 +50,7 @@ public class JsApi
 		val nonceStr  = CommonUtil.random(32);
 		//获取Js-SDK签名
 		return client.jsSign(timeStamp, nonceStr, uri)
-						 //构建jJs-SDK参数
+						 //构建Js-SDK参数
 						 .map(s -> JsSDK.builder().appId(config.getAppId())
 												 .nonceStr(nonceStr)
 												 .timeStamp(timeStamp)
