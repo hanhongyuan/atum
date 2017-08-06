@@ -36,8 +36,24 @@ public class JsApi
 	}
 
 	/**
-	 * 获取JsApi签名
-	 * @param uri 当前网页的uri,不包含#及其后面部分.
+	 * @api {GET} /js-sdk 获取Js-SDK签名
+	 * @apiGroup js-sdk
+	 * @apiVersion 2.0.0
+	 * @apiUse base
+	 * @apiParam {String} uri 当前网页的uri,不包含#及其后面部分.
+	 * @apiParamExample 请求样例：
+	 * ?uri=https://mtest.oasiscare.cn/wxofficial/aboutour/doctorclinic.html?type=yygh
+	 * @apiSuccess {String} appId 微信应用ID
+	 * @apiSuccess {String} timeStamp 时间戳
+	 * @apiSuccess {String} nonceStr 随机字符串
+	 * @apiSuccess {String} signature JS-SDK签名
+	 * @apiSuccessExample 成功样例:
+	 * {
+	 * "appId":"wx846dd6977628a1e6",
+	 * "timeStamp":"1501833836",
+	 * "nonceStr":"25m34j0kngy2p26quajw9k6mbg3598xn",
+	 * "signature":"e1728ab56fc49d96e1955180c85255274a38de10"
+	 * }
 	 */
 	@GetMapping
 	public Mono<ResponseEntity> getSignature(@RequestParam final String uri)

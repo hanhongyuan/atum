@@ -30,6 +30,20 @@ public class OAuth2Api
 		this.client = client;
 	}
 
+	/**
+	 * @api {GET} /oauth2/openId 获取用户openId
+	 * @apiGroup oauth2
+	 * @apiVersion 2.0.0
+	 * @apiUse base
+	 * @apiParam {String} code 微信网页授权码
+	 * @apiParamExample 请求样例：
+	 * ?code=1234
+	 * @apiSuccess {String} openid 微信用户openId
+	 * @apiSuccessExample 成功样例:
+	 * {
+	 * "openid":"wx846dd6977628a1e6",
+	 * }
+	 */
 	@GetMapping("openId")
 	public Mono<ResponseEntity> openId(@RequestParam final String code)
 	{

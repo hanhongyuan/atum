@@ -44,11 +44,11 @@ public class SmsApi
 	}
 
 	@PostMapping
-	public Mono<ResponseEntity> captcha(@RequestBody SmsDTO data)
+	public Mono<ResponseEntity> captcha(@RequestBody Mono<SmsDTO> data)
 	{
 		log.info("发送验证码");
 
-		return Mono.just(data).flatMap(service::sendCaptcha).map(v -> Restful.ok());
+		return data.flatMap(service::sendCaptcha).map(v -> Restful.ok());
 	}
 
 	@PostMapping("validation")

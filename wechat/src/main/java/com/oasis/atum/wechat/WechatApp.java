@@ -27,6 +27,16 @@ public class WechatApp implements CommandLineRunner
 	private final WechatClient client;
 	private final RedisClient redis;
 
+	/**
+	 * @apiDefine base
+	 * @apiHeader {String} [Content-Type=application/json;charset=UTF-8] application/json;charset=UTF-8
+	 * @apiHeader {String} [Accept=application/json;charset=UTF-8] application/json;charset=UTF-8
+	 * @apiHeaderExample {json} 请求头样例:
+	 * {
+	 * "Content-Type":"application/json;charset=UTF-8",
+	 * "Accept": "application/json;charset=UTF-8"
+	 * }
+	 */
 	public WechatApp(final WechatClient client, final RedisClient redis)
 	{
 		this.client = client;

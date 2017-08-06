@@ -1,0 +1,10 @@
+{
+  "name": "泓华项目(微信模版)",
+  "version": "2.0.0",
+  "description": "微信模版相关接口",
+  "title": "泓华项目接口文档 - 微信模版",
+  "url": "https://wxtest.oasisapp.cn/wechat/v2",
+  "template": {
+    "forceLanguage": "zh_cn"
+  }
+}
