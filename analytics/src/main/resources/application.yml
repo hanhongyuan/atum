@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: analytics
+  profiles: default,dev
+  #队列配置
+  rabbitmq:
+    host: wxtest.oasisapp.cn
+    port: 5672
+  datasource:
+    url: jdbc:mysql://60.205.106.190:3306/oasis_mom?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    sql-script-encoding: utf-8
+    hikari:
+      max-lifetime: 1765000
+      maximum-pool-size: 10
+      username: root
+      password: oasisadmin
+    name: oasis_mom
+
+logging:
+  #日志存放位置
+  file: logs/${spring.application.name}.log
+
+#服务注册
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
+
+#方便其他配置文件调用
+accounts:
+  port: 1111
+
+#超时设置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+#权限设置
+security:
+  basic:
+    enabled: false
+  #基础认证账号密码
+  user:
+    name: admin
+    password: admin
+  #无状态
+  sessions: stateless
+  headers:
+    #禁用Header缓存
+    cache: false
+  #禁用CsrfToken
+  enable-csrf: false
+  #oauth2授权
+  oauth2:
+    #资源设置
+    resource:
+      #获取用户信息Uri
+      user-info-uri: http://${eureka.instance.hostname}:${accounts.port}/v2/me
+      #不使用check_token
+      prefer-token-info: false
+      #令牌类型 Json Web Token
+      token-type: Bearer
+
+server:
+  port: 4444
