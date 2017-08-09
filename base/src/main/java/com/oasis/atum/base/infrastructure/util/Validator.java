@@ -8,14 +8,14 @@ import java.util.Objects;
  * 校验器
  * Created by ryze on 2017/5/14.
  */
-public final class Validator
+public interface Validator
 {
 	/**
 	 * 手机号校验
 	 * @param s
 	 * @return
 	 */
-	public static boolean isMobile(@NonNull final String s)
+	static boolean isMobile(@NonNull final String s)
 	{
 		return s.matches(
 			"^(1[3,5,8,7]{1}[\\d]{9})|(((400)-(\\d{3})-(\\d{4}))|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-" +
@@ -27,7 +27,7 @@ public final class Validator
 	 * @param s
 	 * @return
 	 */
-	public static boolean isIP(@NonNull final String s)
+	static boolean isIP(@NonNull final String s)
 	{
 		return s.matches("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$");
 	}
@@ -39,7 +39,7 @@ public final class Validator
 	 * @param <T>
 	 * @return
 	 */
-	public static <T> T either(final T a, final T b)
+	static <T> T either(final T a, final T b)
 	{
 		return Objects.isNull(a) ? b : a;
 	}

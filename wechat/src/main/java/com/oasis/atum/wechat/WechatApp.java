@@ -41,13 +41,9 @@ public class WechatApp implements CommandLineRunner
 	@Override
 	public void run(final String... args) throws Exception
 	{
-		System.out.println(redis);
-
 		//每隔110分钟运行一次
 		Flux.interval(Duration.ofMinutes(110L), Schedulers.parallel())
 			.subscribe(l -> client.initWechat());
-
-		redis.get("AccessToken").subscribe(System.out::println);
 
 	}
 }

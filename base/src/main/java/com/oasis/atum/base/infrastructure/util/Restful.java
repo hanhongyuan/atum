@@ -12,9 +12,9 @@ import java.util.Optional;
  * Restful风格返回工具
  * 现在Spring-Cloud ReactiveFunctional拿不到单线程Request,暂不做超媒体.
  */
-public final class Restful
+public interface Restful
 {
-	public static ResponseEntity ok()
+	static ResponseEntity ok()
 	{
 		return ResponseEntity.ok()
 						 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -28,12 +28,12 @@ public final class Restful
 	 * @param data
 	 * @return
 	 */
-	public static <T> ResponseEntity ok(final T data)
+	static <T> ResponseEntity ok(final T data)
 	{
 		return ok(Optional.ofNullable(data));
 	}
 
-	public static <T> ResponseEntity ok(final Optional<T> data)
+	static <T> ResponseEntity ok(final Optional<T> data)
 	{
 		return data.map(o -> ResponseEntity.ok()
 													 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -46,7 +46,7 @@ public final class Restful
 	 * 201 创建资源
 	 * @return
 	 */
-	public static ResponseEntity created()
+	static ResponseEntity created()
 	{
 		return ResponseEntity.created(null)
 						 .cacheControl(CacheControl.noCache())
@@ -58,7 +58,7 @@ public final class Restful
 	 * 204 删除资源
 	 * @return
 	 */
-	public static ResponseEntity noContent()
+	static ResponseEntity noContent()
 	{
 		return ResponseEntity.noContent()
 						 .cacheControl(CacheControl.noCache())
@@ -69,7 +69,7 @@ public final class Restful
 	 * 400请求
 	 * @return
 	 */
-	public static ResponseEntity badRequest()
+	static ResponseEntity badRequest()
 	{
 		return ResponseEntity.badRequest()
 						 .cacheControl(CacheControl.noCache())
@@ -83,7 +83,7 @@ public final class Restful
 	 * @param <T>
 	 * @return
 	 */
-	public static <T> ResponseEntity badRequest(final T data)
+	static <T> ResponseEntity badRequest(final T data)
 	{
 		return ResponseEntity.badRequest()
 						 .cacheControl(CacheControl.noCache())
@@ -97,7 +97,7 @@ public final class Restful
 	 * @param msg  错误信息
 	 * @return
 	 */
-	public static ResponseEntity badRequest(final int code, final String msg)
+	static ResponseEntity badRequest(final int code, final String msg)
 	{
 		val json = new JSONObject();
 		json.put("code", code);
@@ -112,7 +112,7 @@ public final class Restful
 	 * 404资源不存在
 	 * @return
 	 */
-	public static ResponseEntity notFound()
+	static ResponseEntity notFound()
 	{
 		return ResponseEntity.notFound().cacheControl(CacheControl.noCache()).build();
 	}

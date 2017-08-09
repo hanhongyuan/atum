@@ -72,9 +72,8 @@ public class MoorApi
 						 .flatMap(s -> redis.exists(s)
 														 .filter(k -> k)
 														 //存在删除
-														 .map(b -> redis.delete(s))
-														 //204
-														 .map(l -> Restful.noContent()));
+														 .flatMap(b -> redis.delete(s)))
+						 .map(l -> Restful.noContent());
 	}
 
 	@PostMapping("call-up")

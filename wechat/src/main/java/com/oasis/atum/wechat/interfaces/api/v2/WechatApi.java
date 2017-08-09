@@ -73,13 +73,11 @@ public class WechatApi
 	{
 		log.info("校验消息来源是否微信");
 		// 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
-		return client.check(signature, timestamp, nonce).filter(b -> b).flatMap(b ->
-		{
-			val buffer = response.bufferFactory().allocateBuffer().write(echostr.getBytes(StandardCharsets.UTF_8));
-			return response.writeWith(Mono.just(buffer)).then();
-		});
+		return client.check(signature, timestamp, nonce)
+						 .filter(b -> b)
+						 .map(b -> response.bufferFactory().allocateBuffer().write(echostr.getBytes(StandardCharsets.UTF_8)))
+						 .flatMap(bf -> response.writeWith(Mono.just(bf)).then());
 	}
-//	@GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
 
 	/**
 	 * 处理微信服务器发来的消息(XML格式)
@@ -92,54 +90,54 @@ public class WechatApi
 		log.info("处理微信消息(XML)");
 		//解析成Wechat
 		return XMLUtil.parseXML(request)
-			.flatMap(r ->
-			{
-				val openId = r.FromUserName;
-				log.info("openId =====> {}", openId);
-				val msgType = r.MsgType;
-				log.info("消息类型 =====> {}", msgType);
+						 .flatMap(r ->
+						 {
+							 val openId = r.FromUserName;
+							 log.info("openId =====> {}", openId);
+							 val msgType = r.MsgType;
+							 log.info("消息类型 =====> {}", msgType);
 
-				switch (msgType)
-				{
-					//文本
-					case MsgType.TEXT:
-						//图片
-					case MsgType.IMAGE:
-						//链接
-					case MsgType.LINK:
-						//语音
-					case MsgType.VOICE:
-						//视频
-					case MsgType.VIDEO:
-						//短视频
-					case MsgType.SHORT_VIDEO:
-						log.info("临时统一处理");
-						return Mono.just(textResponse(r, "泓华医疗,让健康更简单!"));
-					//事件
-					case MsgType.EVENT:
-						return eventHandle(r);
-					//地理位置
-					case MsgType.LOCATION:
-						val latitude = r.Location_X;
-						val longitude = r.Location_Y;
-						val scale = r.Scale;
-						val label = r.Label;
+							 switch (msgType)
+							 {
+								 //文本
+								 case MsgType.TEXT:
+									 //图片
+								 case MsgType.IMAGE:
+									 //链接
+								 case MsgType.LINK:
+									 //语音
+								 case MsgType.VOICE:
+									 //视频
+								 case MsgType.VIDEO:
+									 //短视频
+								 case MsgType.SHORT_VIDEO:
+									 log.info("临时统一处理");
+									 return Mono.just(textResponse(r, "泓华医疗,让健康更简单!"));
+								 //事件
+								 case MsgType.EVENT:
+									 return eventHandle(r);
+								 //地理位置
+								 case MsgType.LOCATION:
+									 val latitude = r.Location_X;
+									 val longitude = r.Location_Y;
+									 val scale = r.Scale;
+									 val label = r.Label;
 
-						//用户信息
-						return redis.getData(openId, OpenId.class).defaultIfEmpty(new OpenId())
-										 //用户地理位置
-										 .map(d ->
-										 {
-											 val l = d.getLocation();
-											 if (Objects.nonNull(l)) d.createLocation(latitude, longitude, scale, label, l.precision);
-											 else d.createLocation(latitude, longitude, scale, label, null);
-											 return d;
-										 }).map(d -> redis.put(openId, d))
-										 .map(b -> "success");
-					default:
-						return Mono.empty();
-				}
-			});
+									 //用户信息
+									 return redis.getData(openId, OpenId.class).defaultIfEmpty(new OpenId())
+														//用户地理位置
+														.map(d ->
+														{
+															val l = d.getLocation();
+															if (Objects.nonNull(l)) d.createLocation(latitude, longitude, scale, label, l.precision);
+															else d.createLocation(latitude, longitude, scale, label, null);
+															return d;
+														}).map(d -> redis.put(openId, d))
+														.map(b -> "success");
+								 default:
+									 return Mono.empty();
+							 }
+						 });
 	}
 
 	/**

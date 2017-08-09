@@ -1,6 +1,5 @@
 package com.oasis.atum.base.infrastructure.util;
 
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.math.BigInteger;
@@ -12,15 +11,14 @@ import java.security.NoSuchAlgorithmException;
  * 加密工具
  * Created by ryze on 2017/4/28.
  */
-@Slf4j
-public final class EncryptionUtil
+public interface EncryptionUtil
 {
 	/**
 	 * MD5加密
 	 * @param s
 	 * @return
 	 */
-	public static String MD5(final String s)
+	static String MD5(final String s)
 	{
 		try
 		{
@@ -30,7 +28,7 @@ public final class EncryptionUtil
 		}
 		catch (NoSuchAlgorithmException e)
 		{
-			log.error("MD5加密失败", e);
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -40,7 +38,7 @@ public final class EncryptionUtil
 	 * @param s
 	 * @return
 	 */
-	public static String SHA1(final String s)
+	static String SHA1(final String s)
 	{
 		try
 		{
@@ -50,7 +48,7 @@ public final class EncryptionUtil
 		}
 		catch (NoSuchAlgorithmException e)
 		{
-			log.error("SHA1加密失败", e);
+			e.printStackTrace();
 			return null;
 		}
 	}

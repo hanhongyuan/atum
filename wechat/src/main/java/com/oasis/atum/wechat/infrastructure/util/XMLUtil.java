@@ -3,13 +3,15 @@ package com.oasis.atum.wechat.infrastructure.util;
 import com.alibaba.fastjson.JSON;
 import com.oasis.atum.wechat.interfaces.request.WechatRequest;
 import com.oasis.atum.wechat.interfaces.response.WechatResponse;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import lombok.val;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -17,6 +19,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import reactor.core.publisher.Mono;
 
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,25 +29,85 @@ import java.util.stream.Collectors;
  * 微信XML生成工具
  * Created by ryze on 2017/4/29.
  */
-@Slf4j
-public class XMLUtil
+public interface XMLUtil
 {
-	private XMLUtil() {}
+	/**
+	 * 线程工具 XStream
+	 */
+	ThreadLocal<XStreamHolder> X_STREAM_THREAD_LOCAL = ThreadLocal.withInitial(XStreamHolder::new);
 
-	public static String toXML(final Object object)
+	static XStream getXStream()
 	{
-		val xStream = CommonUtil.getXStream();
+		return X_STREAM_THREAD_LOCAL.get().getXStream();
+	}
+
+	final class XStreamHolder
+	{
+		private final XStream xstream;
+
+		XStreamHolder()
+		{
+			xstream = new XStream(new XppDriver()
+			{
+				public HierarchicalStreamWriter createWriter(Writer out)
+				{
+					return new PrettyPrintWriter(out)
+					{
+						// 对所有xml节点的转换都增加CDATA标记
+						boolean cdata = true;
+
+						public void startNode(String name, @SuppressWarnings("rawtypes") Class clazz)
+						{
+							super.startNode(name, clazz);
+						}
+
+						/**
+						 * 双下划线问题
+						 * @param name
+						 * @return
+						 */
+						@Override
+						public String encodeNode(final String name)
+						{
+							return name;
+						}
+
+						protected void writeText(QuickWriter writer, String text)
+						{
+							if (cdata)
+							{
+								writer.write("<![CDATA[");
+								writer.write(text);
+								writer.write("]]>");
+							}
+							else writer.write(text);
+						}
+					};
+				}
+			});
+			xstream.autodetectAnnotations(true);
+		}
+
+		XStream getXStream()
+		{
+			return xstream;
+		}
+	}
+
+	static String toXML(final Object object)
+	{
+		val xStream = getXStream();
 		xStream.alias("xml", object.getClass());
 		xStream.registerConverter(new MapEntryConverter());
 		xStream.alias("item", WechatResponse.NewsArticle.class);
-		return CommonUtil.getXStream().toXML(object);
+		return getXStream().toXML(object);
 	}
 
-	public static <T> T parseXML(final String xml, final Class<T> clazz)
+	static <T> T parseXML(final String xml, final Class<T> clazz)
 	{
 		if (Objects.isNull(xml)) return null;
 
-		val xStream = CommonUtil.getXStream();
+		val xStream = getXStream();
 		xStream.alias("xml", clazz);
 		return (T) xStream.fromXML(xml);
 	}
@@ -54,7 +117,7 @@ public class XMLUtil
 	 * @param request 微信请求
 	 * @return Map数据
 	 */
-	public static Mono<WechatRequest> parseXML(final ServerHttpRequest request)
+	static Mono<WechatRequest> parseXML(final ServerHttpRequest request)
 	{
 		return request.getBody()
 						 //转流
@@ -84,7 +147,7 @@ public class XMLUtil
 	/**
 	 * Map解析转换
 	 */
-	static class MapEntryConverter implements Converter
+	final class MapEntryConverter implements Converter
 	{
 		public boolean canConvert(Class clazz)
 		{

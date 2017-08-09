@@ -10,16 +10,16 @@ import java.util.Objects;
 /**
  * 日期工具包
  */
-public final class DateUtil
+public interface DateUtil
 {
-	private static final String FULLDATE = "yyyy-MM-dd HH:mm:ss";
+	String FULLDATE = "yyyy-MM-dd HH:mm:ss";
 
 	/**
 	 * 年龄
 	 * @param birthday 生日
 	 * @return
 	 */
-	public static Integer getAge(final Date birthday)
+	static Integer getAge(final Date birthday)
 	{
 		val now = DateTime.now().getYear();
 		val bir = new DateTime(birthday).getYear();
@@ -30,7 +30,7 @@ public final class DateUtil
 	 * 时间戳
 	 * @return
 	 */
-	public static long timeStamp()
+	static long timeStamp()
 	{
 		return System.currentTimeMillis() / 1000;
 	}
@@ -40,7 +40,7 @@ public final class DateUtil
 	 * @param str
 	 * @return
 	 */
-	public static Date toDate(final String str)
+	static Date toDate(final String str)
 	{
 		return toDate(str, FULLDATE);
 	}
@@ -51,7 +51,7 @@ public final class DateUtil
 	 * @param pattern
 	 * @return
 	 */
-	public static Date toDate(final String str, final String pattern)
+	static Date toDate(final String str, final String pattern)
 	{
 		if (Objects.nonNull(str) && !str.equals("")) return DateTime.parse(str, DateTimeFormat.forPattern(pattern)).toDate();
 		return null;

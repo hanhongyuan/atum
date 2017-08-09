@@ -1,10 +1,10 @@
 package com.oasis.atum.wechat.application.service.impl;
 
+import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.wechat.application.service.PaymentService;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.PaymentClient;
-import com.oasis.atum.wechat.infrastructure.util.CommonUtil;
 import com.oasis.atum.wechat.infrastructure.util.XMLUtil;
 import com.oasis.atum.wechat.interfaces.request.PaymentRequest;
 import com.oasis.atum.wechat.interfaces.response.Payment;
@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService
 							 val builder = Payment.H5.builder()
 															 .appId(Objects.isNull(data.appid) ? config.getAppletId() : data.appid)
 															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(CommonUtil.random(32))
+															 .nonceStr(BaseUtil.random(32))
 															 .signType("MD5")
 															 .pazkage("prepay_id=" + d.prepay_id);
 							 val sign = client.paymentSign(builder.build(), true);
@@ -63,7 +63,7 @@ public class PaymentServiceImpl implements PaymentService
 							 val builder = Payment.H5.builder()
 															 .appId(config.getAppId())
 															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(CommonUtil.random(32))
+															 .nonceStr(BaseUtil.random(32))
 															 .signType("MD5")
 															 .pazkage("prepay_id=" + d.prepay_id);
 							 val sign = client.paymentSign(builder.build());
@@ -89,7 +89,7 @@ public class PaymentServiceImpl implements PaymentService
 															 .appId(config.getAppId())
 															 .partnerId(config.getMchId())
 															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(CommonUtil.random(32))
+															 .nonceStr(BaseUtil.random(32))
 															 .pazkage("Sign=WXPay")
 															 .prepayId(d.prepay_id);
 							 val sign = client.paymentSign(builder.build());

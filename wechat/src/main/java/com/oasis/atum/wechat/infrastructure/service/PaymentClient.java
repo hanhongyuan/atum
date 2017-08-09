@@ -1,7 +1,7 @@
 package com.oasis.atum.wechat.infrastructure.service;
 
 import com.alibaba.fastjson.JSON;
-import com.oasis.atum.base.infrastructure.util.CommonUtil;
+import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.util.XMLUtil;
@@ -73,7 +73,7 @@ public class PaymentClient
 												 .openid(data.openid)
 												 //设备号
 												 .device_info("WEB")
-												 .nonce_str(CommonUtil.random(32))
+												 .nonce_str(BaseUtil.random(32))
 												 //通知回调地址
 												 .notify_url(config.getPaymentNotifyUri()))
 						 .map(b ->
@@ -125,7 +125,7 @@ public class PaymentClient
 														 //拼接key
 														 .map(s ->
 														 {
-															 val sb = CommonUtil.getStringBuilder().append(s).append("key=");
+															 val sb = BaseUtil.getStringBuilder().append(s).append("key=");
 															 if (type.length != 0) sb.append(config.getAppletKey());
 															 else sb.append(config.getKey());
 															 return sb.toString();

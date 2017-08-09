@@ -1,7 +1,7 @@
 package com.oasis.atum.commons.domain.handler;
 
 import com.oasis.atum.base.infrastructure.service.RedisClient;
-import com.oasis.atum.base.infrastructure.util.CommonUtil;
+import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.commons.domain.cmd.SmsRecordCmd;
 import com.oasis.atum.commons.domain.entity.SmsRecord;
 import com.oasis.atum.commons.infrastructure.service.SmsClient;
@@ -48,7 +48,7 @@ public class SmsRecordCmdHandler
 						//邀请
 					case invitation:
 						//4位随机整数
-						val code = CommonUtil.randomNum(4);
+						val code = BaseUtil.randomNum(4);
 						//Redis记录用户与验证码关系 5分钟验证码过期
 						cmd.mobiles.forEach(s -> redis.put(cmd.smsType + "=>" + s, code, 5L).subscribe());
 						//阿里唯一标识
