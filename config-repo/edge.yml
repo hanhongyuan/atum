@@ -38,7 +38,7 @@ zuul:
       stripPrefix: true
       sensitiveHeaders:
     #数据分析
-    wechat:
+    analytics:
       path: /analytics/**
       stripPrefix: true
       sensitiveHeaders:
