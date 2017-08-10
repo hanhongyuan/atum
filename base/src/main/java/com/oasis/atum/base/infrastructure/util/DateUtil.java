@@ -2,10 +2,12 @@ package com.oasis.atum.base.infrastructure.util;
 
 import lombok.val;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * 日期工具包
@@ -55,5 +57,16 @@ public interface DateUtil
 	{
 		if (Objects.nonNull(str) && !str.equals("")) return DateTime.parse(str, DateTimeFormat.forPattern(pattern)).toDate();
 		return null;
+	}
+
+	/**
+	 * 获取本周的日期
+	 * yyyy-MM-dd
+	 * @return
+	 */
+	static Stream<LocalDate> getWeekDays()
+	{
+		//本周一开始循环
+		return Stream.iterate(LocalDate.parse("2017-08-02").dayOfWeek().withMinimumValue(), d -> d.plusDays(1)).limit(7);
 	}
 }
