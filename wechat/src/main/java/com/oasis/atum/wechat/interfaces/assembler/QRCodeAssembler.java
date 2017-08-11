@@ -6,7 +6,7 @@ import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
 /**
  * 二维码聚合根DTO转换器
  */
-public class QRCodeAssembler
+public interface QRCodeAssembler
 {
 	public static QRCodeDTO toDTO(final QRCode data)
 	{

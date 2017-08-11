@@ -7,6 +7,7 @@ import com.oasis.atum.wechat.domain.request.TagRequest;
 import com.oasis.atum.wechat.infrastructure.repository.TagRepository;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.dto.TagDTO;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -22,18 +23,12 @@ import java.util.List;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class TagServiceImpl implements TagService
 {
 	private final WechatClient   client;
 	private final TagRepository  repository;
 	private final CommandGateway commandGateway;
-
-	public TagServiceImpl(final WechatClient client, final TagRepository repository, final CommandGateway commandGateway)
-	{
-		this.client = client;
-		this.repository = repository;
-		this.commandGateway = commandGateway;
-	}
 
 	@Override
 	public Mono<Void> create(final TagDTO dto)

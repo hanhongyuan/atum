@@ -4,6 +4,7 @@ package com.oasis.atum.wechat.interfaces.api.v2;
 import com.alibaba.fastjson.JSONObject;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,11 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/oauth2")
 public class OAuth2Api
 {
 	private final WechatClient client;
-
-	public OAuth2Api(final WechatClient client)
-	{
-		this.client = client;
-	}
 
 	@GetMapping("openId")
 	public Mono<ResponseEntity> openId(@RequestParam final String code)

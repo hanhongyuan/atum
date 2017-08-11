@@ -5,14 +5,14 @@ server:
 #服务注册
 eureka:
   instance:
-    prefer-ip-address: true
+   hostname: localhost
   client:
     #不把自己注册为服务
     register-with-eureka: false
     fetch-registry: false
     #注册地址
     service-url:
-      defaultZone: http://localhost:${server.port}/eureka
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
 
 ---
 
@@ -23,11 +23,11 @@ server:
 #服务注册
 eureka:
  instance:
-   prefer-ip-address: true
+   hostname: wxtest.oasisapp.cn
  client:
    #不把自己注册为服务
    register-with-eureka: false
    fetch-registry: false
    #注册地址
    service-url:
-     defaultZone: http://wetest.oasisapp.cn:${server.port}/eureka
+     defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka

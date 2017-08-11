@@ -15,11 +15,11 @@ server:
 #服务注册
 eureka:
   instance:
-    prefer-ip-address: true
+   hostname: localhost
   client:
     #注册地址
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 ---
 
@@ -42,8 +42,8 @@ server:
 #服务注册
 eureka:
   instance:
-    prefer-ip-address: true
+   hostname: wxtest.oasisapp.cn
   client:
     #注册地址
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

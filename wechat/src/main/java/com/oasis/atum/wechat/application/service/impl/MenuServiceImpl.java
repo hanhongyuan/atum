@@ -6,6 +6,7 @@ import com.oasis.atum.wechat.domain.request.MenuRequest;
 import com.oasis.atum.wechat.domain.service.MenuDomainService;
 import com.oasis.atum.wechat.infrastructure.repository.MenuRepository;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
@@ -19,21 +20,13 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @Transactional
+@AllArgsConstructor
 public class MenuServiceImpl implements MenuService
 {
 	private final WechatClient      client;
 	private final MenuDomainService domain;
 	private final MenuRepository    persistence;
 	private final CommandGateway    commandGateway;
-
-	public MenuServiceImpl(final WechatClient client, final MenuDomainService domain, final MenuRepository persistence,
-												 final CommandGateway commandGateway)
-	{
-		this.client = client;
-		this.domain = domain;
-		this.persistence = persistence;
-		this.commandGateway = commandGateway;
-	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)

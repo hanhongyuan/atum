@@ -3,6 +3,7 @@ package com.oasis.atum.wechat.domain.handler;
 import com.oasis.atum.wechat.domain.entity.Menu;
 import com.oasis.atum.wechat.domain.event.MenuEvent;
 import com.oasis.atum.wechat.infrastructure.repository.MenuRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.axonframework.commandhandling.model.Repository;
@@ -16,16 +17,11 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class MenuEventHandler
 {
 	private final Repository<Menu> repository;
 	private final MenuRepository   persistence;
-
-	public MenuEventHandler(final Repository<Menu> repository, final MenuRepository persistence)
-	{
-		this.repository = repository;
-		this.persistence = persistence;
-	}
 
 	@EventHandler
 	public void handle(final MenuEvent.Created event)

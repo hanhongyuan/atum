@@ -9,6 +9,7 @@ import com.oasis.atum.commons.domain.enums.CallType;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.BindingRequest;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -33,6 +34,7 @@ import java.util.Objects;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/7moor")
 public class MoorApi
 {
@@ -42,12 +44,6 @@ public class MoorApi
 	 * Redis_key 手机绑定关系
 	 */
 	private static final String REDIS_KEY_BINDING = "binding=>";
-
-	public MoorApi(final RedisClient redis, final CallUpService service)
-	{
-		this.redis = redis;
-		this.service = service;
-	}
 
 	@PutMapping("binding")
 	public Mono<ResponseEntity> binding(@RequestBody final Mono<BindingRequest> data)

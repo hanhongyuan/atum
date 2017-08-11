@@ -4,6 +4,7 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,12 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/templates")
 public class TemplateApi
 {
 	private final WechatClient                              client;
 	private final WechatConfiguration.TemplateConfiguration template;
-
-	public TemplateApi(final WechatClient client, final WechatConfiguration.TemplateConfiguration template)
-	{
-		this.client = client;
-		this.template = template;
-	}
 
 	@PostMapping("registered")
 	public Mono<ResponseEntity> registered(@RequestBody final Mono<TemplateRequest.Send> data)

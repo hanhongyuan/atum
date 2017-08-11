@@ -7,6 +7,7 @@ import com.oasis.atum.wechat.infrastructure.repository.QRCodeRepository;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.assembler.QRCodeAssembler;
 import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -24,18 +25,12 @@ import java.util.Date;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class QRCodeServiceImpl implements QRCodeService
 {
 	private final WechatClient     client;
 	private final QRCodeRepository persistence;
 	private final CommandGateway   commandGateway;
-
-	public QRCodeServiceImpl(final WechatClient client, final QRCodeRepository persistence, final CommandGateway commandGateway)
-	{
-		this.client = client;
-		this.persistence = persistence;
-		this.commandGateway = commandGateway;
-	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)

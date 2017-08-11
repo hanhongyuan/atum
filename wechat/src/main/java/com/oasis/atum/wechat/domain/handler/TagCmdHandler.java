@@ -3,6 +3,7 @@ package com.oasis.atum.wechat.domain.handler;
 import com.oasis.atum.wechat.domain.cmd.TagCmd;
 import com.oasis.atum.wechat.domain.entity.Tag;
 import com.oasis.atum.wechat.domain.request.TagRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.axonframework.commandhandling.CommandHandler;
@@ -14,14 +15,10 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class TagCmdHandler
 {
 	private final Repository<Tag> repository;
-
-	public TagCmdHandler(final Repository<Tag> repository)
-	{
-		this.repository = repository;
-	}
 
 	@CommandHandler
 	public TagRequest.Create handle(final TagCmd.Create cmd)

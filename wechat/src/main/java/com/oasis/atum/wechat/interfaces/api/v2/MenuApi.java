@@ -1,7 +1,9 @@
 package com.oasis.atum.wechat.interfaces.api.v2;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.MenuService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/menus")
 public class MenuApi
 {
@@ -24,11 +27,6 @@ public class MenuApi
 	private static final String CHILDREN_RESOURCES = "{parentId}/childrens";
 	//子菜单资源
 	private static final String CHILDREN_RESOURCE  = "{parentId}/childrens/{id}";
-
-	public MenuApi(final MenuService service)
-	{
-		this.service = service;
-	}
 
 	@PostMapping("reset")
 	public Mono<ResponseEntity> reset()

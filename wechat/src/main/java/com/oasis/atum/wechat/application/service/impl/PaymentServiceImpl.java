@@ -8,6 +8,7 @@ import com.oasis.atum.wechat.infrastructure.service.PaymentClient;
 import com.oasis.atum.wechat.infrastructure.util.XMLUtil;
 import com.oasis.atum.wechat.interfaces.request.PaymentRequest;
 import com.oasis.atum.wechat.interfaces.response.Payment;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -23,16 +24,11 @@ import java.util.Objects;
 @Slf4j
 @Service
 @Transactional
+@AllArgsConstructor
 public class PaymentServiceImpl implements PaymentService
 {
 	private final PaymentClient       client;
 	private final WechatConfiguration config;
-
-	public PaymentServiceImpl(final PaymentClient client, final WechatConfiguration config)
-	{
-		this.client = client;
-		this.config = config;
-	}
 
 	@Override
 	public Mono<Payment.H5> applet(final PaymentRequest data)

@@ -11,6 +11,7 @@ import com.oasis.atum.wechat.infrastructure.util.XMLUtil;
 import com.oasis.atum.wechat.interfaces.request.WechatRequest;
 import com.oasis.atum.wechat.interfaces.response.OpenId;
 import com.oasis.atum.wechat.interfaces.response.WechatResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.util.Objects;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2")
 public class WechatApi
 {
@@ -42,14 +44,6 @@ public class WechatApi
 	private final WechatClient        client;
 	private final WechatConfiguration config;
 	private final TagService          tagService;
-
-	public WechatApi(final RedisClient redis, final WechatClient client, final WechatConfiguration config, final TagService tagService)
-	{
-		this.redis = redis;
-		this.client = client;
-		this.config = config;
-		this.tagService = tagService;
-	}
 
 	@GetMapping("{openId}")
 	public Mono<ResponseEntity> openId(@PathVariable final String openId)

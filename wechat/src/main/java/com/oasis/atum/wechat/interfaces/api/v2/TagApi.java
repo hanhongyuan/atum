@@ -3,6 +3,7 @@ package com.oasis.atum.wechat.interfaces.api.v2;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.TagService;
 import com.oasis.atum.wechat.interfaces.dto.TagDTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,15 +17,11 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/tags")
 public class TagApi
 {
 	private final TagService service;
-
-	public TagApi(final TagService service)
-	{
-		this.service = service;
-	}
 
 	@PostMapping
 	public Mono<ResponseEntity> create(@RequestBody final Mono<TagDTO> data)

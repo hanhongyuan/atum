@@ -6,6 +6,7 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.response.JsSDK;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,12 @@ import java.net.URL;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/js-sdk")
 public class JsApi
 {
 	private final WechatClient        client;
 	private final WechatConfiguration config;
-
-	public JsApi(final WechatClient client, final WechatConfiguration config)
-	{
-		this.client = client;
-		this.config = config;
-	}
 
 	/**
 	 * 获取JsApi签名
