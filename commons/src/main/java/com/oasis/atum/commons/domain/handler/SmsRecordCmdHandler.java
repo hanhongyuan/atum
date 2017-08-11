@@ -5,6 +5,7 @@ import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.commons.domain.cmd.SmsRecordCmd;
 import com.oasis.atum.commons.domain.entity.SmsRecord;
 import com.oasis.atum.commons.infrastructure.service.SmsClient;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.axonframework.commandhandling.CommandHandler;
@@ -16,19 +17,12 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class SmsRecordCmdHandler
 {
 	private final RedisClient           redis;
 	private final SmsClient             client;
 	private final Repository<SmsRecord> repository;
-
-	public SmsRecordCmdHandler(final RedisClient redis, final SmsClient client,
-														 final Repository<SmsRecord> repository)
-	{
-		this.redis = redis;
-		this.client = client;
-		this.repository = repository;
-	}
 
 	@CommandHandler
 	public void handle(final SmsRecordCmd.Create cmd)

@@ -2,18 +2,24 @@ package com.oasis.atum.commons.application.service.impl;
 
 import com.oasis.atum.commons.application.service.CallUpService;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
+import com.oasis.atum.commons.domain.entity.CallUpRecord;
 import com.oasis.atum.commons.domain.enums.CallState;
 import com.oasis.atum.commons.domain.enums.CallType;
 import com.oasis.atum.commons.domain.request.CallUpRequest;
+import com.oasis.atum.commons.infrastructure.repository.CallUpRecordRepository;
 import com.oasis.atum.commons.infrastructure.service.MoorClient;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -24,23 +30,20 @@ import java.util.Date;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class CallUpServiceImpl implements CallUpService
 {
-	private final MoorClient     client;
-	private final CommandGateway commandGateway;
-
-	public CallUpServiceImpl(final MoorClient client, final CommandGateway commandGateway)
-	{
-		this.client = client;
-		this.commandGateway = commandGateway;
-	}
+	private final MoorClient             client;
+	private final CallUpRecordRepository persistence;
+	private final CommandGateway         commandGateway;
 
 	@Override
 	public Mono<String> callUp(final CallUpDTO data)
 	{
 		return Mono.justOrEmpty(data)
-						 .map(d -> CallUpRecordCmd.Create.builder().callMobile(data.callMobile)
-												 .callToMobile(data.callToMobile).maxCallTime(data.maxCallTime).createTime(new Date()).build())
+						 .map(d -> CallUpRecordCmd.Create.builder().callMobile(d.callMobile)
+												 .callToMobile(d.callToMobile).maxCallTime(d.maxCallTime)
+												 .noticeUri(d.noticeUri).createTime(new Date()).build())
 						 .map(c ->
 						 {
 							 //异步处理结果
@@ -60,34 +63,73 @@ public class CallUpServiceImpl implements CallUpService
 													 final CallState callState, final String actionId,
 													 final String recordFile, final String fileServer)
 	{
-		return Mono.justOrEmpty(actionId)
-						 //如果ActionID存在则更新现在通话记录
-						 .map(id -> (CallUpRecordCmd) CallUpRecordCmd.Update.builder()
-																						.id(id)
-																						.callType(callType)
-																						.ringTime(ring)
-																						.beginTime(begin)
-																						.endTime(end)
-																						.callState(callState)
-																						.recordFile(recordFile)
-																						.fileServer(fileServer)
-																						.build())
-						 //不存在则新增一条通话记录
-						 .defaultIfEmpty(CallUpRecordCmd.Save.builder()
-															 .callMobile(callNo)
-															 .callToMobile(calledNo)
-															 .callType(callType)
-															 .ringTime(ring)
-															 .beginTime(begin)
-															 .endTime(end)
-															 .callState(callState)
-															 .recordFile(recordFile)
-															 .fileServer(fileServer)
-															 .createTime(new Date())
-															 .build())
-						 //发送命令
-						 .map(commandGateway::send)
-						 .then();
+//		return Mono.justOrEmpty(actionId)
+//			.map(id -> CallUpRecordCmd.Update.builder()
+//																						.id(id)
+//																						.callType(callType)
+//																						.ringTime(ring)
+//																						.beginTime(begin)
+//																						.endTime(end)
+//																						.callState(callState)
+//																						.recordFile(recordFile)
+//																						.fileServer(fileServer)
+//																						.build())
+//			.map(commandGateway::send)
+
+
+		//更新命令
+		val cmd = CallUpRecordCmd.Update.builder()
+								.id(actionId).callType(callType)
+								.ringTime(ring)
+								.beginTime(begin)
+								.endTime(end)
+								.callState(callState)
+								.recordFile(recordFile)
+								.fileServer(fileServer)
+								.build();
+		//发送命令
+		commandGateway.send(cmd);
+
+
+		persistence.findById(actionId)
+			.map(CallUpRecord::getNoticeUri)
+			.map(s -> WebClient.builder()
+			.clientConnector(new ReactorClientHttpConnector())
+			.build()
+			.post()
+			.uri(s)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.accept(MediaType.APPLICATION_JSON_UTF8)
+			.body())；
+
+//		return Mono.justOrEmpty(actionId)
+//						 //如果ActionID存在则更新现在通话记录
+//						 .map(id -> (CallUpRecordCmd) CallUpRecordCmd.Update.builder()
+//																						.id(id)
+//																						.callType(callType)
+//																						.ringTime(ring)
+//																						.beginTime(begin)
+//																						.endTime(end)
+//																						.callState(callState)
+//																						.recordFile(recordFile)
+//																						.fileServer(fileServer)
+//																						.build())
+//						 //不存在则新增一条通话记录
+//						 .defaultIfEmpty(CallUpRecordCmd.Save.builder()
+//															 .callMobile(callNo)
+//															 .callToMobile(calledNo)
+//															 .callType(callType)
+//															 .ringTime(ring)
+//															 .beginTime(begin)
+//															 .endTime(end)
+//															 .callState(callState)
+//															 .recordFile(recordFile)
+//															 .fileServer(fileServer)
+//															 .createTime(new Date())
+//															 .build())
+//						 //发送命令
+//						 .map(commandGateway::send)
+//						 .then();
 
 //		//如果ActionID存在则更新现在通话记录
 //		Optional.ofNullable(actionId).map(id ->

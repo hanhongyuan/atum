@@ -32,17 +32,6 @@ public interface CallUpRecordEvent
 	}
 
 	/**
-	 * 保存
-	 */
-	@Builder
-	final class Saved implements CallUpRecordEvent
-	{
-		@TargetAggregateIdentifier
-		public final String               id;
-		public final CallUpRecordCmd.Save cmd;
-	}
-
-	/**
 	 * 回调
 	 */
 	@Builder

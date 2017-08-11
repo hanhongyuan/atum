@@ -22,6 +22,13 @@ public interface Restful
 						 .build();
 	}
 
+	static <T> ResponseEntity ok(final String key, final T data)
+	{
+		val json = new JSONObject();
+		json.put(key, data);
+		return ok(json);
+	}
+
 	/**
 	 * 资源存在 => 200
 	 * 不存在 => 404

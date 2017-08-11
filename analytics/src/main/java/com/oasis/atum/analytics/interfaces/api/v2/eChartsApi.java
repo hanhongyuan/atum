@@ -3,6 +3,7 @@ package com.oasis.atum.analytics.interfaces.api.v2;
 
 import com.oasis.atum.base.infrastructure.util.Restful;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.joda.time.LocalDate;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import static com.oasis.atum.base.infrastructure.util.DateUtil.getWeekDays;
 
+/**
+ * 图表
+ */
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("v2")
@@ -27,6 +34,8 @@ public class eChartsApi
 	@GetMapping("orders/success")
 	public Mono<ResponseEntity> ordersSuccess()
 	{
+		log.info("本周每天成单量");
+
 		//本周每天成单量
 		val list = template.queryForList(
 			"SELECT LEFT(createtime,10) date ,count(*) count\n" +
@@ -58,6 +67,8 @@ public class eChartsApi
 	@GetMapping("orders/money")
 	public Mono<ResponseEntity> ordersMoney()
 	{
+		log.info("本周每日订单金额");
+
 		//本周每日订单金额
 		val list = template.queryForList(
 			"SELECT LEFT(createtime,10) date ,SUM(chargemoney) charge ,SUM(actualmoney) actual\n" +
@@ -78,12 +89,20 @@ public class eChartsApi
 								 //无数据天数默认0
 								 val empty = new HashMap<String, Object>();
 								 empty.put("date", d.toString("yyyy-MM-dd"));
-								 empty.put("charge", 0);
+								 empty.put("charge", 1);
 								 empty.put("actual", 0);
 								 return data.defaultIfEmpty(empty);
 							 }
 						 )
 						 .collectList()
 						 .map(Restful::ok);
+	}
+
+	public static void main(String[] args)
+	{
+		Stream.of(1,3,5,7,9,2)
+			.filter(i -> i >=5)
+			.map(i -> i*2+"")
+			.forEach(System.out::println);
 	}
 }

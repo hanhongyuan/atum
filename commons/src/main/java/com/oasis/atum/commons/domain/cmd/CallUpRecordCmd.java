@@ -23,6 +23,7 @@ public interface CallUpRecordCmd
 		public final String callMobile;
 		public final String callToMobile;
 		public final Long   maxCallTime;
+		public final String noticeUri;
 		public final Date   createTime;
 	}
 
@@ -44,29 +45,6 @@ public interface CallUpRecordCmd
 		public final String    fileServer;
 		public final Boolean   isSuccess;
 		public final String    message;
-	}
-
-	/**
-	 * 保存
-	 */
-	@Builder
-	final class Save implements CallUpRecordCmd
-	{
-		@TargetAggregateIdentifier
-		public final String    id;
-		public final String    callMobile;
-		public final String    callToMobile;
-		public final Long      callTime;
-		public final CallType  callType;
-		public final Date      ringTime;
-		public final Date      beginTime;
-		public final Date      endTime;
-		public final CallState callState;
-		public final String    recordFile;
-		public final String    fileServer;
-		public final Boolean   isSuccess;
-		public final String    message;
-		public final Date      createTime;
 	}
 
 	/**

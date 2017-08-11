@@ -59,6 +59,8 @@ public class CallUpRecord
 	private String    fileServer;
 	//接口调用是否成功
 	private Boolean   isSuccess;
+	//通知地址
+	private String    noticeUri;
 	/**
 	 * a)Message:4 被叫已接听
 	 * b)Message:0 或 8 线路繁忙/异常(某些情况下，也可能为 被叫拒接/振铃未接/占线/关机/空号)
@@ -96,16 +98,6 @@ public class CallUpRecord
 		apply(event);
 	}
 
-	@CommandHandler
-	public void save(final CallUpRecordCmd.Save cmd)
-	{
-		log.info("通话记录保存命令处理");
-		//发布通话记录保存事件
-		val event = CallUpRecordEvent.Saved.builder().id(cmd.id).cmd(cmd).build();
-		apply(event);
-
-	}
-
 	@EventSourcingHandler
 	public void handle(final CallUpRecordEvent.Created event)
 	{
@@ -113,6 +105,7 @@ public class CallUpRecord
 		callMobile = event.cmd.callMobile;
 		callToMobile = event.cmd.callToMobile;
 		maxCallTime = event.cmd.maxCallTime;
+		noticeUri = event.cmd.noticeUri;
 		createTime = event.cmd.createTime;
 	}
 
@@ -134,22 +127,6 @@ public class CallUpRecord
 	{
 		isSuccess = Validator.either(event.cmd.isSuccess, isSuccess);
 		message = Validator.either(event.cmd.message, message);
-	}
-
-	@EventSourcingHandler
-	public void handle(final CallUpRecordEvent.Saved event)
-	{
-		callMobile = Validator.either(event.cmd.callMobile, callMobile);
-		callToMobile = Validator.either(event.cmd.callToMobile, callToMobile);
-		callTime = Validator.either(event.cmd.callTime, callTime);
-		callType = Validator.either(event.cmd.callType, callType);
-		ringTime = Validator.either(event.cmd.ringTime, ringTime);
-		beginTime = Validator.either(event.cmd.beginTime, beginTime);
-		endTime = Validator.either(event.cmd.endTime, endTime);
-		callState = Validator.either(event.cmd.callState, callState);
-		recordFile = Validator.either(event.cmd.recordFile, recordFile);
-		fileServer = Validator.either(event.cmd.fileServer, fileServer);
-		createTime = event.cmd.createTime;
 	}
 
 }

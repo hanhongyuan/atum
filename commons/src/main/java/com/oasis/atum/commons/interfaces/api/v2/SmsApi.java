@@ -7,6 +7,7 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.commons.application.service.SmsService;
 import com.oasis.atum.commons.interfaces.dto.SmsDTO;
 import com.oasis.atum.commons.interfaces.request.SmsCallBack;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -31,17 +32,12 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/sms")
 public class SmsApi
 {
 	private final RedisClient redis;
 	private final SmsService  service;
-
-	public SmsApi(final RedisClient redis, final SmsService service)
-	{
-		this.redis = redis;
-		this.service = service;
-	}
 
 	@PostMapping
 	public Mono<ResponseEntity> captcha(@RequestBody Mono<SmsDTO> data)

@@ -7,6 +7,7 @@ import com.aliyun.mns.model.BatchSmsAttributes;
 import com.aliyun.mns.model.MessageAttributes;
 import com.aliyun.mns.model.RawTopicMessage;
 import com.oasis.atum.commons.infrastructure.config.SmsConfiguration;
+import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -20,16 +21,11 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class SmsClient
 {
 	private final SmsConfiguration                       config;
 	private final SmsConfiguration.TemplateConfiguration templateConfig;
-
-	public SmsClient(final SmsConfiguration config, final SmsConfiguration.TemplateConfiguration templateConfig)
-	{
-		this.config = config;
-		this.templateConfig = templateConfig;
-	}
 
 	/**
 	 * 发送验证码

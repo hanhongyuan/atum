@@ -9,6 +9,7 @@ import com.oasis.atum.commons.domain.enums.CallType;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.BindingRequest;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import javax.xml.ws.Response;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Objects;
 
 /**
@@ -51,6 +53,7 @@ public class MoorApi
 	public Mono<ResponseEntity> binding(@RequestBody final Mono<BindingRequest> data)
 	{
 		log.info("临时绑定电话关系 =====> {}", data);
+
 		return data
 						 //字段非空
 						 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
@@ -80,14 +83,14 @@ public class MoorApi
 	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
 	{
 		log.info("打电话");
-		return data.flatMap(service::callUp).map(Restful::ok);
+		return data.flatMap(service::callUp)
+						 .map(s -> Restful.ok("actionId", s));
 	}
 
 	@PostMapping("call-up/back")
 	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<CallUpCallBack> data)
 	{
 		log.info("打电话回调");
-		log.info("data =====> {}", data);
 
 		return data
 						 .flatMap(service::updateCallUp)
@@ -112,6 +115,7 @@ public class MoorApi
 	 * @return
 	 */
 	@GetMapping("hang-up")
+	@SneakyThrows(UnsupportedEncodingException.class)
 	public Mono<ResponseEntity> hangUp(@RequestParam(name = "CallNo") final String callNo, @RequestParam(name = "CalledNo") final String calledNo,
 																		 @RequestParam(name = "CallSheetID", required = false) final String callSheetID,
 																		 @RequestParam(name = "CallType", required = false) final CallType callType,
@@ -162,9 +166,13 @@ public class MoorApi
 		log.info(accountId);
 		log.info(accountName);
 
-		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(ring),
-			DateUtil.toDate(begin), DateUtil.toDate(end),
+		//时间需要解码
+		val charset = "UTF-8";
+
+		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(URLDecoder.decode(ring, charset)),
+			DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
 			state, webcallActionID,
-			recordFile, fileServer).map(v -> Restful.ok());
+			recordFile, fileServer)
+						 .map(v -> Restful.ok());
 	}
 }

@@ -34,13 +34,11 @@
 	[
 	  {
 		name: "应收金额",
-		type: "line",
-		data: []
+		type: "bar"
 	  },
 	  {
 		name: "实收金额",
-		type: "line",
-		data: []
+		type: "line"
 	  }
 	]
   });
@@ -53,6 +51,7 @@
 	//日期列
 	const dates = data.map(function (data)
 	{
+//	  alert(data.date);
 	  return data.date;
 	});
 	//应收金额
@@ -65,6 +64,8 @@
 	{
 	  return data.actual;
 	})
+    console.log(charges);
+	console.log(actuals);
 
 	// 填入数据
 	myChart.setOption(
@@ -77,13 +78,13 @@
 	  [
 		{
 		  // 根据名字对应到相应的系列
-		  name: '应收金额',
+		  name: "应收金额",
 		  data: charges
 		},
-		{
-		  name: "实收金额",
-		  data: actuals
-		}
+        {
+          name: "实收金额",
+          data: actuals
+        }
 	  ]
 	});
   });
