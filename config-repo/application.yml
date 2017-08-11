@@ -12,13 +12,13 @@ logging:
   file: logs/${spring.application.name}.log
 
 #服务注册
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    #注册地址
-    service-url:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    #注册地址
+#    service-url:
+#      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
 
 #方便其他配置文件调用
 accounts:
@@ -53,7 +53,7 @@ security:
     #资源设置
     resource:
       #获取用户信息Uri
-      user-info-uri: http://${eureka.instance.hostname}:${accounts.port}/v2/me
+      user-info-uri: http://localhost:${accounts.port}/v2/me
       #不使用check_token
       prefer-token-info: false
       #令牌类型 Json Web Token
