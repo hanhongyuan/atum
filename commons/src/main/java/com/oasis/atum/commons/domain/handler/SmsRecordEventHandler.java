@@ -3,6 +3,7 @@ package com.oasis.atum.commons.domain.handler;
 import com.oasis.atum.commons.domain.entity.SmsRecord;
 import com.oasis.atum.commons.domain.event.SmsRecordEvent;
 import com.oasis.atum.commons.infrastructure.repository.SmsRecordRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventhandling.EventHandler;
@@ -13,16 +14,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class SmsRecordEventHandler
 {
 	private final Repository<SmsRecord> repository;
 	private final SmsRecordRepository   persistence;
-
-	public SmsRecordEventHandler(final Repository<SmsRecord> repository, final SmsRecordRepository persistence)
-	{
-		this.repository = repository;
-		this.persistence = persistence;
-	}
 
 	@EventHandler
 	public void handle(final SmsRecordEvent.Created event)

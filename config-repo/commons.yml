@@ -1,21 +1,21 @@
 spring:
-  profiles: prod
+  profiles: default,dev
   data:
     #mongodb设置
     mongodb:
-      host: wechat.oasiscare.cn
+      host: wxtest.oasisapp.cn
       port: 9999
       database: commons
       events:
         collection.name: events
         snapshot.collection.name: snapshots
-      username: oasis
-      password: oasisadmin
+      username: "{cipher}AQBTDa/nbmd0cVNt66iKV+idQZlppXu/zoziTQ+fqg6s7+ksufryFg6bryo1R+r92vGdplc+HWVM760MY9ABhXleTE3eeQOU+DbgC3JETtcbxT0CQbM66a//v/fIqFbZxo680cm8A8kbmCGhHo+6VQ/9hpq8J4E9XBItlR1S3ipm9wkMdY+kldhK4oUDVSzf1VnbDpCkJ7fvVwWWLYQaNjIQJhdAFKg4/t1Y4KmyNj98ecCGkN1NY8iRnbNbr476nMLn+h95JKz5tcSynmewpWdVg7GQIw/cPldZw6fgv51FSg2ii87wuGfl2HHlmoG+o4K0pt5RWi1SDMxZ/aSK7M/CdAvE2+yx6nypwPnUS2qIZTUkk8mBw4lWPi7VYrDc6AU="
+      password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
   #Redis配置
   redis:
     port: 6379
     #主机地址
-    host: 10.25.95.108
+    host: wxtest.oasisapp.cn
     pool:
       #连接池最大的活跃连接数，-1表示无限
       max-active: 8
@@ -27,7 +27,7 @@ spring:
       min-idle: 3
     #连接超时时间，毫秒单位
     timeout: 2000
-    password: oasisadmin
+    password: "{cipher}AQBQdIalnRqhEllF+JP6FsARIBHFzxa7iHpZdLZUC9r0M2T5epyMmUTsDos3TFjKJPne/52kTcvajeAZz9zU9AlX6JklrFRmSV/vbHC+W69XGqMbzjsGrVwdLLrbj1DlVZ8ghSBtGv9C8XHiuF7EYC5Fee78NwfR27e5fP4QKwU6UQJU8YXMLpZ1isqv5bsCKDBIXMxUMb2NFZnmLtJHxdQihsSAe21P17OcscFU9GHBEctGjIqvDxSYSTx2iFJG/gA8WyenKF1B5yo1pGQN34GMeSKvZhCytzxlhDW0AvrYEK2OBtUf3EXrLl/UcaXZk0AXb4OIOAI1Q/G7qjc+U/b6fD0GNw0fjMxZsTEYrDK4akRFZbpJHEAC2L/C0qWt4tQ="
 
 server:
   #端口
@@ -55,7 +55,7 @@ security:
       clientId: commons
       clientSecret: commons
       #token获取Uri
-      accessTokenUri: http://wechat.oasiscare.cn:${accounts.port}/oauth/token
+      accessTokenUri: http://localhost:${accounts.port}/oauth/token
       #授权类型 客户端
       grant-type: client_credentials
       #授权范围

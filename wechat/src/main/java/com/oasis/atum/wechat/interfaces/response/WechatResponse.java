@@ -85,21 +85,21 @@ public interface WechatResponse
 		@JSONField(name = "url")
 		public final String uri;
 
-//		@JSONCreator
-//		public NewsItem(@JSONField(name = "title") final String title, @JSONField(name = "author") final String author,
-//										@JSONField(name = "digest") final String digest, @JSONField(name = "content") final String content,
-//										@JSONField(name = "content_source_url") final String contentSourceUri,
-//										@JSONField(name = "thumb_media_id") final String thumbMediaId,
-//										@JSONField(name = "thumb_url") final String thumbUri, @JSONField(name = "url") final String uri)
-//		{
-//			this.title = title;
-//			this.author = author;
-//			this.digest = digest;
-//			this.content = content;
-//			this.contentSourceUri = contentSourceUri;
-//			this.thumbMediaId = thumbMediaId;
-//			this.thumbUri = thumbUri;
-//			this.uri = uri;
-//		}
+		@JSONCreator
+		public NewsItem(@JSONField(name = "title") final String title, @JSONField(name = "author") final String author,
+										@JSONField(name = "digest") final String digest, @JSONField(name = "content") final String content,
+										@JSONField(name = "content_source_url") final String contentSourceUri,
+										@JSONField(name = "thumb_media_id") final String thumbMediaId,
+										@JSONField(name = "thumb_url") final String thumbUri, @JSONField(name = "url") final String uri)
+		{
+			this.title = title;
+			this.author = author;
+			this.digest = digest;
+			this.content = content;
+			this.contentSourceUri = contentSourceUri;
+			this.thumbMediaId = thumbMediaId;
+			this.thumbUri = thumbUri;
+			this.uri = uri;
+		}
 	}
 }

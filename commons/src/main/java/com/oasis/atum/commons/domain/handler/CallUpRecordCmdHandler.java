@@ -3,6 +3,7 @@ package com.oasis.atum.commons.domain.handler;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.entity.CallUpRecord;
 import com.oasis.atum.commons.domain.request.CallUpRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Repository;
@@ -13,14 +14,10 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class CallUpRecordCmdHandler
 {
 	private final Repository<CallUpRecord> repository;
-
-	public CallUpRecordCmdHandler(final Repository<CallUpRecord> repository)
-	{
-		this.repository = repository;
-	}
 
 	@CommandHandler
 	public CallUpRequest handle(final CallUpRecordCmd.Create cmd)

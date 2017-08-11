@@ -3,6 +3,7 @@ package com.oasis.atum.wechat;
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
 import com.oasis.atum.base.infrastructure.config.HttpConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
+import com.oasis.atum.base.infrastructure.service.RedisClient;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import org.springframework.boot.CommandLineRunner;
@@ -24,10 +25,12 @@ import java.time.Duration;
 public class WechatApp implements CommandLineRunner
 {
 	private final WechatClient client;
+	private final RedisClient redis;
 
-	public WechatApp(final WechatClient client)
+	public WechatApp(final WechatClient client, final RedisClient redis)
 	{
 		this.client = client;
+		this.redis = redis;
 	}
 
 	public static void main(final String[] args)

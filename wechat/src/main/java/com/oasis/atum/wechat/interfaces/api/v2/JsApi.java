@@ -1,11 +1,12 @@
 package com.oasis.atum.wechat.interfaces.api.v2;
 
-import com.oasis.atum.base.infrastructure.util.CommonUtil;
+import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.response.JsSDK;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,12 @@ import java.net.URL;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/js-sdk")
 public class JsApi
 {
 	private final WechatClient        client;
 	private final WechatConfiguration config;
-
-	public JsApi(final WechatClient client, final WechatConfiguration config)
-	{
-		this.client = client;
-		this.config = config;
-	}
 
 	/**
 	 * 获取JsApi签名
@@ -47,7 +43,7 @@ public class JsApi
 		if (!isOasisNet(uri)) return Mono.just(Restful.ok());
 		//当前时间的秒数
 		val timeStamp = DateUtil.timeStamp();
-		val nonceStr  = CommonUtil.random(32);
+		val nonceStr  = BaseUtil.random(32);
 		//获取Js-SDK签名
 		return client.jsSign(timeStamp, nonceStr, uri)
 						 //构建jJs-SDK参数

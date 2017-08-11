@@ -4,6 +4,7 @@ import com.oasis.atum.base.infrastructure.constant.RequestField;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.QRCodeService;
 import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -23,15 +24,11 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/qrcodes")
 public class QRCodeApi
 {
 	private final QRCodeService service;
-
-	public QRCodeApi(final QRCodeService service)
-	{
-		this.service = service;
-	}
 
 	@GetMapping(params = {RequestField.PAGE, RequestField.SIZE})
 	public Mono<ResponseEntity> list(@RequestParam final Integer page, @RequestParam final Integer size)

@@ -10,14 +10,14 @@ import java.nio.charset.StandardCharsets;
 /**
  * 文件工具
  */
-public final class FileUtil
+public interface FileUtil
 {
 	/**
 	 * 异步读文件
 	 * @param filename
 	 * @return
 	 */
-	public static String read(final String filename)
+	static String read(final String filename)
 	{
 		try
 		{

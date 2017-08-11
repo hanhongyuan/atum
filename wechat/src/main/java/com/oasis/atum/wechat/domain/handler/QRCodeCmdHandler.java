@@ -3,6 +3,7 @@ package com.oasis.atum.wechat.domain.handler;
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
 import com.oasis.atum.wechat.domain.entity.QRCode;
 import com.oasis.atum.wechat.domain.request.QRCodeRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.axonframework.commandhandling.CommandHandler;
@@ -16,14 +17,10 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class QRCodeCmdHandler
 {
 	private final Repository<QRCode> repository;
-
-	public QRCodeCmdHandler(final Repository<QRCode> repository)
-	{
-		this.repository = repository;
-	}
 
 	@CommandHandler
 	public QRCodeRequest.Create handle(final QRCodeCmd.Create cmd)

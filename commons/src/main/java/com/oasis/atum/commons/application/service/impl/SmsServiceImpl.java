@@ -6,6 +6,7 @@ import com.oasis.atum.commons.domain.cmd.SmsRecordCmd;
 import com.oasis.atum.commons.infrastructure.repository.SmsRecordRepository;
 import com.oasis.atum.commons.interfaces.dto.SmsDTO;
 import com.oasis.atum.commons.interfaces.request.SmsCallBack;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,11 @@ import java.util.Date;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class SmsServiceImpl implements SmsService
 {
 	private final SmsRecordRepository persistence;
 	private final CommandGateway      commandGateway;
-
-	public SmsServiceImpl(final SmsRecordRepository persistence, final CommandGateway commandGateway)
-	{
-		this.persistence = persistence;
-		this.commandGateway = commandGateway;
-	}
 
 	@Override
 	public Mono<Void> sendCaptcha(final SmsDTO data)

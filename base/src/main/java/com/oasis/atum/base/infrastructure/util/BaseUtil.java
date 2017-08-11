@@ -11,24 +11,24 @@ import java.util.stream.Stream;
  * 减少new开销和噪声
  * Created by ryze on 2017/4/29.
  */
-public class CommonUtil
+public interface BaseUtil
 {
 	/**
 	 * 线程工具 String
 	 */
-	private static final ThreadLocal<StringHolder> STRING_HOLDER_THREAD_LOCAL = ThreadLocal.withInitial(StringHolder::new);
+	ThreadLocal<StringHolder> STRING_HOLDER_THREAD_LOCAL = ThreadLocal.withInitial(StringHolder::new);
 
-	public static StringBuilder getStringBuilder()
+	static StringBuilder getStringBuilder()
 	{
 		return STRING_HOLDER_THREAD_LOCAL.get().getStringBuilder();
 	}
 
-	public static StringBuffer getStringBuffer()
+	static StringBuffer getStringBuffer()
 	{
 		return STRING_HOLDER_THREAD_LOCAL.get().getStringBuffer();
 	}
 
-	private static final class StringHolder
+	final class StringHolder
 	{
 		private final StringBuilder sBuilder;
 		private final StringBuffer  sBuffer;
@@ -61,7 +61,7 @@ public class CommonUtil
 	 * @param length
 	 * @return
 	 */
-	public static String randomNum(final int length)
+	static String randomNum(final int length)
 	{
 		val r = new Random();
 		return Stream.iterate(r.nextInt(10) + "", x -> r.nextInt(10) + "")
@@ -73,7 +73,7 @@ public class CommonUtil
 	 * 产生指定位数随机字符串
 	 * @return
 	 */
-	public static String random(final int length)
+	static String random(final int length)
 	{
 		val r = new Random();
 

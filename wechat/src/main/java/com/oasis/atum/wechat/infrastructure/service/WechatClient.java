@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Charsets;
 import com.oasis.atum.base.infrastructure.service.RedisClient;
-import com.oasis.atum.base.infrastructure.util.CommonUtil;
+import com.oasis.atum.base.infrastructure.util.BaseUtil;
 import com.oasis.atum.base.infrastructure.util.EncryptionUtil;
 import com.oasis.atum.wechat.domain.request.MenuRequest;
 import com.oasis.atum.wechat.domain.request.QRCodeRequest;
@@ -315,7 +315,7 @@ public class WechatClient
 	public Mono<String> jsSign(final long timeStamp, final String nonceStr, final String uri)
 	{
 		return jsApiTicket()
-						 .map(s -> CommonUtil.getStringBuilder().append("jsapi_ticket=").append(s))
+						 .map(s -> BaseUtil.getStringBuilder().append("jsapi_ticket=").append(s))
 						 .map(sb -> sb.append("&noncestr=").append(nonceStr).append("&timestamp=")
 													.append(timeStamp).append("&url=")
 													.append(uri).toString())

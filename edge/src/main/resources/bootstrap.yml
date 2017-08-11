@@ -1,25 +1,45 @@
 spring:
-  profiles: prod
   #应用名
   application:
     name: edge
   #云配置
   cloud:
     config:
-      uri: http://wechat.oasiscare.cn:8888
-      username: admin
-      password: admin
+      label: dev
+      discovery:
+        enabled: true
+        service-id: config
+
+#服务注册
+eureka:
+  instance:
+   hostname: localhost
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 ---
 
 spring:
-  profiles: docker
+  profiles: dev
   #应用名
   application:
     name: edge
   #云配置
   cloud:
     config:
-      uri: ${CONFIG_SERVER}
-      username: admin
-      password: admin
+      label: dev
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: config
+
+#服务注册
+eureka:
+  instance:
+   hostname: wxtest.oasisapp.cn
+  client:
+    #注册地址
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

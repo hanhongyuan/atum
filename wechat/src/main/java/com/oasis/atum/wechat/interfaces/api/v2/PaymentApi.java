@@ -5,6 +5,7 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.PaymentService;
 import com.oasis.atum.wechat.interfaces.request.PaymentRequest;
 import com.oasis.atum.wechat.interfaces.response.Payment;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("v2/payments")
 public class PaymentApi
 {
@@ -28,11 +30,6 @@ public class PaymentApi
 
 	private static final int    ERR_CODE = 0;
 	private static final String ERR_MSG  = "参数错误!";
-
-	public PaymentApi(final PaymentService service)
-	{
-		this.service = service;
-	}
 
 	@PostMapping("applet")
 	public Mono<ResponseEntity> applet(@RequestBody final Mono<PaymentRequest> data)

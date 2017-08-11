@@ -1,5 +1,5 @@
 server:
-  profiles: default,dev,prod,docker
+  profiles: default,dev
   #端口
   port: 10000
   tomcat:
@@ -19,12 +19,20 @@ management:
   security:
     enabled: false
 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
 #网关设置
 zuul:
   ignoredServices: '*'
-  host:
-    connect-timeout-millis: 10000
-    socket-timeout-millis: 60000
+#  host:
+#    connect-timeout-millis: 10000
+#    socket-timeout-millis: 60000
   #路由设置
   routes:
     #公用
@@ -35,5 +43,10 @@ zuul:
     #微信
     wechat:
       path: /wechat/**
+      stripPrefix: true
+      sensitiveHeaders:
+    #数据分析
+    analytics:
+      path: /analytics/**
       stripPrefix: true
       sensitiveHeaders:

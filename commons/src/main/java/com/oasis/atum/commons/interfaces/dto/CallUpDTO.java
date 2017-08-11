@@ -15,13 +15,15 @@ public class CallUpDTO
 	public final String callMobile;
 	public final String callToMobile;
 	public final Long   maxCallTime;
+	public final String noticeUri;
 
 	@JsonCreator
 	public CallUpDTO(@JsonProperty("callMobile") final String callMobile, @JsonProperty("callToMobile") final String callToMobile,
-									 @JsonProperty("maxCallTime") final Long maxCallTime)
+									 @JsonProperty("maxCallTime") final Long maxCallTime, @JsonProperty("noticeUri") final String noticeUri)
 	{
 		this.callMobile = callMobile;
 		this.callToMobile = callToMobile;
 		this.maxCallTime = maxCallTime;
+		this.noticeUri = noticeUri;
 	}
 }

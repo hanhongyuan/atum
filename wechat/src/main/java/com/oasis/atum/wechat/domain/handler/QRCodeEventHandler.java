@@ -4,6 +4,7 @@ package com.oasis.atum.wechat.domain.handler;
 import com.oasis.atum.wechat.domain.entity.QRCode;
 import com.oasis.atum.wechat.domain.event.QRCodeEvent;
 import com.oasis.atum.wechat.infrastructure.repository.QRCodeRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventhandling.EventHandler;
@@ -14,16 +15,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class QRCodeEventHandler
 {
 	private final Repository<QRCode> repository;
 	private final QRCodeRepository   persistence;
-
-	public QRCodeEventHandler(final Repository<QRCode> repository, final QRCodeRepository persistence)
-	{
-		this.repository = repository;
-		this.persistence = persistence;
-	}
 
 	@EventHandler
 	public void handle(final QRCodeEvent.Created event)

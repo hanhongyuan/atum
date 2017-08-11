@@ -3,6 +3,7 @@ package com.oasis.atum.wechat.domain.handler;
 import com.oasis.atum.wechat.domain.entity.Tag;
 import com.oasis.atum.wechat.domain.event.TagEvent;
 import com.oasis.atum.wechat.infrastructure.repository.TagRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventhandling.EventHandler;
@@ -13,16 +14,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class TagEventHandler
 {
 	private final Repository<Tag> repository;
 	private final TagRepository   persistence;
-
-	public TagEventHandler(final Repository<Tag> repository, final TagRepository persistence)
-	{
-		this.repository = repository;
-		this.persistence = persistence;
-	}
 
 	@EventHandler
 	public void handle(final TagEvent.Created event)

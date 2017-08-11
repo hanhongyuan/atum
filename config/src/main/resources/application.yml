@@ -1,6 +1,4 @@
 spring:
-  #配置环境
-  profiles: prod
   #云配置
   cloud:
     config:
@@ -8,6 +6,7 @@ spring:
         git:
           uri: https://github.com/BornToRain/atum
           search-paths: config-repo
+      label: dev
 
 server:
   #端口
@@ -16,33 +15,16 @@ server:
 #服务注册
 eureka:
   instance:
-    hostname: wechat.oasiscare.cn
-    metadata-map:
-      user.name: ${security.user.name}
-      user.password: ${security.user.password}
+   hostname: localhost
   client:
     #注册地址
     service-url:
-      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
-
-#权限设置
-security:
-  user:
-    name: admin
-    password: admin
-  #无状态
-  sessions: stateless
-  headers:
-    #禁用Header缓存
-    cache: false
-  #禁用CsrfToken
-  enable-csrf: false
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 ---
 
 spring:
-  #配置环境
-  profiles: cloud
+  profiles: dev
   #云配置
   cloud:
     config:
@@ -50,6 +32,8 @@ spring:
         git:
           uri: https://github.com/BornToRain/atum
           search-paths: config-repo
+      label: dev
+      profile: dev
 
 server:
   #端口
@@ -58,23 +42,8 @@ server:
 #服务注册
 eureka:
   instance:
-    metadata-map:
-      user.name: ${security.user.name}
-      user.password: ${security.user.password}
+   hostname: wxtest.oasisapp.cn
   client:
     #注册地址
     service-url:
-      defaultZone: ${EUREKA_SERVER_LIST}
-
-#权限设置
-security:
-  user:
-    name: admin
-    password: admin
-  #无状态
-  sessions: stateless
-  headers:
-    #禁用Header缓存
-    cache: false
-  #禁用CsrfToken
-  enable-csrf: false
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
