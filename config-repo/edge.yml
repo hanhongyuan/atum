@@ -1,5 +1,5 @@
 server:
-  profiles: default,dev,prod,docker
+  profiles: default,dev
   #端口
   port: 10000
   tomcat:

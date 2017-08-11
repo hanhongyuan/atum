@@ -11,15 +11,6 @@ logging:
   #日志存放位置
   file: logs/${spring.application.name}.log
 
-#服务注册
-#eureka:
-#  instance:
-#    hostname: localhost
-#  client:
-#    #注册地址
-#    service-url:
-#      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:8761/eureka/
-
 #方便其他配置文件调用
 accounts:
   port: 1111

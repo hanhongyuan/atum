@@ -19,10 +19,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -63,93 +65,43 @@ public class CallUpServiceImpl implements CallUpService
 													 final CallState callState, final String actionId,
 													 final String recordFile, final String fileServer)
 	{
-//		return Mono.justOrEmpty(actionId)
-//			.map(id -> CallUpRecordCmd.Update.builder()
-//																						.id(id)
-//																						.callType(callType)
-//																						.ringTime(ring)
-//																						.beginTime(begin)
-//																						.endTime(end)
-//																						.callState(callState)
-//																						.recordFile(recordFile)
-//																						.fileServer(fileServer)
-//																						.build())
-//			.map(commandGateway::send)
-
-
-		//更新命令
-		val cmd = CallUpRecordCmd.Update.builder()
-								.id(actionId).callType(callType)
-								.ringTime(ring)
-								.beginTime(begin)
-								.endTime(end)
-								.callState(callState)
-								.recordFile(recordFile)
-								.fileServer(fileServer)
-								.build();
-		//发送命令
-		commandGateway.send(cmd);
-
-
-		persistence.findById(actionId)
-			.map(CallUpRecord::getNoticeUri)
-			.map(s -> WebClient.builder()
-			.clientConnector(new ReactorClientHttpConnector())
-			.build()
-			.post()
-			.uri(s)
-			.contentType(MediaType.APPLICATION_JSON_UTF8)
-			.accept(MediaType.APPLICATION_JSON_UTF8)
-			.body())；
-
-//		return Mono.justOrEmpty(actionId)
-//						 //如果ActionID存在则更新现在通话记录
-//						 .map(id -> (CallUpRecordCmd) CallUpRecordCmd.Update.builder()
-//																						.id(id)
-//																						.callType(callType)
-//																						.ringTime(ring)
-//																						.beginTime(begin)
-//																						.endTime(end)
-//																						.callState(callState)
-//																						.recordFile(recordFile)
-//																						.fileServer(fileServer)
-//																						.build())
-//						 //不存在则新增一条通话记录
-//						 .defaultIfEmpty(CallUpRecordCmd.Save.builder()
-//															 .callMobile(callNo)
-//															 .callToMobile(calledNo)
-//															 .callType(callType)
-//															 .ringTime(ring)
-//															 .beginTime(begin)
-//															 .endTime(end)
-//															 .callState(callState)
-//															 .recordFile(recordFile)
-//															 .fileServer(fileServer)
-//															 .createTime(new Date())
-//															 .build())
-//						 //发送命令
-//						 .map(commandGateway::send)
-//						 .then();
-
-//		//如果ActionID存在则更新现在通话记录
-//		Optional.ofNullable(actionId).map(id ->
-//		{
-//			//命令
-//			val cmd = CallUpRecordCmd.Update.builder().id(actionId).callType(callType).ringTime(ring).beginTime(begin)
-//									.endTime(end).callState(callState).recordFile(recordFile).fileServer(fileServer).build();
-//			//发送命令
-//			commandGateway.send(cmd);
-//			return id;
-//			//不存在则新增一条通话记录
-//		}).orElseGet(() ->
-//		{
-//			//命令
-//			val cmd = CallUpRecordCmd.Save.builder().callMobile(callNo).callToMobile(calledNo).callType(callType).ringTime(ring).beginTime(begin)
-//									.endTime(end).callState(callState).recordFile(recordFile).fileServer(fileServer).createTime(new Date()).build();
-//			//发送命令
-//			commandGateway.send(cmd);
-//			return null;
-//		});
+		return Mono.just(actionId)
+						 //更新命令
+						 .map(id -> CallUpRecordCmd.Update.builder()
+													.id(id).callType(callType)
+													.ringTime(ring)
+													.beginTime(begin)
+													.endTime(end)
+													.callState(callState)
+													.recordFile(recordFile)
+													.fileServer(fileServer)
+													.build())
+						 .map(c ->
+						 {
+							 //异步处理结果
+							 val f = new FutureCallback<CallUpRecordCmd.Update, CallUpRecord>();
+							 commandGateway.send(c, f);
+							 System.out.println("Future =====>" + f.getResult());
+							 return f.toCompletableFuture();
+						 })
+						 .flatMap(Mono::fromFuture)
+						 //查询短信
+						 .flatMap(d -> persistence.findById(actionId)
+														 //回调地址
+														 .map(CallUpRecord::getNoticeUri)
+														 //回调通知
+														 .flatMap(s -> WebClient.builder()
+																						 .clientConnector(new ReactorClientHttpConnector())
+																						 .build()
+																						 .post()
+																						 .uri(s)
+																						 .contentType(MediaType.APPLICATION_JSON_UTF8)
+																						 .accept(MediaType.APPLICATION_JSON_UTF8)
+																						 .ifModifiedSince(ZonedDateTime.now())
+																						 .ifNoneMatch("*")
+																						 .body(BodyInserters.fromObject(d))
+																						 .exchange()))
+						 .then();
 	}
 
 	@Override
