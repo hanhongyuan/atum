@@ -15,15 +15,6 @@ logging:
 accounts:
   port: 1111
 
-#超时设置
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
-
 #权限设置
 security:
   basic:
