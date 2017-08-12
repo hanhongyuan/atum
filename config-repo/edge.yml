@@ -1,5 +1,5 @@
 server:
-  profiles: default,dev
+  profiles: prod,docker
   #端口
   port: 10000
   tomcat:
@@ -29,7 +29,6 @@ hystrix:
 
 #网关设置
 zuul:
-  ignoredServices: '*'
 #  host:
 #    connect-timeout-millis: 10000
 #    socket-timeout-millis: 60000

@@ -1,44 +1,21 @@
 spring:
+  profiles: prod
   #应用名
   application:
     name: commons
   #云配置
   cloud:
     config:
-      label: dev
+      label: master
       discovery:
         enabled: true
         service-id: config
+      profile: prod
 
 #服务注册
 eureka:
   instance:
-   hostname: localhost
-  client:
-    #注册地址
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
-
----
-
-spring:
-  profiles: dev
-  #应用名
-  application:
-    name: commons
-  #云配置
-  cloud:
-    config:
-      label: dev
-      profile: dev
-      discovery:
-        enabled: true
-        service-id: config
-
-#服务注册
-eureka:
-  instance:
-   hostname: wxtest.oasisapp.cn
+   hostname: wechat.oasiscare.cn
   client:
     #注册地址
     service-url:
