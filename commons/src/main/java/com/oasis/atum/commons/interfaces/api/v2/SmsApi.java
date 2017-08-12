@@ -50,7 +50,7 @@ public class SmsApi
 	@PostMapping("validation")
 	public Mono<ResponseEntity> validation(@RequestBody Mono<SmsDTO> data)
 	{
-		log.info("校验验证码 =====> ");
+		log.info("校验验证码");
 
 		return data.flatMap(d -> redis.get(d.smsType + "=>" + d.mobile)
 															 .filter(Objects::nonNull)
@@ -65,7 +65,7 @@ public class SmsApi
 	public Mono<ResponseEntity> success(final ServerHttpRequest request)
 	{
 		return getData(request)
-						 .map(SmsApi::toData)
+						 .flatMap(SmsApi::toData)
 						 .flatMap(service::success)
 						 .map(v -> Restful.noContent());
 	}
@@ -75,7 +75,7 @@ public class SmsApi
 	public Mono<ResponseEntity> fail(final ServerHttpRequest request)
 	{
 		return getData(request)
-						 .map(SmsApi::toData)
+						 .flatMap(SmsApi::toData)
 						 .flatMap(service::fail)
 						 .map(v -> Restful.noContent());
 	}
@@ -84,7 +84,7 @@ public class SmsApi
 	public Mono<ResponseEntity> reply(final ServerHttpRequest request)
 	{
 		return getData(request)
-						 .map(SmsApi::toData)
+						 .flatMap(SmsApi::toData)
 						 .flatMap(service::reply)
 						 .map(v -> Restful.noContent());
 	}
@@ -94,11 +94,11 @@ public class SmsApi
 	 * @param data
 	 * @return
 	 */
-	private static SmsCallBack toData(final String data)
+	private static Mono<SmsCallBack> toData(final String data)
 	{
 		log.info("阿里云短信回调 =====> {}", data);
 		//&分割数据
-		return Optional.of(data)
+		return Mono.just(data)
 						 //临时处理阿里云意义不明字段 extra
 						 .map(s -> s.replace("extra=", "extra=1"))
 						 .map(s -> s.split("&"))
@@ -107,8 +107,7 @@ public class SmsApi
 						 .map(d -> d.map(s -> s.split("="))
 												 //转成JSON
 												 .collect(JSONObject::new, (x, y) -> x.put(y[0], y[1]), JSONObject::putAll))
-						 .map(j -> JSON.toJavaObject(j, SmsCallBack.class))
-						 .get();
+						 .map(j -> JSON.toJavaObject(j, SmsCallBack.class));
 	}
 
 	/**
