@@ -26,7 +26,14 @@ import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * 打电话接口
@@ -63,6 +70,7 @@ public class MoorApi
 	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<BindingRequest> data)
 	{
 		log.info("解除绑定关系 =====> {}", data);
+
 		return data
 						 //非空
 						 .filter(d -> Objects.nonNull(d.call))
@@ -79,6 +87,7 @@ public class MoorApi
 	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
 	{
 		log.info("打电话");
+
 		return data.flatMap(service::callUp)
 						 .map(s -> Restful.ok("actionId", s));
 	}

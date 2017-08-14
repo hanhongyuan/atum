@@ -6,6 +6,7 @@ import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
 import com.oasis.atum.base.infrastructure.service.RedisClient;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -19,19 +20,13 @@ import java.time.Duration;
 /**
  * 微信模块
  */
+@AllArgsConstructor
 @EnableMongoAuditing
 @SpringCloudApplication
 @ImportAutoConfiguration(value = {AxonConfiguration.class, HttpConfiguration.class, RedisConfiguration.class})
 public class WechatApp implements CommandLineRunner
 {
 	private final WechatClient client;
-	private final RedisClient redis;
-
-	public WechatApp(final WechatClient client, final RedisClient redis)
-	{
-		this.client = client;
-		this.redis = redis;
-	}
 
 	public static void main(final String[] args)
 	{
