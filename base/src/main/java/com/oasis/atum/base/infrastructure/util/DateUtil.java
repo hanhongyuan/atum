@@ -2,7 +2,10 @@ package com.oasis.atum.base.infrastructure.util;
 
 import lombok.val;
 import org.joda.time.DateTime;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.Date;
@@ -68,5 +71,10 @@ public interface DateUtil
 	{
 		//本周一开始循环
 		return Stream.iterate(LocalDate.parse("2017-08-02").dayOfWeek().withMinimumValue(), d -> d.plusDays(1)).limit(7);
+	}
+
+	static long compareTo(final Date x, final Date y)
+	{
+		return (long)Hours.hoursBetween(new DateTime(x), new DateTime(y)).toStandardSeconds().getSeconds();
 	}
 }

@@ -39,4 +39,11 @@ public class CallUpRecordCmdHandler
 			return null;
 		}
 	}
+
+	@CommandHandler
+	public CallUpRecord handle(final CallUpRecordCmd.Update cmd)
+	{
+		log.info("通话记录修改命令处理");
+		return repository.load(cmd.id).invoke(d -> d.update(cmd));
+	}
 }

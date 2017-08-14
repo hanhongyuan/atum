@@ -1,5 +1,6 @@
 package com.oasis.atum.commons.domain.entity;
 
+import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
@@ -19,6 +20,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
@@ -80,13 +82,14 @@ public class CallUpRecord
 		apply(event);
 	}
 
-	@CommandHandler
-	public void update(final CallUpRecordCmd.Update cmd)
+	//	@CommandHandler
+	public CallUpRecord update(final CallUpRecordCmd.Update cmd)
 	{
 		log.info("通话记录修改命令处理");
 		//发布通话记录修改事件
 		val event = CallUpRecordEvent.Updated.builder().id(cmd.id).cmd(cmd).build();
 		apply(event);
+		return this;
 	}
 
 	@CommandHandler
@@ -112,7 +115,10 @@ public class CallUpRecord
 	@EventSourcingHandler
 	public void handle(final CallUpRecordEvent.Updated event)
 	{
-		callTime = Validator.either(event.cmd.callTime, callTime);
+		//通话时长
+		callTime = Optional.ofNullable(event.cmd.beginTime)
+								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime))
+								 .orElse(callTime);
 		callType = Validator.either(event.cmd.callType, callType);
 		ringTime = Validator.either(event.cmd.ringTime, ringTime);
 		beginTime = Validator.either(event.cmd.beginTime, beginTime);

@@ -8,7 +8,7 @@ import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
  */
 public interface QRCodeAssembler
 {
-	public static QRCodeDTO toDTO(final QRCode data)
+	static QRCodeDTO toDTO(final QRCode data)
 	{
 		return QRCodeDTO.builder().id(data.getId()).type(data.getType()).sceneId(data.getSceneId())
 						 .sceneStr(data.getSceneStr()).expireSeconds(data.getExpireSeconds()).ticket(data.getTicket())

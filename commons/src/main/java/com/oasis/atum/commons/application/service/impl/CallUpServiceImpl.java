@@ -8,6 +8,7 @@ import com.oasis.atum.commons.domain.enums.CallType;
 import com.oasis.atum.commons.domain.request.CallUpRequest;
 import com.oasis.atum.commons.infrastructure.repository.CallUpRecordRepository;
 import com.oasis.atum.commons.infrastructure.service.MoorClient;
+import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
 import lombok.AllArgsConstructor;
@@ -81,7 +82,6 @@ public class CallUpServiceImpl implements CallUpService
 							 //异步处理结果
 							 val f = new FutureCallback<CallUpRecordCmd.Update, CallUpRecord>();
 							 commandGateway.send(c, f);
-							 System.out.println("Future =====>" + f.getResult());
 							 return f.toCompletableFuture();
 						 })
 						 .flatMap(Mono::fromFuture)
@@ -99,8 +99,9 @@ public class CallUpServiceImpl implements CallUpService
 																						 .accept(MediaType.APPLICATION_JSON_UTF8)
 																						 .ifModifiedSince(ZonedDateTime.now())
 																						 .ifNoneMatch("*")
-																						 .body(BodyInserters.fromObject(d))
-																						 .exchange()))
+																						 .body(BodyInserters.fromObject(CallUpRecordAssembler.toDTO(d)))
+																						 .exchange()
+														 ))
 						 .then();
 	}
 

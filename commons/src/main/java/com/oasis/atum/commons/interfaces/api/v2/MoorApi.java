@@ -146,30 +146,32 @@ public class MoorApi
 																		 @RequestParam(name = "AccountName", required = false) final String accountName)
 	{
 		log.info("通话事件推送更新回调");
-		log.info(callNo);
-		log.info(calledNo);
-		log.info(callSheetID);
-		log.info(callType + "");
-		log.info(ring);
-		log.info(begin);
-		log.info(end);
-		log.info(queueTime);
-		log.info(agent);
-		log.info(exten);
-		log.info(agentName);
-		log.info(queue);
-		log.info(state + "");
-		log.info(callState);
-		log.info(actionID);
-		log.info(webcallActionID);
-		log.info(recordFile);
-		log.info(fileServer);
-		log.info(province);
-		log.info(district);
-		log.info(callID);
-		log.info(IVRKEY);
-		log.info(accountId);
-		log.info(accountName);
+		log.info("+---------------------------------------------------------------------------------------------------------------------------+");
+		log.info(" CallNo => {}", callNo);
+		log.info(" CalledNo => {}", calledNo);
+		log.info(" CallSheetId => {}", callSheetID);
+		log.info(" CallType => {}", callType);
+		log.info(" RingTime => {}", ring);
+		log.info(" BeginTime => {}", begin);
+		log.info(" EndTime => {}", end);
+		log.info(" Queue => {}", queue);
+		log.info(" QueueTime => {}", queueTime);
+		log.info(" Agent => {}", agent);
+		log.info(" AgentName => {}", agentName);
+		log.info(" Exten => {}", exten);
+		log.info(" State => {}", state);
+		log.info(" CallState => {}", callState);
+		log.info(" ActionId => {}", actionID);
+		log.info(" WebCallActionId => {}", webcallActionID);
+		log.info(" RecordFile => {}", recordFile);
+		log.info(" FileServer => {}", fileServer);
+		log.info(" Province => {}", province);
+		log.info(" District => {}", district);
+		log.info(" CallId => {}", callID);
+		log.info(" IVRkey => {}", IVRKEY);
+		log.info(" AccountId => {}", accountId);
+		log.info(" AccountName => {}", accountName);
+		log.info("+---------------------------------------------------------------------------------------------------------------------------+");
 
 		//时间需要解码
 		val charset = "UTF-8";

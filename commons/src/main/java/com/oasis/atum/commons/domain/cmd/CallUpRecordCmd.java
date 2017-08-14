@@ -35,7 +35,6 @@ public interface CallUpRecordCmd
 	{
 		@TargetAggregateIdentifier
 		public final String    id;
-		public final Long      callTime;
 		public final CallType  callType;
 		public final Date      ringTime;
 		public final Date      beginTime;
