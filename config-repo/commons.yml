@@ -40,6 +40,10 @@ server:
     #最小压缩响应字节数
     min-response-size: 1024
 
+logging:
+  level:
+    org.springframework.web.reactive.function.client.WebClient: debug
+
 #权限设置
 security:
   basic:
