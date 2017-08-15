@@ -10,6 +10,7 @@ spring:
         enabled: true
         service-id: config
 
+
 #服务注册
 eureka:
   instance:

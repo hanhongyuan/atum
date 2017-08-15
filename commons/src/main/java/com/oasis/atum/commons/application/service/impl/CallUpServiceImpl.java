@@ -12,6 +12,7 @@ import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
 import lombok.AllArgsConstructor;
+import lombok.experimental.var;
 import lombok.val;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -89,18 +90,24 @@ public class CallUpServiceImpl implements CallUpService
 						 .flatMap(d -> persistence.findById(actionId)
 														 //回调地址
 														 .map(CallUpRecord::getNoticeUri)
+														 .log()
 														 //回调通知
-														 .flatMap(s -> WebClient.builder()
-																						 .clientConnector(new ReactorClientHttpConnector())
-																						 .build()
-																						 .post()
-																						 .uri(s)
-																						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-																						 .accept(MediaType.APPLICATION_JSON_UTF8)
-																						 .ifModifiedSince(ZonedDateTime.now())
-																						 .ifNoneMatch("*")
-																						 .body(BodyInserters.fromObject(CallUpRecordAssembler.toDTO(d)))
-																						 .exchange()
+														 .flatMap(s ->
+														 {
+															 val o = BodyInserters.fromObject(CallUpRecordAssembler.toDTO(d));
+															 System.out.println("Object => " + o);
+															 return WebClient.builder()
+																				.clientConnector(new ReactorClientHttpConnector())
+																				.build()
+																				.post()
+																				.uri(s)
+																				.contentType(MediaType.APPLICATION_JSON_UTF8)
+																				.accept(MediaType.APPLICATION_JSON_UTF8)
+																				.ifModifiedSince(ZonedDateTime.now())
+																				.ifNoneMatch("*")
+																				.body(o)
+																				.exchange();
+														 }
 														 ))
 						 .then();
 	}

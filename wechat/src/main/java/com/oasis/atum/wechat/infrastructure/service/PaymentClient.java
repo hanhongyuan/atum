@@ -108,9 +108,6 @@ public class PaymentClient
 	 * @param type   填了代表小程序
 	 * @return
 	 */
-	/**
-	 * (x,y) => a => b => c => d => e => f<:e => f1,f2 => g<:f => g => h => i => j => z
-	 */
 	public String paymentSign(final Object object, final boolean... type)
 	{
 		//转JSON字符串并过滤空字段

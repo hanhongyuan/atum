@@ -35,6 +35,7 @@ public class MoorClient
 	private Mono<JSONObject> get(final String uri, final String... queryString)
 	{
 		return Flux.fromArray(queryString)
+						 .log()
 						 //规约
 						 .reduce((x, y) -> x + "&" + y)
 						 //uri?queryString

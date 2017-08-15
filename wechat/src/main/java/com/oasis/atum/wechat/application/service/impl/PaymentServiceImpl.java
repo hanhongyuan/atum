@@ -96,8 +96,6 @@ public class PaymentServiceImpl implements PaymentService
 	private Mono<Payment.Response> sendPayments(final PaymentRequest data, boolean... type)
 	{
 		return client.payment(data, type)
-						 //微信数据编码格式需要转换
-						 .map(s -> new String(s.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8))
 						 .map(s ->
 						 {
 							 val xml = XMLUtil.parseXML(s, Payment.Response.class);
