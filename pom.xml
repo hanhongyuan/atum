@@ -45,8 +45,6 @@
         <docker.plugin.version>0.4.13</docker.plugin.version>
         <!-- axon版本 -->
         <axon.version>3.0.5</axon.version>
-        <!-- swagger版本 -->
-        <swagger.version>2.5.0</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -86,18 +84,6 @@
                 <version>${axon.version}</version>
             </dependency>
             <!-- Axon框架 end -->
-            <!-- Swagger2 start -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <!-- Swagger2 end -->
             <!-- 阿里云短信jar start -->
             <dependency>
                 <groupId>com.aliyun.mns</groupId>
