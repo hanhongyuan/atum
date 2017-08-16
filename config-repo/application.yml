@@ -1,10 +1,10 @@
 #application 统一配置
 #Spring配置
 spring:
-  profiles: default,dev
+  profiles: prod
   #队列配置
   rabbitmq:
-    host: wxtest.oasisapp.cn
+    host: 123.56.188.106
     port: 5672
 
 logging:
@@ -35,7 +35,7 @@ security:
     #资源设置
     resource:
       #获取用户信息Uri
-      user-info-uri: http://localhost:${accounts.port}/v2/me
+      user-info-uri: http://wechat.oasiscare.cn:${accounts.port}/v2/me
       #不使用check_token
       prefer-token-info: false
       #令牌类型 Json Web Token

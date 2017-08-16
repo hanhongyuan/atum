@@ -220,13 +220,13 @@ public class WechatApi
 	{
 		log.info("图文消息处理");
 		//转成微信需要的图文消息格式
-		return client.getNewsMaterials("utYF-mbxCfQjXVfATrQAb29mVbtQB0ldJvq96tJszac")
+		return client.getNewsMaterials("6Xjge0ynQGVPMd5ib0xckh76O4Unu0uYXJPv5OCVqfE")
 						 .map(s -> s.map(d ->
 						 {
 							 val builder = WechatResponse.NewsArticle.builder().Title(d.title).Description(d.digest)
 															 .PicUrl(d.thumbUri);
 							 //有诊所返回诊所详情
-							 if (type) builder.Url("https://mtest.oasiscare.cn/wxofficial/clinicdetails.html");
+							 if (type) builder.Url("https://m.oasiscare.cn/wxofficial/clinicdetails.html");
 								 //没有
 							 else builder.Url(d.uri);
 							 return builder.build();

@@ -1,9 +1,9 @@
 spring:
-  profiles: default,dev
+  profiles: prod
   data:
     #mongodb设置
     mongodb:
-      host: wxtest.oasisapp.cn
+      host: wechat.oasiscare.cn
       port: 9999
       database: commons
       events:
@@ -15,7 +15,7 @@ spring:
   redis:
     port: 6379
     #主机地址
-    host: wxtest.oasisapp.cn
+    host: 10.25.95.108
     pool:
       #连接池最大的活跃连接数，-1表示无限
       max-active: 8
@@ -59,7 +59,7 @@ security:
       clientId: wechat
       clientSecret: wechat
       #token获取Uri
-      accessTokenUri: http://localhost:${accounts.port}/oauth/token
+      accessTokenUri: http://wechat.oasiscare.cn:${accounts.port}/oauth/token
       #授权类型 客户端
       grant-type: client_credentials
       #授权范围
@@ -97,10 +97,29 @@ axon:
 
 #微信设置
 wechat:
+  #应用AD
+  app-id: wxe758bf1b8f5dfbcf
+  #应用密钥
+  secret: "{cipher}AQBmtpmg9UlJFZtf2ljZJ7FgzLZfVlAHovogRqqqtsJ/bK+O54xsKlBMaNSGhq694TpBdstq/tqlXwe2eSyOnGg4AxvcQnq6S79fcHkB6D7c+4iJb1oCgYV78A1kx3oqaa9WXKfKKTkpPMG8dpwl9FZIUD3G1y3J3ydsg+h8AsNf4Um0N+E7v9jeJln9mXrR2L0k364sUwu9SOUbyCwjUfeiDoo9nMQw0nB9rvUekzfXFG/dSTZDASD65E6dOTeDdPaCrBwxymZpJKF1BKEWEPUK+MyulAwVNbs1NutTFeRKQN1naioCcBECL66jywGRrMnIrMkBXqQNAld2etAQA30s7AsVQ3d0cXde5054NvoDwJgNWhjCfHkHdGDZt74qI05uPeW+/XcaeV0X3e7RnKbQAiNqjRVRibh187Nwa0krKQ=="
+  #商户号
+  mchId: 1238751702
+  #微信后台设置的Key
+  key: theonlythingwehavetofearisfearit
+  #微信后台设置的令牌
+  token: weixinZoffConn
+  #证书路径
+  cert-path:
+  #证书密码
+  cert-password:
   #是否启用Js-SDK
   enable-js-api: true
   #是否启用微信卡券
   enable-api-ticket: true
-  wx-id: 112
-  #应用密钥
-  secret: "{cipher}AQCYlEfcjuMv4RwacJZDkOD2qMy+2duLM9eqb04+n5a3aupy89M+1RoVCLxyNPP2SFnKs8cfW5wsw2Rh4lJofsUKNKlGj1kevrdwUy7RQOFYbI1I7hBaENoSmgztLrU37VnCD5K21RuOChUR4mxaKJPx4amDIxwo/IkmI0mstZAYM3WrdgngMFJrS6aLW5TaYWbI+85zO56geAFcA5tOzMaSiisM7q30zk2R0AtMIeOXghndKRewQXowijV1glJmprHhcaU7Uz2C6s5AGNq/10+BaAaMPDbSE1TDoKHMma2sP3WrUKupwbthSIidbv87n9TO43p+ZiJA8ioVKU0l5t8am3wL/0KgmXO7BN4m33D6l3ZGr6AlajA8KmTJ93fbShSPk8MZnHv5Y5pGJhc2JtKIJZnULyPgo8q3FicDFwb90Q=="
+  #支付回调地址
+  payment-notify-uri: https://buz.oasisapp.cn/honghclient/servlet/WeChatTrade
+  #关注标签ID
+  wx-id: 103
+  #模版ID
+  template:
+    register: l39CoZRkUmOsku6Puwf7boAcBi6ilu1b-bHE0iSI7ig
+    success: D8SjqFLk1_U3M29urX57tlv9v4Ru_Iz2IFVOsZLfYp8

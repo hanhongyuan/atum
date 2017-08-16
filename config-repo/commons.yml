@@ -1,9 +1,9 @@
 spring:
-  profiles: default,dev
+  profiles: prod
   data:
     #mongodb设置
     mongodb:
-      host: wxtest.oasisapp.cn
+      host: wechat.oasiscare.cn
       port: 9999
       database: commons
       events:
@@ -15,7 +15,7 @@ spring:
   redis:
     port: 6379
     #主机地址
-    host: wxtest.oasisapp.cn
+    host: 10.25.95.108
     pool:
       #连接池最大的活跃连接数，-1表示无限
       max-active: 8
@@ -55,7 +55,7 @@ security:
       clientId: commons
       clientSecret: commons
       #token获取Uri
-      accessTokenUri: http://localhost:${accounts.port}/oauth/token
+      accessTokenUri: http://wechat.oasiscare.cn:${accounts.port}/oauth/token
       #授权类型 客户端
       grant-type: client_credentials
       #授权范围
