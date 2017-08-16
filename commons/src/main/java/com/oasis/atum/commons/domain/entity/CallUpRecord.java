@@ -1,5 +1,6 @@
 package com.oasis.atum.commons.domain.entity;
 
+import com.oasis.atum.base.infrastructure.constant.DateField;
 import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.base.infrastructure.util.Validator;
@@ -85,7 +86,7 @@ public class CallUpRecord
 	//	@CommandHandler
 	public CallUpRecord update(final CallUpRecordCmd.Update cmd)
 	{
-		log.info("通话记录修改命令处理");
+//		log.info("通话记录修改命令处理");
 		//发布通话记录修改事件
 		val event = CallUpRecordEvent.Updated.builder().id(cmd.id).cmd(cmd).build();
 		apply(event);
@@ -117,7 +118,7 @@ public class CallUpRecord
 	{
 		//通话时长
 		callTime = Optional.ofNullable(event.cmd.beginTime)
-								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime))
+								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime, DateField.SECONDS))
 								 .orElse(callTime);
 		callType = Validator.either(event.cmd.callType, callType);
 		ringTime = Validator.either(event.cmd.ringTime, ringTime);

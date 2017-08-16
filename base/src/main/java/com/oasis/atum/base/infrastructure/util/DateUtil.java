@@ -1,11 +1,10 @@
 package com.oasis.atum.base.infrastructure.util;
 
+import com.oasis.atum.base.infrastructure.constant.DateField;
 import lombok.val;
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
-import org.joda.time.Period;
-import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.Date;
@@ -73,8 +72,29 @@ public interface DateUtil
 		return Stream.iterate(LocalDate.parse("2017-08-02").dayOfWeek().withMinimumValue(), d -> d.plusDays(1)).limit(7);
 	}
 
-	static long compareTo(final Date x, final Date y)
+	/**
+	 * x与y的时间差
+	 * @param x
+	 * @param y
+	 * @param type com.oasis.atum.base.infrastructure.constant.DateField
+	 * @return x<y?正数:负数
+   */
+	static long compareTo(final Date x, final Date y, final String type)
 	{
-		return (long)Hours.hoursBetween(new DateTime(x), new DateTime(y)).toStandardSeconds().getSeconds();
+		val d = new Duration(new DateTime(x), new DateTime(y));
+
+		switch (type)
+		{
+			case DateField.SECONDS:
+				return d.getStandardSeconds();
+			case DateField.MINUTES:
+				return d.getStandardMinutes();
+			case DateField.HOURS:
+				return d.getStandardHours();
+			case DateField.DAYS:
+				return d.getStandardDays();
+			default:
+				return 0;
+		}
 	}
 }

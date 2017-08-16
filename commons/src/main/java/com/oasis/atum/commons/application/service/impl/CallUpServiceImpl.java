@@ -1,5 +1,9 @@
 package com.oasis.atum.commons.application.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.oasis.atum.base.infrastructure.constant.DateField;
+import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.commons.application.service.CallUpService;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.entity.CallUpRecord;
@@ -12,18 +16,19 @@ import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
 import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
 import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
 import lombok.AllArgsConstructor;
-import lombok.experimental.var;
 import lombok.val;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.data.util.Pair;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
+import org.joda.time.Period;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.ZonedDateTime;
@@ -92,22 +97,19 @@ public class CallUpServiceImpl implements CallUpService
 														 .map(CallUpRecord::getNoticeUri)
 														 .log()
 														 //回调通知
-														 .flatMap(s ->
-														 {
-															 val o = BodyInserters.fromObject(CallUpRecordAssembler.toDTO(d));
-															 System.out.println("Object => " + o);
-															 return WebClient.builder()
-																				.clientConnector(new ReactorClientHttpConnector())
-																				.build()
-																				.post()
-																				.uri(s)
-																				.contentType(MediaType.APPLICATION_JSON_UTF8)
-																				.accept(MediaType.APPLICATION_JSON_UTF8)
-																				.ifModifiedSince(ZonedDateTime.now())
-																				.ifNoneMatch("*")
-																				.body(o)
-																				.exchange();
-														 }
+														 .flatMap(s -> WebClient.builder()
+																						 .clientConnector(new ReactorClientHttpConnector())
+																						 .build()
+																						 .post()
+																						 .uri(s)
+																						 .contentType(MediaType.APPLICATION_JSON_UTF8)
+																						 .accept(MediaType.APPLICATION_JSON_UTF8)
+																						 .ifModifiedSince(ZonedDateTime.now())
+																						 .ifNoneMatch("*")
+																						 .body(BodyInserters.fromObject(JSON.toJSONString(CallUpRecordAssembler.toDTO(d),
+																							 SerializerFeature.PrettyFormat,
+																							 SerializerFeature.WriteDateUseDateFormat)))
+																						 .exchange()
 														 ))
 						 .then();
 	}
