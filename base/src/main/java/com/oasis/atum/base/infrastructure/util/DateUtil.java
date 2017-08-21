@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 public interface DateUtil
 {
 	String FULLDATE = "yyyy-MM-dd HH:mm:ss";
+	String TIMESTAMP ="yyyyMMddHHmmss";
 
 	/**
 	 * 年龄
@@ -37,6 +38,11 @@ public interface DateUtil
 	static long timeStamp()
 	{
 		return System.currentTimeMillis() / 1000;
+	}
+
+	static String datetimeStamp()
+	{
+		return DateTime.now().toString(TIMESTAMP);
 	}
 
 	/**

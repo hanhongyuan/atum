@@ -21,6 +21,9 @@ public interface CallUpRecordAssembler
 						 .beginTime(data.getBeginTime())
 						 .endTime(data.getEndTime())
 						 .callState(data.getCallState())
+						 .state(data.getState())
+						 .thirdId(data.getThirdId())
 						 .build();
 	}
+
 }

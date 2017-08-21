@@ -17,6 +17,7 @@ public class MoorConfiguration
 	 */
 	private String account   = "N00000014027";
 	private String PBX       = "bj.ali.8.8";
+	private String secret    = "4d224690-8596-11e7-88f0-2f5fe190390f";
 	/**
 	 * 服务号，想要被叫进入的服务号码
 	 */

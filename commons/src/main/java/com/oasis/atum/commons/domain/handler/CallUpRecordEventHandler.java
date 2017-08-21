@@ -21,9 +21,9 @@ public class CallUpRecordEventHandler
 	private final CallUpRecordRepository   persistence;
 
 	@EventHandler
-	public void handle(final CallUpRecordEvent.Created event)
+	public void handle(final CallUpRecordEvent.Bound event)
 	{
-		log.info("通话记录创建事件处理");
+		log.info("通话记录绑定事件处理");
 
 		repository.load(event.id).execute(d -> persistence.insert(d).subscribe());
 	}

@@ -1,7 +1,7 @@
 package com.oasis.atum.commons.domain.enums;
 
 /**
- * 通话状态
+ * 接听状态
  */
 public enum CallState
 {
