@@ -49,6 +49,7 @@ public interface CallUpRecordCmd
 		public final String         fileServer;
 		public final Boolean        isSuccess;
 		public final String         message;
+		public final String         callId;
 	}
 
 	/**

@@ -15,6 +15,7 @@ import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,15 @@ public class MoorApi
 	 * Redis_key 手机绑定关系
 	 */
 	private static final String REDIS_KEY_BINDING = "binding=>";
+
+	@DeleteMapping("hang-up")
+	public Mono<ResponseEntity> hangUp(@PathVariable final String id)
+	{
+		log.info("电话挂断 =====> {}",id);
+
+		return Mono.just(Restful.noContent());
+//		service.hangUp()
+	}
 
 	@PostMapping("binding")
 	public Mono<ResponseEntity> binding(@RequestBody final Mono<MoorDTO.Binding> data)
@@ -160,7 +170,7 @@ public class MoorApi
 		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(URLDecoder.decode(ring, charset)),
 			DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
 			state, callState, webcallActionID,
-			recordFile, fileServer)
+			recordFile, fileServer,callID)
 						 .map(v -> Restful.ok());
 	}
 }

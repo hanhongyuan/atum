@@ -22,12 +22,19 @@ public interface CallUpService
 	 */
 	Mono<CallUpRecordDTO> binding(MoorDTO.Binding data);
 
+//	/**
+//	 * 挂断
+//	 * @param data
+//	 * @return
+//	 */
+//	Mono<String> hangUp(MoorDTO.HangUp data);
+
 	/**
-	 * 挂断
-	 * @param data
+	 * 电话挂断
+	 * @param id
 	 * @return
 	 */
-	Mono<String> hangUp(MoorDTO.HangUp data);
+	Mono<String> hangUp(String id);
 
 	/**
 	 * 通话事件推送更新
@@ -42,9 +49,11 @@ public interface CallUpService
 	 * @param actionId
 	 * @param recordFile
 	 * @param fileServer
+	 * @param callId
 	 */
-	Mono<Void> hangUp(String callNo, String calledNo, CallType callType, Date ring, Date begin, Date end, CallState callState, CallEventState state, String actionId,
-										String recordFile, String fileServer);
+	Mono<Void> hangUp(String callNo, String calledNo, CallType callType, Date ring, Date begin, Date end, CallState callState, CallEventState state,
+										String actionId,
+										String recordFile, String fileServer, String callId);
 
 	/**
 	 * 异步回调更新通话记录

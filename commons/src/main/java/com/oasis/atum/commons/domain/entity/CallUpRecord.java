@@ -80,12 +80,22 @@ public class CallUpRecord
 	@LastModifiedDate
 	private Date           updateTime;
 
+//	@CommandHandler
 	public CallUpRecord(final CallUpRecordCmd.Bind cmd)
 	{
+//		log.info("通话记录绑定命令处理");
 		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布通话记录绑定事件
 		val event = CallUpRecordEvent.Bound.builder().id(id).cmd(cmd).build();
 		apply(event);
+	}
+
+	public CallUpRecord update(final String id, final CallUpRecordCmd.Update cmd)
+	{
+		//发布通话记录修改事件
+		val event = CallUpRecordEvent.Updated.builder().id(id).cmd(cmd).build();
+		apply(event);
+		return this;
 	}
 
 	@CommandHandler

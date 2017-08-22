@@ -1,6 +1,5 @@
 package com.oasis.atum.commons.application.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oasis.atum.base.infrastructure.service.HttpClient;
 import com.oasis.atum.commons.application.service.CallUpService;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * 打电话应用服务实现类
@@ -61,23 +59,23 @@ public class CallUpServiceImpl implements CallUpService
 						 .map(CallUpRecordAssembler::toDTO);
 	}
 
-	@Override
-	public Mono<String> hangUp(MoorDTO.HangUp data)
-	{
-		val request = MoorRequest.HangUp.builder()
-										.callId(data.callId)
-										.actionId(data.actionId)
-										.build();
-
-		//容联七陌挂断
-		return client.hangUp(request)
-						 .map(j -> j.getString("ActionID"));
-	}
+//	@Override
+//	public Mono<String> hangUp(MoorDTO.HangUp data)
+//	{
+//		val request = MoorRequest.HangUp.builder()
+//										.callId(data.callId)
+//										.actionId(data.actionId)
+//										.build();
+//
+//		//容联七陌挂断
+//		return client.hangUp(request)
+//						 .map(j -> j.getString("ActionID"));
+//	}
 
 	@Override
 	public Mono<Void> hangUp(final String callNo, final String calledNo, final CallType callType, final Date ring, final Date begin, final Date end,
 													 final CallState callState, final CallEventState state, final String actionId,
-													 final String recordFile, final String fileServer)
+													 final String recordFile, final String fileServer,final String callId)
 	{
 		//修改命令
 		return Mono.just(CallUpRecordCmd.Update.builder()
@@ -87,22 +85,14 @@ public class CallUpServiceImpl implements CallUpService
 						 .map(c ->
 						 {
 							 //异步处理结果
-							 val f = new FutureCallback<CallUpRecordCmd.Update, Mono<String>>();
+							 val f = new FutureCallback<CallUpRecordCmd.Update, CallUpRecord>();
 							 commandGateway.send(c, f);
 							 return f.toCompletableFuture();
 						 })
 						 .flatMap(Mono::fromFuture)
-						 //拆包
-						 .flatMap(s -> s)
-						 .flatMap(persistence::findById)
 						 //发送数据到回调地址
-						 .flatMap(d ->
-						 {
-							 log.error("CallUpRecord =====> " + d);
-							 return http.post(d.getNoticeUri(), CallUpRecordAssembler.toDTO(d));
-						 })
+						 .flatMap(d -> http.post(d.getNoticeUri(), CallUpRecordAssembler.toDTO(d)))
 						 .then();
-
 
 //		return Mono.justOrEmpty(actionId)
 //						 //更新命令
