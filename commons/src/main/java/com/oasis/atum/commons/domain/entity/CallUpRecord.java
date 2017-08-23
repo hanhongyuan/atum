@@ -69,6 +69,8 @@ public class CallUpRecord
 	private String         noticeUri;
 	//第三方唯一标识
 	private String         thirdId;
+	//容联七陌唯一标识
+	private String         callId;
 	/**
 	 * a)Message:4 被叫已接听
 	 * b)Message:0 或 8 线路繁忙/异常(某些情况下，也可能为 被叫拒接/振铃未接/占线/关机/空号)
@@ -80,7 +82,7 @@ public class CallUpRecord
 	@LastModifiedDate
 	private Date           updateTime;
 
-//	@CommandHandler
+	//	@CommandHandler
 	public CallUpRecord(final CallUpRecordCmd.Bind cmd)
 	{
 //		log.info("通话记录绑定命令处理");
@@ -135,6 +137,7 @@ public class CallUpRecord
 		state = Validator.either(event.cmd.state, state);
 		recordFile = Validator.either(event.cmd.recordFile, recordFile);
 		fileServer = Validator.either(event.cmd.fileServer, fileServer);
+		callId = Validator.either(event.cmd.callId, callId);
 	}
 
 	@EventSourcingHandler

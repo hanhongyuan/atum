@@ -3,6 +3,7 @@ package com.oasis.atum.commons.domain.handler;
 import com.oasis.atum.base.infrastructure.service.RedisClient;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.entity.CallUpRecord;
+import com.oasis.atum.commons.domain.request.MoorRequest;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,17 @@ public class CallUpRecordCmdHandler
 							 .getString("id");
 		//查询手机号绑定关系
 		return repository.load(id).invoke(d -> d.update(id, cmd));
+	}
+
+	@CommandHandler
+	public MoorRequest.HangUp hangle(final CallUpRecordCmd.HangUp cmd)
+	{
+		log.info("通话记录挂断命令处理");
+
+		return repository.load(cmd.id)
+						 .invoke(d -> MoorRequest.HangUp.builder()
+														.callId(d.getCallId())
+														.actionId(d.getId())
+														.build());
 	}
 }

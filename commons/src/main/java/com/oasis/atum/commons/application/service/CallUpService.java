@@ -34,7 +34,7 @@ public interface CallUpService
 	 * @param id
 	 * @return
 	 */
-	Mono<String> hangUp(String id);
+	Mono<Void> hangUp(String id);
 
 	/**
 	 * 通话事件推送更新

@@ -63,4 +63,14 @@ public interface CallUpRecordCmd
 		public final Boolean isSuccess;
 		public final String  message;
 	}
+
+	/**
+	 * 挂断
+	 */
+	@Builder
+	final class HangUp
+	{
+		@TargetAggregateIdentifier
+		public final String id;
+	}
 }

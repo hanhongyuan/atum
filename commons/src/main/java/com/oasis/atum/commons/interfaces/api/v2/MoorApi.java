@@ -48,10 +48,10 @@ public class MoorApi
 	@DeleteMapping("hang-up")
 	public Mono<ResponseEntity> hangUp(@PathVariable final String id)
 	{
-		log.info("电话挂断 =====> {}",id);
+		log.info("电话挂断 =====> {}", id);
 
-		return Mono.just(Restful.noContent());
-//		service.hangUp()
+		return service.hangUp(id)
+						 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("binding")
@@ -62,7 +62,9 @@ public class MoorApi
 		return data
 						 //字段非空
 						 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
+						 //绑定
 						 .flatMap(service::binding)
+						 //返回
 						 .map(Restful::ok);
 	}
 
@@ -76,8 +78,7 @@ public class MoorApi
 						 .filter(d -> Objects.nonNull(d.call))
 						 .map(d -> REDIS_KEY_BINDING + d.call)
 						 //key是否存在
-						 .flatMap(s -> redis.exists(s)
-														 .filter(k -> k)
+						 .flatMap(s -> redis.get(s)
 														 //存在删除
 														 .flatMap(b -> redis.delete(s)))
 						 .map(l -> Restful.noContent());
@@ -170,7 +171,7 @@ public class MoorApi
 		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(URLDecoder.decode(ring, charset)),
 			DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
 			state, callState, webcallActionID,
-			recordFile, fileServer,callID)
+			recordFile, fileServer, callID)
 						 .map(v -> Restful.ok());
 	}
 }

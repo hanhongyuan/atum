@@ -16,7 +16,7 @@ public interface CallUpRecordEvent
 	final class Bound
 	{
 		@TargetAggregateIdentifier
-		public final String                 id;
+		public final String               id;
 		public final CallUpRecordCmd.Bind cmd;
 
 	}
@@ -41,5 +41,16 @@ public interface CallUpRecordEvent
 		@TargetAggregateIdentifier
 		public final String                   id;
 		public final CallUpRecordCmd.Callback cmd;
+	}
+
+	/**
+	 * 挂断
+	 */
+	@Builder
+	final class HungUp
+	{
+		@TargetAggregateIdentifier
+		public final String                 id;
+		public final CallUpRecordCmd.HangUp cmd;
 	}
 }
