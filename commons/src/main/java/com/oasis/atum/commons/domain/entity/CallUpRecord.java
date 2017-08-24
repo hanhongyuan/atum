@@ -124,7 +124,6 @@ public class CallUpRecord
 	@EventSourcingHandler
 	public void handle(final CallUpRecordEvent.Updated event)
 	{
-		log.info("通话记录修改事件 Inner");
 		//通话时长
 		callTime = Optional.ofNullable(event.cmd.beginTime)
 								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime, DateField.SECONDS))

@@ -38,8 +38,6 @@ public class MoorClient
 	public MoorClient(final MoorConfiguration config)
 	{
 		this.client = WebClient.builder()
-										.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
-										.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE)
 										.clientConnector(new ReactorClientHttpConnector())
 										.build();
 		this.config = config;
@@ -59,12 +57,13 @@ public class MoorClient
 	/**
 	 * 容联七陌鉴权 请求参数部分
 	 * MD5编码(帐号Id + 帐号APISecret +时间戳)
+	 * 转大写
 	 * @param timeStamp
 	 * @return
 	 */
 	private String authenticationParameter(final String timeStamp)
 	{
-		return EncryptionUtil.MD5(config.getAccount() + config.getSecret() + timeStamp);
+		return EncryptionUtil.MD5(config.getAccount() + config.getSecret() + timeStamp).toUpperCase();
 	}
 
 	private Mono<JSONObject> get(final String uri, final String... queryString)
@@ -82,6 +81,7 @@ public class MoorClient
 														 .ifModifiedSince(ZonedDateTime.now())
 														 .retrieve()
 														 .bodyToMono(String.class))
+						 .log()
 						 .map(JSON::parseObject);
 	}
 
@@ -98,6 +98,7 @@ public class MoorClient
 						 .body(BodyInserters.fromObject(data))
 						 .retrieve()
 						 .bodyToMono(String.class)
+						 .log()
 						 .map(JSON::parseObject);
 	}
 

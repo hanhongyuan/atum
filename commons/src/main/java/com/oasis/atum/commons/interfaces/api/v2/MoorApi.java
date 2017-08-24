@@ -45,7 +45,7 @@ public class MoorApi
 	 */
 	private static final String REDIS_KEY_BINDING = "binding=>";
 
-	@DeleteMapping("hang-up")
+	@DeleteMapping("hang-up/{id}")
 	public Mono<ResponseEntity> hangUp(@PathVariable final String id)
 	{
 		log.info("电话挂断 =====> {}", id);
