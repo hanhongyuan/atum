@@ -3,7 +3,7 @@ package com.oasis.atum.commons.domain.entity;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.SmsRecordCmd;
-import com.oasis.atum.commons.domain.enums.SmsType;
+import com.oasis.atum.commons.infrastructure.enums.SmsType;
 import com.oasis.atum.commons.domain.event.SmsRecordEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;

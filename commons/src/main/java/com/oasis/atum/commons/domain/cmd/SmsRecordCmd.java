@@ -1,6 +1,6 @@
 package com.oasis.atum.commons.domain.cmd;
 
-import com.oasis.atum.commons.domain.enums.SmsType;
+import com.oasis.atum.commons.infrastructure.enums.SmsType;
 import lombok.Builder;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 

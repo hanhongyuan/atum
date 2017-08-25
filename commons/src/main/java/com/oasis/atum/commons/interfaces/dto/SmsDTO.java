@@ -2,7 +2,7 @@ package com.oasis.atum.commons.interfaces.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.oasis.atum.commons.domain.enums.SmsType;
+import com.oasis.atum.commons.infrastructure.enums.SmsType;
 import lombok.Builder;
 import lombok.ToString;
 

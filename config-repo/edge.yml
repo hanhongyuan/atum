@@ -29,10 +29,6 @@ hystrix:
 
 #网关设置
 zuul:
-  ignoredServices: '*'
-#  host:
-#    connect-timeout-millis: 10000
-#    socket-timeout-millis: 60000
   #路由设置
   routes:
     #公用

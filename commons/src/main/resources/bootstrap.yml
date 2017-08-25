@@ -9,7 +9,12 @@ spring:
       discovery:
         enabled: true
         service-id: config
+      profile: ${spring.profiles}
 
+---
+
+spring:
+  profiles: default
 
 #服务注册
 eureka:
@@ -24,17 +29,6 @@ eureka:
 
 spring:
   profiles: dev
-  #应用名
-  application:
-    name: commons
-  #云配置
-  cloud:
-    config:
-      label: dev
-      profile: dev
-      discovery:
-        enabled: true
-        service-id: config
 
 #服务注册
 eureka:

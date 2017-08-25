@@ -5,9 +5,9 @@ import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
-import com.oasis.atum.commons.domain.enums.CallEventState;
-import com.oasis.atum.commons.domain.enums.CallState;
-import com.oasis.atum.commons.domain.enums.CallType;
+import com.oasis.atum.commons.infrastructure.enums.CallEventState;
+import com.oasis.atum.commons.infrastructure.enums.CallState;
+import com.oasis.atum.commons.infrastructure.enums.CallType;
 import com.oasis.atum.commons.domain.event.CallUpRecordEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -82,10 +82,8 @@ public class CallUpRecord
 	@LastModifiedDate
 	private Date           updateTime;
 
-	//	@CommandHandler
 	public CallUpRecord(final CallUpRecordCmd.Bind cmd)
 	{
-//		log.info("通话记录绑定命令处理");
 		val id = IdWorker.getFlowIdWorkerInstance().nextSID();
 		//发布通话记录绑定事件
 		val event = CallUpRecordEvent.Bound.builder().id(id).cmd(cmd).build();

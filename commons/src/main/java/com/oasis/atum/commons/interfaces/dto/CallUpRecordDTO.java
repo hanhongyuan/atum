@@ -1,8 +1,8 @@
 package com.oasis.atum.commons.interfaces.dto;
 
-import com.oasis.atum.commons.domain.enums.CallEventState;
-import com.oasis.atum.commons.domain.enums.CallState;
-import com.oasis.atum.commons.domain.enums.CallType;
+import com.oasis.atum.commons.infrastructure.enums.CallEventState;
+import com.oasis.atum.commons.infrastructure.enums.CallState;
+import com.oasis.atum.commons.infrastructure.enums.CallType;
 import lombok.Builder;
 import lombok.ToString;
 

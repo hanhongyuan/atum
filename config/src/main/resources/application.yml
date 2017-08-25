@@ -7,10 +7,16 @@ spring:
           uri: https://github.com/BornToRain/atum
           search-paths: config-repo
       label: dev
+      profile: ${spring.profiles}
 
 server:
   #端口
   port: 8888
+
+---
+
+spring:
+  profiles: default
 
 #服务注册
 eureka:
@@ -25,19 +31,6 @@ eureka:
 
 spring:
   profiles: dev
-  #云配置
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/BornToRain/atum
-          search-paths: config-repo
-      label: dev
-      profile: dev
-
-server:
-  #端口
-  port: 8888
 
 #服务注册
 eureka:

@@ -4,9 +4,9 @@ import com.oasis.atum.base.infrastructure.service.HttpClient;
 import com.oasis.atum.commons.application.service.CallUpService;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.entity.CallUpRecord;
-import com.oasis.atum.commons.domain.enums.CallEventState;
-import com.oasis.atum.commons.domain.enums.CallState;
-import com.oasis.atum.commons.domain.enums.CallType;
+import com.oasis.atum.commons.infrastructure.enums.CallEventState;
+import com.oasis.atum.commons.infrastructure.enums.CallState;
+import com.oasis.atum.commons.infrastructure.enums.CallType;
 import com.oasis.atum.commons.domain.request.MoorRequest;
 import com.oasis.atum.commons.infrastructure.service.MoorClient;
 import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
@@ -37,7 +37,7 @@ public class CallUpServiceImpl implements CallUpService
 	private final CommandGateway commandGateway;
 
 	@Override
-	public Mono<CallUpRecordDTO> binding(MoorDTO.Binding data)
+	public Mono<CallUpRecordDTO> binding(final MoorDTO.Binding data)
 	{
 		return Mono.justOrEmpty(data)
 						 //创建绑定命令
@@ -58,7 +58,7 @@ public class CallUpServiceImpl implements CallUpService
 	}
 
 	@Override
-	public Mono<Void> hangUp(String id)
+	public Mono<Void> hangUp(final String id)
 	{
 		return Mono.just(id)
 						 //挂断命令
