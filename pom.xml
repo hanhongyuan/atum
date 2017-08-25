@@ -92,7 +92,7 @@
                 <classifier>jar-with-dependencies</classifier>
             </dependency>
             <!-- 阿里云短信jar end  -->
-            <!-- Java8函数式补强 -->
+            <!-- Java8函数式增强 -->
             <dependency>
                 <groupId>io.vavr</groupId>
                 <artifactId>vavr</artifactId>

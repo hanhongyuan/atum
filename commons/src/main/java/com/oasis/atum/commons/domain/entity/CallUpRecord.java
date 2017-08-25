@@ -5,10 +5,10 @@ import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
+import com.oasis.atum.commons.domain.event.CallUpRecordEvent;
 import com.oasis.atum.commons.infrastructure.enums.CallEventState;
 import com.oasis.atum.commons.infrastructure.enums.CallState;
 import com.oasis.atum.commons.infrastructure.enums.CallType;
-import com.oasis.atum.commons.domain.event.CallUpRecordEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.Optional;
+
+import static io.vavr.API.*;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
@@ -123,25 +125,26 @@ public class CallUpRecord
 	public void handle(final CallUpRecordEvent.Updated event)
 	{
 		//通话时长
-		callTime = Optional.ofNullable(event.cmd.beginTime)
+		callTime = Option(event.cmd.beginTime)
 								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime, DateField.SECONDS))
-								 .orElse(callTime);
-		callType = Validator.either(event.cmd.callType, callType);
-		ringTime = Validator.either(event.cmd.ringTime, ringTime);
-		beginTime = Validator.either(event.cmd.beginTime, beginTime);
-		endTime = Validator.either(event.cmd.endTime, endTime);
-		callState = Validator.either(event.cmd.callState, callState);
-		state = Validator.either(event.cmd.state, state);
-		recordFile = Validator.either(event.cmd.recordFile, recordFile);
-		fileServer = Validator.either(event.cmd.fileServer, fileServer);
-		callId = Validator.either(event.cmd.callId, callId);
+								 .getOrElse(callTime);
+		callType = Option(event.cmd.callType).getOrElse(callType);
+		ringTime = Option(event.cmd.ringTime).getOrElse(ringTime);
+		beginTime = Option(event.cmd.beginTime).getOrElse(beginTime);
+		endTime = Option(event.cmd.endTime).getOrElse(endTime);
+		callState = Option(event.cmd.callState).getOrElse(callState);
+		state = Option(event.cmd.state).getOrElse(state);
+		recordFile = Option(event.cmd.recordFile).getOrElse(recordFile);
+		fileServer = Option(event.cmd.fileServer).getOrElse(fileServer);
+		callId = Option(event.cmd.callId).getOrElse(callId);
+
 	}
 
 	@EventSourcingHandler
 	public void handle(final CallUpRecordEvent.Callbacked event)
 	{
-		isSuccess = Validator.either(event.cmd.isSuccess, isSuccess);
-		message = Validator.either(event.cmd.message, message);
+		isSuccess = Option(event.cmd.isSuccess).getOrElse(isSuccess);
+		message = Option(event.cmd.message).getOrElse(message);
 	}
 
 }
