@@ -49,7 +49,7 @@ public class CallUpRecordCmdHandler
 	}
 
 	@CommandHandler
-	public MoorRequest.HangUp hangle(final CallUpRecordCmd.HangUp cmd)
+	public MoorRequest.HangUp handle(final CallUpRecordCmd.HangUp cmd)
 	{
 		log.info("通话记录挂断命令处理");
 

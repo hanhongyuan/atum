@@ -16,24 +16,24 @@ public interface SmsRecordCmd
 	 * 创建
 	 */
 	@Builder
-	final class Create implements SmsRecordCmd
+	final class Create
 	{
 		@TargetAggregateIdentifier
-		public final String       id;
-		public final String       messageId;
-		public final Integer      count;
-		public final List<String> mobiles;
-		public final String       content;
-		public final SmsType      smsType;
-		public final Boolean      isBusiness;
-		public final Date         createTime;
+		public final String  id;
+		public final String  messageId;
+		public final Integer count;
+		public final String  mobile;
+		public final String  content;
+		public final SmsType smsType;
+		public final Boolean isBusiness;
+		public final Date    createTime;
 	}
 
 	/**
 	 * 发送成功
 	 */
 	@Builder
-	final class Success implements SmsRecordCmd
+	final class Success
 	{
 		@TargetAggregateIdentifier
 		public final String  id;
@@ -47,7 +47,7 @@ public interface SmsRecordCmd
 	 * 发送失败
 	 */
 	@Builder
-	final class Fail implements SmsRecordCmd
+	final class Fail
 	{
 		@TargetAggregateIdentifier
 		public final String  id;
@@ -60,7 +60,7 @@ public interface SmsRecordCmd
 	 * 回复
 	 */
 	@Builder
-	final class Reply implements SmsRecordCmd
+	final class Reply
 	{
 		@TargetAggregateIdentifier
 		public final String  id;

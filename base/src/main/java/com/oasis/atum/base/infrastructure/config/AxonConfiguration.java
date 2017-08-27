@@ -62,7 +62,7 @@ public class AxonConfiguration
 		return new MongoEventStorageEngine(serializer, null, axonMongoTemplate(), new DocumentPerEventStorageStrategy());
 	}
 
-	@Bean(name = "axonMongoTemplate")
+	@Bean
 	public MongoTemplate axonMongoTemplate()
 	{
 		return new DefaultMongoTemplate(mongoClient(), dbName, eventsCollectionName, snapshotCollectionName);

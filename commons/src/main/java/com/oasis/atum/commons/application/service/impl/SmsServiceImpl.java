@@ -33,7 +33,7 @@ public class SmsServiceImpl implements SmsService
 		return Mono.justOrEmpty(data)
 						 .map(d -> SmsRecordCmd.Create.builder()
 												 .smsType(d.smsType)
-												 .mobiles(Arrays.asList(d.mobile))
+												 .mobile(d.mobile)
 												 .isBusiness(false)
 												 .createTime(new Date())
 												 .build())

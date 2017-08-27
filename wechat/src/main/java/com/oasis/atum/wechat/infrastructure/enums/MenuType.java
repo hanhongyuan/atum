@@ -1,4 +1,4 @@
-package com.oasis.atum.wechat.domain.enums;
+package com.oasis.atum.wechat.infrastructure.enums;
 
 /**
  * 菜单类型

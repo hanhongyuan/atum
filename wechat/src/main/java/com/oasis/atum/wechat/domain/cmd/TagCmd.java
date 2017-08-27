@@ -15,7 +15,7 @@ public interface TagCmd
 	 * 创建
 	 */
 	@Builder
-	final class Create implements TagCmd
+	final class Create
 	{
 		@TargetAggregateIdentifier
 		public final String id;
@@ -27,7 +27,7 @@ public interface TagCmd
 	 * 修改
 	 */
 	@Builder
-	final class Update implements TagCmd
+	final class Update
 	{
 		@TargetAggregateIdentifier
 		public final String  id;
@@ -39,7 +39,7 @@ public interface TagCmd
 	 * 添加粉丝
 	 */
 	@Builder
-	final class AddFans implements TagCmd
+	final class AddFans
 	{
 		@TargetAggregateIdentifier
 		public final String       id;

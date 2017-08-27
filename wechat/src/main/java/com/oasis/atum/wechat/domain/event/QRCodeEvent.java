@@ -15,7 +15,7 @@ public interface QRCodeEvent
 	 * 创建
 	 */
 	@Builder
-	final class Created implements QRCodeEvent
+	final class Created
 	{
 		@TargetAggregateIdentifier
 		public final String           id;
@@ -26,7 +26,7 @@ public interface QRCodeEvent
 	 * 修改
 	 */
 	@Builder
-	final class Updated implements QRCodeEvent
+	final class Updated
 	{
 		@TargetAggregateIdentifier
 		public final String           id;

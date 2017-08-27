@@ -17,11 +17,11 @@ public interface PaymentService
 	Mono<Payment.H5> applet(PaymentRequest data);
 
 	/**
-	 * H5支付
+	 * 公众号支付
 	 * @param data
 	 * @return
 	 */
-	Mono<Payment.H5> h5(PaymentRequest data);
+	Mono<Payment.H5> jsapi(PaymentRequest data);
 
 	/**
 	 * 二维码支付

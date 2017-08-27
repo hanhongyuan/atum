@@ -6,6 +6,7 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.response.JsSDK;
+import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.net.MalformedURLException;
 import java.net.URL;
+
+import static io.vavr.API.*;
 
 /**
  * Js-SDK接口
@@ -40,20 +42,25 @@ public class JsApi
 	{
 		log.info("获取Js-SDK签名 =====> {}", uri);
 
-		if (!isOasisNet(uri)) return Mono.just(Restful.ok());
-		//当前时间的秒数
-		val timeStamp = DateUtil.timeStamp();
-		val nonceStr  = BaseUtil.random(32);
-		//获取Js-SDK签名
-		return client.jsSign(timeStamp, nonceStr, uri)
-						 //构建jJs-SDK参数
-						 .map(s -> JsSDK.builder().appId(config.getAppId())
-												 .nonceStr(nonceStr)
-												 .timeStamp(timeStamp)
-												 .signature(s)
-												 .build())
-						 .log()
-						 .map(Restful::ok);
+		return Match(isOasisNet(uri)).of(
+			Case($(false), () -> Mono.just(Restful.ok())),
+			Case($(), () ->
+			{
+				//当前时间的秒数
+				val timeStamp = DateUtil.timeStamp();
+				val nonceStr  = BaseUtil.random(32);
+				//获取Js-SDK签名
+				return client.jsSign(timeStamp, nonceStr, uri)
+								 //构建jJs-SDK参数
+								 .map(s -> JsSDK.builder().appId(config.getAppId())
+														 .nonceStr(nonceStr)
+														 .timeStamp(timeStamp)
+														 .signature(s)
+														 .build())
+								 .log()
+								 .map(Restful::ok);
+			})
+		);
 	}
 
 	/**
@@ -61,18 +68,13 @@ public class JsApi
 	 * @param net
 	 * @return
 	 */
-	private boolean isOasisNet(final String net)
+	private Boolean isOasisNet(final String net)
 	{
-		try
+		return Try.of(() ->
 		{
 			val url  = new URL(net);
 			val host = url.getHost();
 			return host.indexOf("oasisapp") > 1 || host.indexOf("oasiscare") > 1;
-		}
-		catch (MalformedURLException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+		}).getOrElse(false);
 	}
 }

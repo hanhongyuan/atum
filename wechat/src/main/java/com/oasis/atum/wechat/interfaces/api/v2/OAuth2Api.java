@@ -40,7 +40,8 @@ public class OAuth2Api
 													 val json = new JSONObject();
 													 json.put("openid", s);
 													 return Restful.ok(json);
-												 }).orElseGet(Restful::ok)
+												 })
+												 .orElseGet(Restful::ok)
 						 );
 	}
 }

@@ -13,7 +13,7 @@ public interface SmsRecordEvent
 	 * 创建
 	 */
 	@Builder
-	final class Created implements SmsRecordEvent
+	final class Created
 	{
 		@TargetAggregateIdentifier
 		public final String              id;
@@ -24,7 +24,7 @@ public interface SmsRecordEvent
 	 * 发送成功
 	 */
 	@Builder
-	final class Succeed implements SmsRecordCmd
+	final class Succeed
 	{
 		@TargetAggregateIdentifier
 		public final String               id;
@@ -35,7 +35,7 @@ public interface SmsRecordEvent
 	 * 发送失败
 	 */
 	@Builder
-	final class Failed implements SmsRecordCmd
+	final class Failed
 	{
 		@TargetAggregateIdentifier
 		public final String            id;
@@ -46,7 +46,7 @@ public interface SmsRecordEvent
 	 * 回复
 	 */
 	@Builder
-	final class Replied implements SmsRecordCmd
+	final class Replied
 	{
 		@TargetAggregateIdentifier
 		public final String             id;

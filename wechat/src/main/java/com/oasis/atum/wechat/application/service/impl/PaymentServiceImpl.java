@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
@@ -31,6 +32,7 @@ public class PaymentServiceImpl implements PaymentService
 	private final WechatConfiguration config;
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 	public Mono<Payment.H5> applet(final PaymentRequest data)
 	{
 		return sendPayments(data, true)
@@ -50,7 +52,8 @@ public class PaymentServiceImpl implements PaymentService
 	}
 
 	@Override
-	public Mono<Payment.H5> h5(final PaymentRequest data)
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+	public Mono<Payment.H5> jsapi(final PaymentRequest data)
 	{
 		return sendPayments(data)
 						 .filter(d -> Objects.nonNull(d.prepay_id))
@@ -69,12 +72,14 @@ public class PaymentServiceImpl implements PaymentService
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 	public Mono<Payment.Response> qrcode(final PaymentRequest data)
 	{
 		return sendPayments(data);
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 	public Mono<Payment.APP> app(final PaymentRequest data)
 	{
 		return sendPayments(data)

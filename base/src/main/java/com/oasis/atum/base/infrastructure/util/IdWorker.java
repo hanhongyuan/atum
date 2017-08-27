@@ -6,6 +6,8 @@ import lombok.val;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static io.vavr.API.Option;
+
 /**
  * 分布式全局ID生成器
  * tweeter的snowflake 移植到Java:
@@ -23,7 +25,7 @@ public final class IdWorker
 	// 机器标识位数
 	private final long workerIdBits       = 10L;
 	// 机器ID最大值: 1023
-	private final long maxWorkerId        = ~(-1L << workerIdBits);
+	private final long maxWorkerId        = -1L ^ (-1L << workerIdBits);
 	// 毫秒内自增位
 	private final long sequenceBits       = 12L;
 	//并发控制
@@ -33,7 +35,7 @@ public final class IdWorker
 	// 22
 	private final long timestampLeftShift = sequenceBits + workerIdBits;
 	// 4095,111111111111,12位
-	private final long sequenceMask       = ~(-1L << sequenceBits);
+	private final long sequenceMask       = -1L ^ (-1L << workerIdBits);
 	private       long lastTimestamp      = -1L;
 
 	private IdWorker(final long workerId)
@@ -55,7 +57,7 @@ public final class IdWorker
 	/**
 	 * 等待下一个毫秒的到来, 保证返回的毫秒数在参数lastTimestamp之后
 	 */
-	private long tilNextMillis(final long lastTimestamp)
+	private long blockNextMillis(final long lastTimestamp)
 	{
 		val timestamp = System.currentTimeMillis();
 		return timestamp <= lastTimestamp ? System.currentTimeMillis() : timestamp;
@@ -64,20 +66,24 @@ public final class IdWorker
 	@Synchronized
 	public long nextId()
 	{
-		val timestamp = System.currentTimeMillis();
-		return Optional.of(timestamp).map(t ->
-		{
-			if (t == this.lastTimestamp)
-			{
-				// 如果上一个timestamp与新产生的相等，则sequence加一(0-4095循环); 对新的timestamp，sequence从0开始
-				this.sequence = this.sequence + 1 & this.sequenceMask;
-				// 重新生成timestamp
-				if (this.sequence == 0) return this.tilNextMillis(this.lastTimestamp);
-			}
-			else this.sequence = 0;
-			lastTimestamp = t;
-			return t;
-		}).map(t -> t - this.epoch << this.timestampLeftShift | this.workerId << this.workerIdShift | this.sequence).get();
+		return Option(System.currentTimeMillis())
+						 .map(t ->
+						 {
+							 //当前时间戳小于上一次Id生成的时间戳,说明系统时间回退过,这个时候应当抛出异常
+							 if (t < lastTimestamp) throw new RuntimeException("系统时间不正常,拒绝为" + (lastTimestamp - t) + "毫秒生成id");
+							 if (t.equals(lastTimestamp))
+							 {
+								 sequence = (sequence + 1) & sequenceMask;
+								 //毫秒内序列溢出
+								 if (sequence == 0L) blockNextMillis(lastTimestamp);
+							 }
+							 //时间戳改变,毫秒内序列重置
+							 else sequence = 0L;
+							 //上次生成ID的时间截
+							 lastTimestamp = t;
+							 //移位并通过或运算拼到一起组成64位的ID
+							 return ((t - epoch) << timestampLeftShift) | (workerId << workerIdShift) | sequence;
+						 }).get();
 	}
 
 	public String nextSID()

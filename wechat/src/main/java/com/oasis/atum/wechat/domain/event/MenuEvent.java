@@ -14,7 +14,7 @@ public interface MenuEvent
 	 * 创建
 	 */
 	@Builder
-	final class Created implements MenuEvent
+	final class Created
 	{
 		@TargetAggregateIdentifier
 		public final String         id;
@@ -25,7 +25,7 @@ public interface MenuEvent
 	 * 修改
 	 */
 	@Builder
-	final class Updated implements MenuEvent
+	final class Updated
 	{
 		@TargetAggregateIdentifier
 		public final String         id;
@@ -35,7 +35,7 @@ public interface MenuEvent
 	/**
 	 * 删除
 	 */
-	final class Deleted implements MenuEvent
+	final class Deleted
 	{
 		@TargetAggregateIdentifier
 		public final String id;

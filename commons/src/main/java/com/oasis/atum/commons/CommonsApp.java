@@ -1,7 +1,7 @@
 package com.oasis.atum.commons;
 
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
-import com.oasis.atum.base.infrastructure.config.HttpConfiguration;
+import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
  */
 @EnableMongoAuditing
 @SpringCloudApplication
-@ImportAutoConfiguration(value = {AxonConfiguration.class, RedisConfiguration.class, HttpConfiguration.class})
+@ImportAutoConfiguration(value = {AxonConfiguration.class, RedisConfiguration.class, ServerConfiguration.class})
 public class CommonsApp
 {
 	public static void main(final String[] args)

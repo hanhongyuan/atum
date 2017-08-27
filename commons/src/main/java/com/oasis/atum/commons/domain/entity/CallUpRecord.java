@@ -3,7 +3,6 @@ package com.oasis.atum.commons.domain.entity;
 import com.oasis.atum.base.infrastructure.constant.DateField;
 import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.IdWorker;
-import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.event.CallUpRecordEvent;
 import com.oasis.atum.commons.infrastructure.enums.CallEventState;
@@ -22,7 +21,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.Optional;
 
 import static io.vavr.API.*;
 
@@ -33,8 +31,8 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
  */
 @Data
 @Slf4j
-@Aggregate
 @NoArgsConstructor
+@Aggregate
 @Document(collection = "call_up_record")
 public class CallUpRecord
 {
@@ -125,9 +123,8 @@ public class CallUpRecord
 	public void handle(final CallUpRecordEvent.Updated event)
 	{
 		//通话时长
-		callTime = Option(event.cmd.beginTime)
-								 .map(x -> DateUtil.compareTo(x, event.cmd.endTime, DateField.SECONDS))
-								 .getOrElse(callTime);
+		callTime = Stream(event.cmd.beginTime).zipWith(Stream(event.cmd.endTime), (x, y) -> DateUtil.compareTo(x, y, DateField.SECONDS))
+								 .getOrElse(0L);
 		callType = Option(event.cmd.callType).getOrElse(callType);
 		ringTime = Option(event.cmd.ringTime).getOrElse(ringTime);
 		beginTime = Option(event.cmd.beginTime).getOrElse(beginTime);

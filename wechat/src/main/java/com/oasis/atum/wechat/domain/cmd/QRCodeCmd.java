@@ -1,6 +1,6 @@
 package com.oasis.atum.wechat.domain.cmd;
 
-import com.oasis.atum.wechat.domain.enums.QRCodeType;
+import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
 import lombok.Builder;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
@@ -15,7 +15,7 @@ public interface QRCodeCmd
 	 * 创建
 	 */
 	@Builder
-	final class Create implements QRCodeCmd
+	final class Create
 	{
 		@TargetAggregateIdentifier
 		public final String     id;
@@ -30,7 +30,7 @@ public interface QRCodeCmd
 	 * 修改
 	 */
 	@Builder
-	final class Update implements QRCodeCmd
+	final class Update
 	{
 		@TargetAggregateIdentifier
 		public final String id;

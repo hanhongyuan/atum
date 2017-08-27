@@ -2,7 +2,7 @@ package com.oasis.atum.wechat.interfaces.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.oasis.atum.wechat.domain.enums.MenuType;
+import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import lombok.Builder;
 import lombok.ToString;
 

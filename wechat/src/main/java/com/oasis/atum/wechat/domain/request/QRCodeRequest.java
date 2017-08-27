@@ -2,12 +2,14 @@ package com.oasis.atum.wechat.domain.request;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.oasis.atum.wechat.domain.enums.QRCodeType;
+import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
+import io.vavr.control.Try;
 import lombok.Builder;
 import lombok.val;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.function.Supplier;
 
 /**
  * 二维码请求集
@@ -54,18 +56,13 @@ public interface QRCodeRequest
 		 */
 		public JSONObject long2Short(final String ticket)
 		{
-			try
+			return Try.of(() ->
 			{
 				val json = new JSONObject();
 				json.put("action", "long2short");
 				json.put("long_url", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + URLEncoder.encode(ticket, "UTF-8"));
 				return json;
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				e.printStackTrace();
-			}
-			return null;
+			}).getOrElseThrow((Supplier<RuntimeException>) RuntimeException::new);
 		}
 	}
 }

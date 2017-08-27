@@ -1,6 +1,6 @@
 package com.oasis.atum.wechat.domain.cmd;
 
-import com.oasis.atum.wechat.domain.enums.MenuType;
+import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import lombok.Builder;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
@@ -15,7 +15,7 @@ public interface MenuCmd
 	 * 创建
 	 */
 	@Builder
-	final class Create implements MenuCmd
+	final class Create
 	{
 		@TargetAggregateIdentifier
 		public final String   id;
@@ -37,7 +37,7 @@ public interface MenuCmd
 	 * 修改
 	 */
 	@Builder
-	final class Update implements MenuCmd
+	final class Update
 	{
 		@TargetAggregateIdentifier
 		public final String   id;
@@ -57,7 +57,7 @@ public interface MenuCmd
 	/**
 	 * 删除
 	 */
-	final class Delete implements MenuCmd
+	final class Delete
 	{
 		@TargetAggregateIdentifier
 		public final String id;

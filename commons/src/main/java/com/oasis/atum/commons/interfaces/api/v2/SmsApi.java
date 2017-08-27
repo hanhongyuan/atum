@@ -7,6 +7,8 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.commons.application.service.SmsService;
 import com.oasis.atum.commons.interfaces.dto.SmsDTO;
 import com.oasis.atum.commons.interfaces.request.SmsCallBack;
+import io.vavr.collection.Stream;
+import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * 短信接口
@@ -44,7 +42,8 @@ public class SmsApi
 	{
 		log.info("发送验证码");
 
-		return data.flatMap(service::sendCaptcha).map(v -> Restful.ok());
+		return data.flatMap(service::sendCaptcha)
+						 .map(v -> Restful.ok());
 	}
 
 	@PostMapping("validation")
@@ -53,7 +52,6 @@ public class SmsApi
 		log.info("校验验证码 =====> ");
 
 		return data.flatMap(d -> redis.get(d.smsType + "=>" + d.mobile)
-															 .filter(Objects::nonNull)
 															 .map(c -> c.equals(d.captcha))
 															 .map(Restful::ok)
 															 .defaultIfEmpty(Restful.ok(false)));
@@ -66,7 +64,7 @@ public class SmsApi
 	{
 		return getData(request)
 						 .map(SmsApi::toData)
-						 .flatMap(service::success)
+						 .map(d -> d.onSuccess(service::success))
 						 .map(v -> Restful.noContent());
 	}
 
@@ -76,7 +74,7 @@ public class SmsApi
 	{
 		return getData(request)
 						 .map(SmsApi::toData)
-						 .flatMap(service::fail)
+						 .map(d -> d.onSuccess(service::fail))
 						 .map(v -> Restful.noContent());
 	}
 
@@ -85,7 +83,7 @@ public class SmsApi
 	{
 		return getData(request)
 						 .map(SmsApi::toData)
-						 .flatMap(service::reply)
+						 .map(d -> d.onSuccess(service::reply))
 						 .map(v -> Restful.noContent());
 	}
 
@@ -94,21 +92,21 @@ public class SmsApi
 	 * @param data
 	 * @return
 	 */
-	private static SmsCallBack toData(final String data)
+	private static Try<SmsCallBack> toData(final Try<String> data)
 	{
-		log.info("阿里云短信回调 =====> {}", data);
 		//&分割数据
-		return Optional.of(data)
-						 //临时处理阿里云意义不明字段 extra
-						 .map(s -> s.replace("extra=", "extra=1"))
-						 .map(s -> s.split("&"))
+		return data.map(s ->
+		{
+			log.info("阿里云短信回调 =====> {}", data);
+			//临时处理阿里云意义不明字段 extra
+			return s.replace("extra=", "extra=1");
+		}).map(s -> s.split("&"))
 						 .map(Stream::of)
 						 //=分割键值
 						 .map(d -> d.map(s -> s.split("="))
 												 //转成JSON
 												 .collect(JSONObject::new, (x, y) -> x.put(y[0], y[1]), JSONObject::putAll))
-						 .map(j -> JSON.toJavaObject(j, SmsCallBack.class))
-						 .get();
+						 .map(j -> JSON.toJavaObject(j, SmsCallBack.class));
 	}
 
 	/**
@@ -116,24 +114,16 @@ public class SmsApi
 	 * @param request
 	 * @return
 	 */
-	private static Mono<String> getData(final ServerHttpRequest request)
+	private static Mono<Try<String>> getData(final ServerHttpRequest request)
 	{
 		return request.getBody()
 						 .map(DataBuffer::asInputStream)
-						 .map(is ->
+						 .map(is -> Try.of(() ->
 						 {
 							 val bytes = new byte[1024];
-							 try
-							 {
-								 is.read(bytes);
-								 return new String(bytes, StandardCharsets.UTF_8);
-							 }
-							 catch (IOException e)
-							 {
-								 log.error("解析阿里云短信回调出错", e);
-								 return null;
-							 }
-						 })
+							 is.read(bytes);
+							 return new String(bytes, StandardCharsets.UTF_8);
+						 }))
 						 .elementAt(0);
 	}
 }

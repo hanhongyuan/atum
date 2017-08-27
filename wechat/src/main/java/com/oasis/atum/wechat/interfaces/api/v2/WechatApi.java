@@ -30,6 +30,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
+
+import static io.vavr.API.*;
+import static io.vavr.Predicates.*;
 
 /**
  * 微信公众号接口
@@ -91,31 +95,16 @@ public class WechatApi
 							 val msgType = r.MsgType;
 							 log.info("消息类型 =====> {}", msgType);
 
-							 switch (msgType)
-							 {
-								 //文本
-								 case MsgType.TEXT:
-									 //图片
-								 case MsgType.IMAGE:
-									 //链接
-								 case MsgType.LINK:
-									 //语音
-								 case MsgType.VOICE:
-									 //视频
-								 case MsgType.VIDEO:
-									 //短视频
-								 case MsgType.SHORT_VIDEO:
-									 log.info("临时统一处理");
-									 return Mono.just(textResponse(r, "泓华医疗,让健康更简单!"));
+							 return Match(msgType).of(
 								 //事件
-								 case MsgType.EVENT:
-									 return eventHandle(r);
+								 Case($(MsgType.EVENT), () -> eventHandle(r)),
 								 //地理位置
-								 case MsgType.LOCATION:
-									 val latitude = r.Location_X;
+								 Case($(MsgType.LOCATION), () ->
+								 {
+									 val latitude  = r.Location_X;
 									 val longitude = r.Location_Y;
-									 val scale = r.Scale;
-									 val label = r.Label;
+									 val scale     = r.Scale;
+									 val label     = r.Label;
 
 									 //用户信息
 									 return redis.getData(openId, OpenId.class).defaultIfEmpty(new OpenId())
@@ -126,11 +115,13 @@ public class WechatApi
 															if (Objects.nonNull(l)) d.createLocation(latitude, longitude, scale, label, l.precision);
 															else d.createLocation(latitude, longitude, scale, label, null);
 															return d;
-														}).map(d -> redis.put(openId, d))
+														})
+														.flatMap(d -> redis.put(openId, d))
 														.map(b -> "success");
-								 default:
-									 return Mono.empty();
-							 }
+								 }),
+								 //临时统一处理
+								 Case($(), () -> Mono.just(textResponse(r, "泓华医疗,让健康更简单!")))
+							 );
 						 });
 	}
 
@@ -145,45 +136,44 @@ public class WechatApi
 		log.info("事件 =====> {}", event);
 		val key = wechat.EventKey;
 		log.info("事件Key =====> {}", key);
-		switch (event)
-		{
-			//已关注
-			case EventType.SCAN:
-				log.info("已关注扫码");
-				//关注
-			case EventType.SUBSCRIBE:
-				log.info("谢谢您的关注");
-				Mono.justOrEmpty(key)
-					//诊所二维码
-					.filter(s -> s.contains("clinic"))
-					/**
-					 * 诊所ID
-					 * 首次关注格式 qrscene_clinidId=1
-					 * 已关注格式 clinicId=1
-					 */
-					.map(s -> event.equals(EventType.SCAN) ? s.split("=")[1] : s.substring(8).split("=")[1])
-					.flatMap(id ->
-					{
-						//标签添加粉丝
-						tagService.addFans(config.getWxId(), Arrays.asList(openId)).subscribe();
-						//更新用户信息
-						redis.getData(openId, OpenId.class).defaultIfEmpty(new OpenId())
-							.flatMap(d ->
-							{
-								//覆盖之前关注诊所
-								d.setClinic(id);
-								//是否关注
-								d.setFollow(true);
-								//存储用户信息
-								return redis.put(openId, d);
-							});
-						//返回绑定绑定图文消息
-						return newsHandle(wechat, true);
-					})
-					//没有绑定诊所图文
-					.switchIfEmpty(newsHandle(wechat, false));
-				//上报地理位置
-			case EventType.LOCATION:
+
+		return Match(event).of(
+			//已关注、关注
+			Case($(isIn(EventType.SCAN, EventType.SUBSCRIBE)),
+				() -> Mono.justOrEmpty(key)
+								//诊所二维码
+								.filter(s -> s.contains("clinic"))
+								/**
+								 * 诊所ID
+								 * 首次关注格式 qrscene_clinidId=1
+								 * 已关注格式 clinicId=1
+								 */
+								.map(s -> event.equals(EventType.SCAN) ? s.split("=")[1] :
+														s.substring(8).split("=")[1])
+								.flatMap(id ->
+								{
+									//标签添加粉丝
+									tagService.addFans(config.getWxId(), Arrays.asList(openId)).subscribe();
+									//更新用户信息
+									redis.getData(openId, OpenId.class).defaultIfEmpty(new OpenId())
+										.flatMap(d ->
+										{
+											//覆盖之前关注诊所
+											d.setClinic(id);
+											//是否关注
+											d.setFollow(true);
+											//存储用户信息
+											return redis.put(openId, d);
+										});
+									//返回绑定绑定图文消息
+									return newsHandle(wechat, true);
+								})
+								//没有绑定诊所图文
+								.switchIfEmpty(newsHandle(wechat, false))
+			),
+			//上报地理位置
+			Case($(EventType.LOCATION), () ->
+			{
 				log.info("用户地理位置");
 				//维度
 				val latitude = wechat.Latitude;
@@ -204,11 +194,9 @@ public class WechatApi
 								 //更新用户信息
 								 .flatMap(d -> redis.put(openId, d))
 								 .map(b -> "success");
-			case EventType.VIEW:
-				log.info("跳转地址 =====> {}", wechat.EventKey);
-			default:
-				return Mono.empty();
-		}
+			}),
+			Case($(), (Supplier<Mono<String>>) Mono::empty)
+		);
 	}
 
 	/**
