@@ -39,19 +39,18 @@ public class CallUpRecordCmdHandler
 	}
 
 	@CommandHandler
-	public Mono<Long> handle(final CallUpRecordCmd.UnBind cmd)
-	{
-		log.info("通话记录解绑命令处理");
-
-		return redis.delete(REDIS_KEY_BINDING + cmd.call);
-	}
-
-	@CommandHandler
 	public CallUpRecord handle(final CallUpRecordCmd.Update cmd)
 	{
 		log.info("通话记录修改命令处理");
-		//同步阻塞等待返回
-		val id = redis.getJSONObject(REDIS_KEY_BINDING + cmd.callMobile).block().getString("id");
+		val id = redis.getJSONObject(REDIS_KEY_BINDING + cmd.callMobile)
+							 .map(j ->
+							 {
+								 //通话结束解除绑定
+								 redis.delete(REDIS_KEY_BINDING + j.getString("call")).subscribe();
+								 return j.getString("id");
+							 })
+							 //同步阻塞等待返回
+							 .block();
 		//查询手机号绑定关系
 		return repository.load(id).invoke(d -> d.update(id, cmd));
 	}

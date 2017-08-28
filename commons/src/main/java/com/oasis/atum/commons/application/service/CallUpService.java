@@ -23,13 +23,6 @@ public interface CallUpService
 	Mono<CallUpRecordDTO> binding(MoorDTO.Binding data);
 
 	/**
-	 * 解绑手机关系
-	 * @param thirdId
-	 * @return
-	 */
-	Mono<Void> unbinding(String thirdId);
-
-	/**
 	 * 电话挂断
 	 * @param id
 	 * @return

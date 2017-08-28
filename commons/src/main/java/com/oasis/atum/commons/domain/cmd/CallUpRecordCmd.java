@@ -30,20 +30,6 @@ public interface CallUpRecordCmd
 	}
 
 	/**
-	 * 解绑
-	 */
-	final class UnBind
-	{
-		@TargetAggregateIdentifier
-		public final String call;
-
-		public UnBind(final String call)
-		{
-			this.call = call;
-		}
-	}
-
-	/**
 	 * 修改
 	 */
 	@Builder
@@ -78,9 +64,6 @@ public interface CallUpRecordCmd
 		public final String  message;
 	}
 
-	/**
-	 * 挂断
-	 */
 	@Builder
 	final class HangUp
 	{

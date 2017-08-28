@@ -67,18 +67,6 @@ public class MoorApi
 						 .map(Restful::ok);
 	}
 
-	@DeleteMapping("unbinding")
-	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<String> data)
-	{
-		log.info("解除绑定关系");
-
-		return data
-						 //解绑
-						 .flatMap(service::unbinding)
-						 //返回
-						 .map(v -> Restful.noContent());
-	}
-
 	@PostMapping("call-up/back")
 	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<MoorDTO.CallUpCallBack> data)
 	{

@@ -4,11 +4,10 @@ import com.oasis.atum.base.infrastructure.service.HttpClient;
 import com.oasis.atum.commons.application.service.CallUpService;
 import com.oasis.atum.commons.domain.cmd.CallUpRecordCmd;
 import com.oasis.atum.commons.domain.entity.CallUpRecord;
+import com.oasis.atum.commons.domain.request.MoorRequest;
 import com.oasis.atum.commons.infrastructure.enums.CallEventState;
 import com.oasis.atum.commons.infrastructure.enums.CallState;
 import com.oasis.atum.commons.infrastructure.enums.CallType;
-import com.oasis.atum.commons.domain.request.MoorRequest;
-import com.oasis.atum.commons.infrastructure.repository.CallUpRecordRepository;
 import com.oasis.atum.commons.infrastructure.service.MoorClient;
 import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
 import com.oasis.atum.commons.interfaces.dto.CallUpRecordDTO;
@@ -33,10 +32,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class CallUpServiceImpl implements CallUpService
 {
-	private final HttpClient             http;
-	private final MoorClient             client;
-	private final CommandGateway         commandGateway;
-	private final CallUpRecordRepository persistence;
+	private final HttpClient     http;
+	private final MoorClient     client;
+	private final CommandGateway commandGateway;
 
 	@Override
 	public Mono<CallUpRecordDTO> binding(final MoorDTO.Binding data)
@@ -57,18 +55,6 @@ public class CallUpServiceImpl implements CallUpService
 						 })
 						 .flatMap(Mono::fromFuture)
 						 .map(CallUpRecordAssembler::toDTO);
-	}
-
-	@Override
-	public Mono<Void> unbinding(final String thirdId)
-	{
-		return persistence.findByThirdId(thirdId)
-						 .map(CallUpRecord::getCallMobile)
-						 //创建解绑命令
-						 .map(CallUpRecordCmd.UnBind::new)
-						 //发送命令
-						 .map(commandGateway::send)
-						 .then();
 	}
 
 	@Override
