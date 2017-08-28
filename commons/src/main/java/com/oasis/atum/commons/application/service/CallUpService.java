@@ -22,12 +22,12 @@ public interface CallUpService
 	 */
 	Mono<CallUpRecordDTO> binding(MoorDTO.Binding data);
 
-//	/**
-//	 * 挂断
-//	 * @param data
-//	 * @return
-//	 */
-//	Mono<String> hangUp(MoorDTO.HangUp data);
+	/**
+	 * 解绑手机关系
+	 * @param thirdId
+	 * @return
+	 */
+	Mono<Void> unbinding(String thirdId);
 
 	/**
 	 * 电话挂断

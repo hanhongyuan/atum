@@ -68,19 +68,15 @@ public class MoorApi
 	}
 
 	@DeleteMapping("unbinding")
-	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<MoorDTO.Binding> data)
+	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<String> data)
 	{
-		log.info("解除绑定关系 =====> {}", data);
+		log.info("解除绑定关系");
 
 		return data
-						 //非空
-						 .filter(d -> Objects.nonNull(d.call))
-						 .map(d -> REDIS_KEY_BINDING + d.call)
-						 //key是否存在
-						 .flatMap(s -> redis.get(s)
-														 //存在删除
-														 .flatMap(b -> redis.delete(s)))
-						 .map(l -> Restful.noContent());
+						 //解绑
+						 .flatMap(service::unbinding)
+						 //返回
+						 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("call-up/back")

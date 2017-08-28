@@ -8,6 +8,7 @@ import com.oasis.atum.commons.infrastructure.enums.CallEventState;
 import com.oasis.atum.commons.infrastructure.enums.CallState;
 import com.oasis.atum.commons.infrastructure.enums.CallType;
 import com.oasis.atum.commons.domain.request.MoorRequest;
+import com.oasis.atum.commons.infrastructure.repository.CallUpRecordRepository;
 import com.oasis.atum.commons.infrastructure.service.MoorClient;
 import com.oasis.atum.commons.interfaces.assembler.CallUpRecordAssembler;
 import com.oasis.atum.commons.interfaces.dto.CallUpRecordDTO;
@@ -32,14 +33,15 @@ import java.util.Date;
 @AllArgsConstructor
 public class CallUpServiceImpl implements CallUpService
 {
-	private final HttpClient     http;
-	private final MoorClient     client;
-	private final CommandGateway commandGateway;
+	private final HttpClient             http;
+	private final MoorClient             client;
+	private final CommandGateway         commandGateway;
+	private final CallUpRecordRepository persistence;
 
 	@Override
 	public Mono<CallUpRecordDTO> binding(final MoorDTO.Binding data)
 	{
-		return Mono.justOrEmpty(data)
+		return Mono.just(data)
 						 //创建绑定命令
 						 .map(d -> CallUpRecordCmd.Bind.builder().thirdId(d.thirdId).callMobile(d.call)
 												 .callToMobile(d.to).maxCallTime(d.maxCallTime)
@@ -55,6 +57,18 @@ public class CallUpServiceImpl implements CallUpService
 						 })
 						 .flatMap(Mono::fromFuture)
 						 .map(CallUpRecordAssembler::toDTO);
+	}
+
+	@Override
+	public Mono<Void> unbinding(final String thirdId)
+	{
+		return persistence.findByThirdId(thirdId)
+						 .map(CallUpRecord::getCallMobile)
+						 //创建解绑命令
+						 .map(CallUpRecordCmd.UnBind::new)
+						 //发送命令
+						 .map(commandGateway::send)
+						 .then();
 	}
 
 	@Override
@@ -104,7 +118,7 @@ public class CallUpServiceImpl implements CallUpService
 	@Override
 	public Mono<Void> updateCallUp(final MoorDTO.CallUpCallBack data)
 	{
-		return Mono.justOrEmpty(data)
+		return Mono.just(data)
 						 .map(d -> CallUpRecordCmd.Callback.builder()
 												 .id(d.actionId)
 												 .isSuccess(d.isSuccess)
