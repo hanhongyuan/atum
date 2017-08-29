@@ -4,21 +4,19 @@ import com.oasis.atum.base.infrastructure.service.RedisClient;
 import com.oasis.atum.base.infrastructure.util.DateUtil;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.commons.application.service.CallUpService;
-import com.oasis.atum.commons.domain.enums.CallState;
-import com.oasis.atum.commons.domain.enums.CallType;
-import com.oasis.atum.commons.interfaces.dto.CallUpDTO;
-import com.oasis.atum.commons.interfaces.request.BindingRequest;
-import com.oasis.atum.commons.interfaces.request.CallUpCallBack;
+import com.oasis.atum.commons.infrastructure.enums.CallEventState;
+import com.oasis.atum.commons.infrastructure.enums.CallState;
+import com.oasis.atum.commons.infrastructure.enums.CallType;
+import com.oasis.atum.commons.interfaces.dto.MoorDTO;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,48 +44,31 @@ public class MoorApi
 	 */
 	private static final String REDIS_KEY_BINDING = "binding=>";
 
-	@PutMapping("binding")
-	public Mono<ResponseEntity> binding(@RequestBody final Mono<BindingRequest> data)
+	@DeleteMapping("hang-up/{id}")
+	public Mono<ResponseEntity> hangUp(@PathVariable final String id)
 	{
-		log.info("临时绑定电话关系 =====> {}", data);
+		log.info("电话挂断 =====> {}", id);
+
+		return service.hangUp(id)
+						 .map(v -> Restful.noContent());
+	}
+
+	@PostMapping("binding")
+	public Mono<ResponseEntity> binding(@RequestBody final Mono<MoorDTO.Binding> data)
+	{
+		log.info("临时绑定电话关系");
 
 		return data
 						 //字段非空
 						 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
-						 //暂存Redis 30分钟
-						 .flatMap(d -> redis.put(REDIS_KEY_BINDING + d.call, d.to, 30L)
-														 //200
-														 .map(Restful::ok));
-	}
-
-	@DeleteMapping("unbinding")
-	public Mono<ResponseEntity> unbinding(@RequestBody final Mono<BindingRequest> data)
-	{
-		log.info("解除绑定关系 =====> {}", data);
-
-		return data
-						 //非空
-						 .filter(d -> Objects.nonNull(d.call))
-						 .map(d -> REDIS_KEY_BINDING + d.call)
-						 //key是否存在
-						 .flatMap(s -> redis.exists(s)
-														 .filter(k -> k)
-														 //存在删除
-														 .flatMap(b -> redis.delete(s)))
-						 .map(l -> Restful.noContent());
-	}
-
-	@PostMapping("call-up")
-	public Mono<ResponseEntity> callUp(@RequestBody final Mono<CallUpDTO> data)
-	{
-		log.info("打电话");
-
-		return data.flatMap(service::callUp)
-						 .map(s -> Restful.ok("actionId", s));
+						 //绑定
+						 .flatMap(service::binding)
+						 //返回
+						 .map(Restful::ok);
 	}
 
 	@PostMapping("call-up/back")
-	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<CallUpCallBack> data)
+	public Mono<ResponseEntity> calUpBack(@RequestBody final Mono<MoorDTO.CallUpCallBack> data)
 	{
 		log.info("打电话回调");
 
@@ -99,14 +80,15 @@ public class MoorApi
 	@GetMapping(params = "mobile")
 	public Mono<ResponseEntity> callUpTo(@RequestParam String mobile)
 	{
+
 		log.info("容联七陌回调 =====> {}", mobile);
 		//从Redis获取绑定关系
 		val key = REDIS_KEY_BINDING + mobile;
-		return redis.exists(key)
-						 //存在删除
-						 .flatMap(b -> redis.delete(key))
-						 //200 return key
-						 .map(b -> Restful.ok(key));
+		return redis.getJSONObject(key)
+						 //存在返回 200 OK
+						 .map(j -> Restful.ok(j.getString("to")))
+						 //不存在返回 404 NotFound
+						 .defaultIfEmpty(Restful.notFound());
 	}
 
 	/**
@@ -127,7 +109,7 @@ public class MoorApi
 																		 @RequestParam(name = "AgentName", required = false) final String agentName,
 																		 @RequestParam(name = "Queue", required = false) final String queue,
 																		 @RequestParam(name = "State", required = false) final CallState state,
-																		 @RequestParam(name = "CallState", required = false) final String callState,
+																		 @RequestParam(name = "CallState", required = false) final CallEventState callState,
 																		 @RequestParam(name = "ActionID", required = false) final String actionID,
 																		 @RequestParam(name = "WebcallActionID", required = false) final String webcallActionID,
 																		 @RequestParam(name = "RecordFile", required = false) final String recordFile,
@@ -172,8 +154,8 @@ public class MoorApi
 
 		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(URLDecoder.decode(ring, charset)),
 			DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
-			state, webcallActionID,
-			recordFile, fileServer)
+			state, callState, webcallActionID,
+			recordFile, fileServer, callID)
 						 .map(v -> Restful.ok());
 	}
 }

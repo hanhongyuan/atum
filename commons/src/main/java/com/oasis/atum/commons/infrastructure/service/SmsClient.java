@@ -1,12 +1,13 @@
 package com.oasis.atum.commons.infrastructure.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.aliyun.mns.client.CloudAccount;
 import com.aliyun.mns.common.ServiceException;
 import com.aliyun.mns.model.BatchSmsAttributes;
 import com.aliyun.mns.model.MessageAttributes;
 import com.aliyun.mns.model.RawTopicMessage;
 import com.oasis.atum.commons.infrastructure.config.SmsConfiguration;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.List;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import lombok.val;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 
 /**
  * 阿里云短信基础服务
@@ -35,14 +35,16 @@ public class SmsClient
 	 */
 	public Mono<String> sendCaptcha(final String code, final List<String> mobiles)
 	{
-		val json = new JSONObject();
-		json.put("code", code);
-		json.put("product", config.getSign());
+//		val json = new JSONObject();
+//		json.put("code", code);
+//		json.put("product", config.getSign());
 
-		return sendSms(templateConfig.getCaptcha(), json, mobiles);
+		val map = HashMap.of("code", code, "product", config.getSign());
+
+		return sendSms(templateConfig.getCaptcha(), map, mobiles);
 	}
 
-	private Mono<String> sendSms(final String templateId, final JSONObject map, final List<String> mobiles)
+	private Mono<String> sendSms(final String templateId, final HashMap<String, String> map, final List<String> mobiles)
 	{
 		try
 		{
@@ -71,7 +73,7 @@ public class SmsClient
 			batchSmsAttributes.setTemplateCode(templateId);
 			// 3.3 设置发送短信所使用的模板中参数对应的值（在短信模板中定义的，没有可以不用设置）
 			val smsReceiverParams = new BatchSmsAttributes.SmsReceiverParams();
-			map.forEach((x, y) -> smsReceiverParams.setParam(x, y.toString()));
+			map.forEach(smsReceiverParams::setParam);
 			// 3.4 增加接收短信的号码
 			mobiles.forEach(s -> batchSmsAttributes.addSmsReceiver(s, smsReceiverParams));
 			messageAttributes.setBatchSmsAttributes(batchSmsAttributes);

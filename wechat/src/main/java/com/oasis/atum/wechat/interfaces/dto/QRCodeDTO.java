@@ -2,7 +2,7 @@ package com.oasis.atum.wechat.interfaces.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.oasis.atum.wechat.domain.enums.QRCodeType;
+import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
 import lombok.Builder;
 
 /**

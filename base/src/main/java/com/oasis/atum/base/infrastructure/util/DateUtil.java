@@ -11,12 +11,13 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static io.vavr.API.*;
+
 /**
  * 日期工具包
  */
 public interface DateUtil
 {
-	String FULLDATE = "yyyy-MM-dd HH:mm:ss";
 
 	/**
 	 * 年龄
@@ -39,6 +40,11 @@ public interface DateUtil
 		return System.currentTimeMillis() / 1000;
 	}
 
+	static String datetimeStamp()
+	{
+		return DateTime.now().toString(DateField.TIMESTAMP);
+	}
+
 	/**
 	 * 默认格式 yyyy-MM-dd HH:mm:ss
 	 * @param str
@@ -46,7 +52,7 @@ public interface DateUtil
 	 */
 	static Date toDate(final String str)
 	{
-		return toDate(str, FULLDATE);
+		return toDate(str, DateField.FULLDATE);
 	}
 
 	/**
@@ -69,7 +75,7 @@ public interface DateUtil
 	static Stream<LocalDate> getWeekDays()
 	{
 		//本周一开始循环
-		return Stream.iterate(LocalDate.parse("2017-08-02").dayOfWeek().withMinimumValue(), d -> d.plusDays(1)).limit(7);
+		return Stream.iterate(LocalDate.now().dayOfWeek().withMinimumValue(), d -> d.plusDays(1)).limit(7);
 	}
 
 	/**
@@ -83,18 +89,11 @@ public interface DateUtil
 	{
 		val d = new Duration(new DateTime(x), new DateTime(y));
 
-		switch (type)
-		{
-			case DateField.SECONDS:
-				return d.getStandardSeconds();
-			case DateField.MINUTES:
-				return d.getStandardMinutes();
-			case DateField.HOURS:
-				return d.getStandardHours();
-			case DateField.DAYS:
-				return d.getStandardDays();
-			default:
-				return 0;
-		}
+		return Match(type).of(
+			Case($(DateField.SECONDS), d::getStandardSeconds),
+			Case($(DateField.MINUTES), d::getStandardMinutes),
+			Case($(DateField.HOURS), d::getStandardHours),
+			Case($(DateField.DAYS), d::getStandardDays)
+		);
 	}
 }

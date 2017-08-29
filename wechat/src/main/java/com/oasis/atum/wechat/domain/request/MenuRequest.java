@@ -1,7 +1,7 @@
 package com.oasis.atum.wechat.domain.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.oasis.atum.wechat.domain.enums.MenuType;
+import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 

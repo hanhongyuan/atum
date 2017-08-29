@@ -6,6 +6,8 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.oasis.atum.base.infrastructure.constant.DateField;
+import com.oasis.atum.base.infrastructure.service.HttpClient;
 import lombok.val;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,11 +21,10 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import java.text.SimpleDateFormat;
 
 /**
- * Http配置
- * Server配置 => Netty
+ * 服务器配置
  */
 @Configuration
-public class HttpConfiguration
+public class ServerConfiguration
 {
 	@Bean
 	public ObjectMapper objectMapper()
@@ -36,7 +37,7 @@ public class HttpConfiguration
 		//不输出null,"",空字段
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		//日期格式化
-		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		mapper.setDateFormat(new SimpleDateFormat(DateField.FULLDATE));
 
 		return mapper;
 	}
@@ -70,6 +71,12 @@ public class HttpConfiguration
 		jsonConvert.setFastJsonConfig(fastJsonConfig);
 
 		return new RestTemplateBuilder().additionalMessageConverters(jsonConvert).build();
+	}
+
+	@Bean
+	public HttpClient httpClient()
+	{
+		return new HttpClient();
 	}
 
 //	/**

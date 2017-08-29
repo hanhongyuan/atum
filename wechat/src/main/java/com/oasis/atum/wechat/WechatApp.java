@@ -1,7 +1,7 @@
 package com.oasis.atum.wechat;
 
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
-import com.oasis.atum.base.infrastructure.config.HttpConfiguration;
+import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import java.time.Duration;
 @AllArgsConstructor
 @EnableMongoAuditing
 @SpringCloudApplication
-@ImportAutoConfiguration(value = {AxonConfiguration.class, HttpConfiguration.class, RedisConfiguration.class})
+@ImportAutoConfiguration(value = {AxonConfiguration.class, ServerConfiguration.class, RedisConfiguration.class})
 public class WechatApp implements CommandLineRunner
 {
 	private final WechatClient client;

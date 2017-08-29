@@ -10,21 +10,22 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 public interface CallUpRecordEvent
 {
 	/**
-	 * 创建
+	 * 绑定
 	 */
 	@Builder
-	final class Created implements CallUpRecordEvent
+	final class Bound
 	{
 		@TargetAggregateIdentifier
-		public final String                 id;
-		public final CallUpRecordCmd.Create cmd;
+		public final String               id;
+		public final CallUpRecordCmd.Bind cmd;
+
 	}
 
 	/**
 	 * 修改
 	 */
 	@Builder
-	final class Updated implements CallUpRecordEvent
+	final class Updated
 	{
 		@TargetAggregateIdentifier
 		public final String                 id;
@@ -35,10 +36,21 @@ public interface CallUpRecordEvent
 	 * 回调
 	 */
 	@Builder
-	final class Callbacked implements CallUpRecordEvent
+	final class Callbacked
 	{
 		@TargetAggregateIdentifier
 		public final String                   id;
 		public final CallUpRecordCmd.Callback cmd;
+	}
+
+	/**
+	 * 挂断
+	 */
+	@Builder
+	final class HungUp
+	{
+		@TargetAggregateIdentifier
+		public final String                 id;
+		public final CallUpRecordCmd.HangUp cmd;
 	}
 }

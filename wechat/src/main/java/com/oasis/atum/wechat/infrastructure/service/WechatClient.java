@@ -12,6 +12,7 @@ import com.oasis.atum.wechat.domain.request.TagRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import com.oasis.atum.wechat.interfaces.response.WechatResponse;
+import io.vavr.control.Option;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -27,6 +28,8 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+
+import static io.vavr.API.*;
 
 /**
  * 微信基础服务
@@ -123,18 +126,21 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_ACCESSTOKEN)
+						 .log()
 						 //没有则网络请求微信服务器获取
 						 .switchIfEmpty(get("cgi-bin/token", String.class, "grant_type=client_credential",
 							 "appid=" + config.getAppId(),
 							 "secret=" + config.getSecret())
 															.map(JSON::parseObject)
-															.map(j ->
-															{
-																val accessToken = j.getString("access_token");
-																log.info("获取微信AccessToken =====> {}", accessToken);
-																redis.put(REDIS_KEY_ACCESSTOKEN, accessToken, 109L).subscribe();
-																return accessToken;
-															}));
+															.map(j -> Option(j.getString("access_token"))
+																					.map(d ->
+																					{
+																						log.info("获取微信AccessToken =====> {}", d);
+																						redis.put(REDIS_KEY_ACCESSTOKEN, d, 107L).subscribe();
+																						return d;
+																					})
+																					.getOrElseThrow(RuntimeException::new)
+															));
 	}
 
 	/**
@@ -145,15 +151,18 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_JSAPI_TICKET)
+						 .log()
 						 //没有则网络请求微信服务器获取
 						 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=jsapi")
-															.map(j ->
-															{
-																val jsApiTicket = j.getString("ticket");
-																log.info("获取微信JsApiTicket =====> {}", jsApiTicket);
-																redis.put(REDIS_KEY_JSAPI_TICKET, jsApiTicket, 109L).subscribe();
-																return jsApiTicket;
-															}));
+															.map(j -> Option(j.getString("ticket"))
+																					.map(d ->
+																					{
+																						log.info("获取微信JsApiTicket =====> {}", d);
+																						redis.put(REDIS_KEY_JSAPI_TICKET, d, 108L).subscribe();
+																						return d;
+																					})
+																					.getOrElseThrow(RuntimeException::new)
+															));
 	}
 
 	/**
@@ -164,15 +173,17 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_API_TICKET)
+						 .log()
 						 //没有则网络请求微信服务器获取
 						 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=wx_card")
-															.map(j ->
-															{
-																val apiTicket = j.getString("ticket");
-																log.info("获取微信ApiTicket =====> {}", apiTicket);
-																redis.put(REDIS_KEY_API_TICKET, apiTicket, 109L).subscribe();
-																return apiTicket;
-															}));
+															.map(j -> Option(j.getString("ticket"))
+																					.map(d ->
+																					{
+																						log.info("获取微信ApiTicket =====> {}", d);
+																						redis.put(REDIS_KEY_API_TICKET, d, 109L).subscribe();
+																						return d;
+																					}).getOrElseThrow(RuntimeException::new)
+															));
 	}
 
 	/**

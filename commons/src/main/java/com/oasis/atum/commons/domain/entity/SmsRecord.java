@@ -1,10 +1,10 @@
 package com.oasis.atum.commons.domain.entity;
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
-import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.commons.domain.cmd.SmsRecordCmd;
-import com.oasis.atum.commons.domain.enums.SmsType;
 import com.oasis.atum.commons.domain.event.SmsRecordEvent;
+import com.oasis.atum.commons.infrastructure.enums.SmsType;
+import io.vavr.collection.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
+import static io.vavr.API.Option;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
@@ -94,7 +94,7 @@ public class SmsRecord
 	public void handle(final SmsRecordEvent.Created event)
 	{
 		this.id = event.id;
-		this.mobiles = event.cmd.mobiles;
+		this.mobiles = List.of(event.cmd.mobile);
 		this.smsType = event.cmd.smsType;
 		this.isBusiness = event.cmd.isBusiness;
 		this.messageId = event.cmd.messageId;
@@ -104,24 +104,24 @@ public class SmsRecord
 	@EventSourcingHandler
 	public void handle(final SmsRecordEvent.Succeed event)
 	{
-		this.isSuccess = Validator.either(event.cmd.isSuccess, isSuccess);
-		this.count = Validator.either(event.cmd.count, count);
-		this.receiveTime = Validator.either(event.cmd.receiveTime, receiveTime);
-		this.messageId = Validator.either(event.cmd.messageId, messageId);
+		this.isSuccess = Option(event.cmd.isSuccess).getOrElse(isSuccess);
+		this.count = Option(event.cmd.count).getOrElse(count);
+		this.receiveTime = Option(event.cmd.receiveTime).getOrElse(receiveTime);
+		this.messageId = Option(event.cmd.messageId).getOrElse(messageId);
 	}
 
 	@EventSourcingHandler
 	public void handle(final SmsRecordEvent.Failed event)
 	{
-		this.isSuccess = Validator.either(event.cmd.isSuccess, isSuccess);
-		this.errCode = Validator.either(event.cmd.errCode, errCode);
-		this.messageId = Validator.either(event.cmd.messageId, messageId);
+		this.isSuccess = Option(event.cmd.isSuccess).getOrElse(isSuccess);
+		this.errCode = Option(event.cmd.errCode).getOrElse(errCode);
+		this.messageId = Option(event.cmd.messageId).getOrElse(messageId);
 	}
 
 	@EventSourcingHandler
 	public void handle(final SmsRecordEvent.Replied event)
 	{
-		this.isSuccess = Validator.either(event.cmd.isSuccess, isSuccess);
+		this.isSuccess = Option(event.cmd.isSuccess).getOrElse(isSuccess);
 	}
 
 }

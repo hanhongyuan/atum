@@ -2,9 +2,8 @@ package com.oasis.atum.wechat.domain.entity;
 
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
-import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
-import com.oasis.atum.wechat.domain.enums.QRCodeType;
+import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
 import com.oasis.atum.wechat.domain.event.QRCodeEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+import static io.vavr.API.Option;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
@@ -90,10 +90,10 @@ public class QRCode
 	@EventSourcingHandler
 	public void handle(final QRCodeEvent.Updated event)
 	{
-		type = Validator.either(event.cmd.type, type);
-		uri = Validator.either(event.cmd.uri, uri);
-		sceneId = Validator.either(event.cmd.sceneId, sceneId);
-		sceneStr = Validator.either(event.cmd.sceneStr, sceneStr);
-		ticket = Validator.either(event.cmd.ticket, ticket);
+		type = Option(event.cmd.type).getOrElse(type);
+		uri = Option(event.cmd.uri).getOrElse(uri);
+		sceneId = Option(event.cmd.sceneId).getOrElse(sceneId);
+		sceneStr = Option(event.cmd.sceneStr).getOrElse(sceneStr);
+		ticket = Option(event.cmd.ticket).getOrElse(ticket);
 	}
 }

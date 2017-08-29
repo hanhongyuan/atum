@@ -1,9 +1,8 @@
 package com.oasis.atum.wechat.domain.entity;
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
-import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.wechat.domain.cmd.MenuCmd;
-import com.oasis.atum.wechat.domain.enums.MenuType;
+import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import com.oasis.atum.wechat.domain.event.MenuEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+import static io.vavr.API.Option;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
@@ -116,17 +116,17 @@ public class Menu
 	@EventSourcingHandler
 	private void handle(final MenuEvent.Updated event)
 	{
-		name = Validator.either(event.cmd.name, name);
-		type = Validator.either(event.cmd.type, type);
-		menuKey = Validator.either(event.cmd.menuKey, menuKey);
-		uri = Validator.either(event.cmd.uri, uri);
-		mediaId = Validator.either(event.cmd.mediaId, mediaId);
-		parentId = Validator.either(event.cmd.parentId, parentId);
-		content = Validator.either(event.cmd.content, content);
-		contentType = Validator.either(event.cmd.contentType, contentType);
-		sort = Validator.either(event.cmd.sort, sort);
-		isShow = Validator.either(event.cmd.isShow, isShow);
-		comment = Validator.either(event.cmd.comment, comment);
+		name = Option(event.cmd.name).getOrElse(name);
+		type = Option(event.cmd.type).getOrElse(type);
+		menuKey = Option(event.cmd.menuKey).getOrElse(menuKey);
+		uri = Option(event.cmd.uri).getOrElse(uri);
+		mediaId = Option(event.cmd.mediaId).getOrElse(mediaId);
+		parentId = Option(event.cmd.parentId).getOrElse(parentId);
+		content = Option(event.cmd.content).getOrElse(content);
+		contentType = Option(event.cmd.contentType).getOrElse(contentType);
+		sort = Option(event.cmd.sort).getOrElse(sort);
+		isShow = Option(event.cmd.isShow).getOrElse(isShow);
+		comment = Option(event.cmd.comment).getOrElse(comment);
 	}
 
 	@EventSourcingHandler

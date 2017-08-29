@@ -40,11 +40,11 @@ public class PaymentApi
 	}
 
 	@PostMapping("h5")
-	public Mono<ResponseEntity> h5(@RequestBody final Mono<PaymentRequest> data)
+	public Mono<ResponseEntity> jsapi(@RequestBody final Mono<PaymentRequest> data)
 	{
-		log.info("h5支付");
+		log.info("公众号支付");
 
-		return data.flatMap(service::h5).map(Restful::ok).defaultIfEmpty(Restful.badRequest(ERR_CODE, ERR_MSG));
+		return data.flatMap(service::jsapi).map(Restful::ok).defaultIfEmpty(Restful.badRequest(ERR_CODE, ERR_MSG));
 	}
 
 	@PostMapping("native")

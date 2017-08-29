@@ -9,4 +9,6 @@ public interface DateField
 	String MINUTES = "minutes";
 	String HOURS   = "hours";
 	String DAYS    = "days";
+	String FULLDATE = "yyyy-MM-dd HH:mm:ss";
+	String TIMESTAMP ="yyyyMMddHHmmss";
 }

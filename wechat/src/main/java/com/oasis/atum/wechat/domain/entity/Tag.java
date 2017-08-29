@@ -1,7 +1,6 @@
 package com.oasis.atum.wechat.domain.entity;
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
-import com.oasis.atum.base.infrastructure.util.Validator;
 import com.oasis.atum.wechat.domain.cmd.TagCmd;
 import com.oasis.atum.wechat.domain.event.TagEvent;
 import com.oasis.atum.wechat.domain.request.TagRequest;
@@ -23,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.vavr.API.Option;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
@@ -123,7 +123,7 @@ public class Tag
 	@EventSourcingHandler
 	public void handle(final TagEvent.Updated event)
 	{
-		wxId = Validator.either(event.wxId, wxId);
-		name = Validator.either(event.name, name);
+		wxId = Option(event.wxId).getOrElse(wxId);
+		name = Option(event.name).getOrElse(name);
 	}
 }

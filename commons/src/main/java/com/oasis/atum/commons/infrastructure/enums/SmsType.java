@@ -1,4 +1,4 @@
-package com.oasis.atum.commons.domain.enums;
+package com.oasis.atum.commons.infrastructure.enums;
 
 /**
  * 短信类型

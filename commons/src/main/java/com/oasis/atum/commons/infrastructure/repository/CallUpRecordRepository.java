@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 /**
  * 通话记录持久化
  */
-public interface CallUpRecordRepository extends ReactiveMongoRepository<CallUpRecord,String>
+public interface CallUpRecordRepository extends ReactiveMongoRepository<CallUpRecord, String>
 {
 }

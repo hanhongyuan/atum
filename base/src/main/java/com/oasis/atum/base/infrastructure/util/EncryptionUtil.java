@@ -1,11 +1,14 @@
 package com.oasis.atum.base.infrastructure.util;
 
 import lombok.val;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * 加密工具
@@ -51,5 +54,25 @@ public interface EncryptionUtil
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * Base64加密
+	 * @param s
+	 * @return
+	 */
+	static String base64Encode(final String s)
+	{
+		return new String(Base64.getEncoder().encode(s.getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
+	}
+
+	/**
+	 * Base64解密
+	 * @param s
+	 * @return
+	 */
+	static String base64Decode(final String s)
+	{
+		return new String(Base64.getDecoder().decode(s.getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
 	}
 }

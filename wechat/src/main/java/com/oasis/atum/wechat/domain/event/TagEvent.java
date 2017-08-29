@@ -15,7 +15,7 @@ public interface TagEvent
 	 * 创建
 	 */
 	@Builder
-	final class Created implements TagEvent
+	final class Created
 	{
 		@TargetAggregateIdentifier
 		public final String id;
@@ -27,7 +27,7 @@ public interface TagEvent
 	 * 修改
 	 */
 	@Builder
-	final class Updated implements TagEvent
+	final class Updated
 	{
 		@TargetAggregateIdentifier
 		public final String  id;
@@ -39,7 +39,7 @@ public interface TagEvent
 	 * 添加粉丝
 	 */
 	@Builder
-	final class AddedFans implements TagEvent
+	final class AddedFans
 	{
 		@TargetAggregateIdentifier
 		public final String       id;
