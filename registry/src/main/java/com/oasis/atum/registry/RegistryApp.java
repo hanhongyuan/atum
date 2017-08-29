@@ -13,6 +13,6 @@ public class RegistryApp
 {
 	public static void main(final String[] args)
 	{
-		SpringApplication.run(RegistryApp.class,args);
+		SpringApplication.run(RegistryApp.class, args);
 	}
 }

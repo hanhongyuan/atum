@@ -33,11 +33,11 @@ public interface QRCodeCmd
 	final class Update
 	{
 		@TargetAggregateIdentifier
-		public final String id;
+		public final String     id;
 		public final QRCodeType type;
-		public final String sceneId;
-		public final String sceneStr;
-		public final String ticket;
-		public final String uri;
+		public final String     sceneId;
+		public final String     sceneStr;
+		public final String     ticket;
+		public final String     uri;
 	}
 }

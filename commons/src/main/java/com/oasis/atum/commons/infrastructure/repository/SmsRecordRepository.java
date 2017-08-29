@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 /**
  * 短信记录持久化
  */
-public interface SmsRecordRepository extends ReactiveMongoRepository<SmsRecord,String>
+public interface SmsRecordRepository extends ReactiveMongoRepository<SmsRecord, String>
 {
 	/**
 	 * 通过阿里唯一标识找到短信

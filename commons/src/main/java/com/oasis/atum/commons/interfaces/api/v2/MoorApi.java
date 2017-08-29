@@ -50,7 +50,7 @@ public class MoorApi
 		log.info("电话挂断 =====> {}", id);
 
 		return service.hangUp(id)
-						 .map(v -> Restful.noContent());
+							 .map(v -> Restful.noContent());
 	}
 
 	@PostMapping("binding")
@@ -59,12 +59,12 @@ public class MoorApi
 		log.info("临时绑定电话关系");
 
 		return data
-						 //字段非空
-						 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
-						 //绑定
-						 .flatMap(service::binding)
-						 //返回
-						 .map(Restful::ok);
+							 //字段非空
+							 .filter(d -> Objects.nonNull(d.call) && Objects.nonNull(d.to))
+							 //绑定
+							 .flatMap(service::binding)
+							 //返回
+							 .map(Restful::ok);
 	}
 
 	@PostMapping("call-up/back")
@@ -73,8 +73,8 @@ public class MoorApi
 		log.info("打电话回调");
 
 		return data
-						 .flatMap(service::updateCallUp)
-						 .map(v -> Restful.ok());
+							 .flatMap(service::updateCallUp)
+							 .map(v -> Restful.ok());
 	}
 
 	@GetMapping(params = "mobile")
@@ -85,10 +85,10 @@ public class MoorApi
 		//从Redis获取绑定关系
 		val key = REDIS_KEY_BINDING + mobile;
 		return redis.getJSONObject(key)
-						 //存在返回 200 OK
-						 .map(j -> Restful.ok(j.getString("to")))
-						 //不存在返回 404 NotFound
-						 .defaultIfEmpty(Restful.notFound());
+							 //存在返回 200 OK
+							 .map(j -> Restful.ok(j.getString("to")))
+							 //不存在返回 404 NotFound
+							 .defaultIfEmpty(Restful.notFound());
 	}
 
 	/**
@@ -153,9 +153,9 @@ public class MoorApi
 		val charset = "UTF-8";
 
 		return service.hangUp(callNo, calledNo, callType, DateUtil.toDate(URLDecoder.decode(ring, charset)),
-			DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
-			state, callState, webcallActionID,
-			recordFile, fileServer, callID)
-						 .map(v -> Restful.ok());
+				DateUtil.toDate(URLDecoder.decode(begin, charset)), DateUtil.toDate(URLDecoder.decode(end, charset)),
+				state, callState, webcallActionID,
+				recordFile, fileServer, callID)
+							 .map(v -> Restful.ok());
 	}
 }

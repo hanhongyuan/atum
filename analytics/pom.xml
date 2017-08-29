@@ -38,8 +38,8 @@
         </dependency>
         <!-- 配置管理 -->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-config-client</artifactId>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-config-client</artifactId>-->
         <!--</dependency>-->
         <!-- 简化代码 -->
         <dependency>

@@ -1,8 +1,8 @@
 package com.oasis.atum.wechat;
 
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
-import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
+import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -35,7 +35,7 @@ public class WechatApp implements CommandLineRunner
 	{
 		//每隔110分钟运行一次
 		Flux.interval(Duration.ofMinutes(110L))
-			.subscribe(l -> client.initWechat());
+				.subscribe(l -> client.initWechat());
 
 	}
 }

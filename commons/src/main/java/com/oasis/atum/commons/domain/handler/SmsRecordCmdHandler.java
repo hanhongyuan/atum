@@ -31,14 +31,14 @@ public class SmsRecordCmdHandler
 	{
 		log.info("短信记录创建命令处理");
 		Try.of(() -> repository.newInstance(() -> new SmsRecord(cmd)))
-			.onSuccess(d -> d.execute(data ->
-			{
-				//4位随机整数
-				val code = BaseUtil.randomNum(4);
-				//Redis记录用户与验证码关系 5分钟验证码过期
-				redis.put(cmd.smsType + "=>" + cmd.mobile, code, 5L)
-					.subscribe(b -> client.sendCaptcha(code, List.of(cmd.mobile))
-														.subscribe(data::setMessageId));
-			}));
+				.onSuccess(d -> d.execute(data ->
+				{
+					//4位随机整数
+					val code = BaseUtil.randomNum(4);
+					//Redis记录用户与验证码关系 5分钟验证码过期
+					redis.put(cmd.smsType + "=>" + cmd.mobile, code, 5L)
+							.subscribe(b -> client.sendCaptcha(code, List.of(cmd.mobile))
+																	.subscribe(data::setMessageId));
+				}));
 	}
 }

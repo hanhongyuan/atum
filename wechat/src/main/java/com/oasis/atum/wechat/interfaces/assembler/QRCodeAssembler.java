@@ -11,7 +11,7 @@ public interface QRCodeAssembler
 	static QRCodeDTO toDTO(final QRCode data)
 	{
 		return QRCodeDTO.builder().id(data.getId()).type(data.getType()).sceneId(data.getSceneId())
-						 .sceneStr(data.getSceneStr()).expireSeconds(data.getExpireSeconds()).ticket(data.getTicket())
-						 .uri(data.getUri()).build();
+							 .sceneStr(data.getSceneStr()).expireSeconds(data.getExpireSeconds()).ticket(data.getTicket())
+							 .uri(data.getUri()).build();
 	}
 }

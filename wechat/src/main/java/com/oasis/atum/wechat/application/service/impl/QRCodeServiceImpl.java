@@ -43,41 +43,41 @@ public class QRCodeServiceImpl implements QRCodeService
 	public Mono<Void> create(final QRCodeDTO dto)
 	{
 		return Mono.justOrEmpty(dto)
-						 //二维码创建命令
-						 .map(d -> QRCodeCmd.Create.builder().id(d.id).type(d.type).sceneId(d.sceneId)
-												 .sceneStr(d.sceneStr).expireSeconds(d.expireSeconds).createTime(new Date()).build())
-						 .map(c ->
-						 {
-							 //异步命令处理结果
-							 val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest.Create>();
-							 //发送命令 创建二维码
-							 commandGateway.send(c, future);
-							 return future.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //请求微信创建二维码
-						 .flatMap(d -> client.createQRCode(d)
-														 .flatMap(j ->
-														 {
-															 //票根
-															 val ticket = j.getString("ticket");
-															 //票根换取二维码图片并转成短链接
-															 val json = d.long2Short(ticket);
-															 //请求微信生成短链接
-															 return client.createShortURI(json)
-																				.map(js -> QRCodeCmd.Update.builder()
-																										 .id(d.id)
-																										 .type(dto.type)
-																										 .sceneId(dto.sceneId)
-																										 .sceneStr(dto.sceneStr)
-																										 .ticket(ticket)
-																										 .uri(js.getString("short_url"))
-																										 .build());
-														 })
-						 )
-						 //发送命令 修改二维码
-						 .map(commandGateway::send)
-						 .then();
+							 //二维码创建命令
+							 .map(d -> QRCodeCmd.Create.builder().id(d.id).type(d.type).sceneId(d.sceneId)
+														 .sceneStr(d.sceneStr).expireSeconds(d.expireSeconds).createTime(new Date()).build())
+							 .map(c ->
+							 {
+								 //异步命令处理结果
+								 val future = new FutureCallback<QRCodeCmd.Create, QRCodeRequest.Create>();
+								 //发送命令 创建二维码
+								 commandGateway.send(c, future);
+								 return future.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //请求微信创建二维码
+							 .flatMap(d -> client.createQRCode(d)
+																 .flatMap(j ->
+																 {
+																	 //票根
+																	 val ticket = j.getString("ticket");
+																	 //票根换取二维码图片并转成短链接
+																	 val json = d.long2Short(ticket);
+																	 //请求微信生成短链接
+																	 return client.createShortURI(json)
+																							.map(js -> QRCodeCmd.Update.builder()
+																														 .id(d.id)
+																														 .type(dto.type)
+																														 .sceneId(dto.sceneId)
+																														 .sceneStr(dto.sceneStr)
+																														 .ticket(ticket)
+																														 .uri(js.getString("short_url"))
+																														 .build());
+																 })
+							 )
+							 //发送命令 修改二维码
+							 .map(commandGateway::send)
+							 .then();
 	}
 
 	@Override
@@ -85,8 +85,8 @@ public class QRCodeServiceImpl implements QRCodeService
 	public Flux<QRCodeDTO> getQRCodes(final Pageable pageable)
 	{
 		return persistence.findAll()
-						 .skip(pageable.getPageNumber())
-						 .limitRate(pageable.getPageSize())
-						 .map(QRCodeAssembler::toDTO);
+							 .skip(pageable.getPageNumber())
+							 .limitRate(pageable.getPageSize())
+							 .map(QRCodeAssembler::toDTO);
 	}
 }

@@ -11,19 +11,19 @@ public interface CallUpRecordAssembler
 	static CallUpRecordDTO toDTO(final CallUpRecord data)
 	{
 		return CallUpRecordDTO.builder()
-						 .id(data.getId())
-						 .callMobile(data.getCallMobile())
-						 .callToMobile(data.getCallToMobile())
-						 .maxCallTime(data.getMaxCallTime())
-						 .callTime(data.getCallTime())
-						 .callType(data.getCallType())
-						 .ringTime(data.getRingTime())
-						 .beginTime(data.getBeginTime())
-						 .endTime(data.getEndTime())
-						 .callState(data.getCallState())
-						 .state(data.getState())
-						 .thirdId(data.getThirdId())
-						 .build();
+							 .id(data.getId())
+							 .callMobile(data.getCallMobile())
+							 .callToMobile(data.getCallToMobile())
+							 .maxCallTime(data.getMaxCallTime())
+							 .callTime(data.getCallTime())
+							 .callType(data.getCallType())
+							 .ringTime(data.getRingTime())
+							 .beginTime(data.getBeginTime())
+							 .endTime(data.getEndTime())
+							 .callState(data.getCallState())
+							 .state(data.getState())
+							 .thirdId(data.getThirdId())
+							 .build();
 	}
 
 }

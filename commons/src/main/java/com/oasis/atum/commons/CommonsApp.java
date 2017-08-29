@@ -1,8 +1,8 @@
 package com.oasis.atum.commons;
 
 import com.oasis.atum.base.infrastructure.config.AxonConfiguration;
-import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import com.oasis.atum.base.infrastructure.config.RedisConfiguration;
+import com.oasis.atum.base.infrastructure.config.ServerConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;

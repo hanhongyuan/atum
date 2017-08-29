@@ -43,23 +43,23 @@ public class JsApi
 		log.info("获取Js-SDK签名 =====> {}", uri);
 
 		return Match(isOasisNet(uri)).of(
-			Case($(false), () -> Mono.just(Restful.ok())),
-			Case($(), () ->
-			{
-				//当前时间的秒数
-				val timeStamp = DateUtil.timeStamp();
-				val nonceStr  = BaseUtil.random(32);
-				//获取Js-SDK签名
-				return client.jsSign(timeStamp, nonceStr, uri)
-								 //构建jJs-SDK参数
-								 .map(s -> JsSDK.builder().appId(config.getAppId())
-														 .nonceStr(nonceStr)
-														 .timeStamp(timeStamp)
-														 .signature(s)
-														 .build())
-								 .log()
-								 .map(Restful::ok);
-			})
+				Case($(false), () -> Mono.just(Restful.ok())),
+				Case($(), () ->
+				{
+					//当前时间的秒数
+					val timeStamp = DateUtil.timeStamp();
+					val nonceStr  = BaseUtil.random(32);
+					//获取Js-SDK签名
+					return client.jsSign(timeStamp, nonceStr, uri)
+										 //构建jJs-SDK参数
+										 .map(s -> JsSDK.builder().appId(config.getAppId())
+																	 .nonceStr(nonceStr)
+																	 .timeStamp(timeStamp)
+																	 .signature(s)
+																	 .build())
+										 .log()
+										 .map(Restful::ok);
+				})
 		);
 	}
 

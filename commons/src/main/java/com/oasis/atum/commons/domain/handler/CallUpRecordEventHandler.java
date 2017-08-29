@@ -34,24 +34,24 @@ public class CallUpRecordEventHandler
 		log.info("通话记录绑定事件处理");
 
 		repository.load(event.id)
-			.execute(data -> persistence.insert(data)
-												 .subscribe(d ->
-												 {
-													 log.info("创建成功后存入Redis");
+				.execute(data -> persistence.insert(data)
+														 .subscribe(d ->
+														 {
+															 log.info("创建成功后存入Redis");
 
-													 val value = new JSONObject();
-													 value.put("id", d.getId());
-													 value.put("thirdId", d.getThirdId());
-													 value.put("to", d.getCallToMobile());
-													 value.put("call", d.getCallMobile());
-													 value.put("maxCallTime", d.getMaxCallTime());
-													 /**
-														* 30分钟
-														* key binding=>call
-														* value {id:"1"...}
-														*/
-													 redis.put(REDIS_KEY_BINDING + d.getCallMobile(), value, 30L).subscribe();
-												 }));
+															 val value = new JSONObject();
+															 value.put("id", d.getId());
+															 value.put("thirdId", d.getThirdId());
+															 value.put("to", d.getCallToMobile());
+															 value.put("call", d.getCallMobile());
+															 value.put("maxCallTime", d.getMaxCallTime());
+															 /**
+																* 30分钟
+																* key binding=>call
+																* value {id:"1"...}
+																*/
+															 redis.put(REDIS_KEY_BINDING + d.getCallMobile(), value, 30L).subscribe();
+														 }));
 	}
 
 	@EventHandler

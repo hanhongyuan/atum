@@ -28,17 +28,17 @@ public class MenuDomainServiceImpl implements MenuDomainService
 	public Mono<MenuRequest.Create> reset()
 	{
 		return persistence.findAll()
-						 //顶级菜单
-						 .filter(d -> Objects.isNull(d.getParentId()))
-						 //sort越小越前面
-						 .sort(Comparator.comparing(Menu::getSort))
-						 //对应子菜单
-						 .flatMap(d -> persistence.findByParentIdAndIsShowOrderBySortAsc(d.getId(), true)
-														 //转成微信需要请求格式数据
-														 .map(MenuRequest.Button::new)
-														 .collectList()
-														 .map(l -> new MenuRequest.Button(d, l)))
-						 .collectList()
-						 .map(l -> MenuRequest.Create.builder().button(l).build());
+							 //顶级菜单
+							 .filter(d -> Objects.isNull(d.getParentId()))
+							 //sort越小越前面
+							 .sort(Comparator.comparing(Menu::getSort))
+							 //对应子菜单
+							 .flatMap(d -> persistence.findByParentIdAndIsShowOrderBySortAsc(d.getId(), true)
+																 //转成微信需要请求格式数据
+																 .map(MenuRequest.Button::new)
+																 .collectList()
+																 .map(l -> new MenuRequest.Button(d, l)))
+							 .collectList()
+							 .map(l -> MenuRequest.Create.builder().button(l).build());
 	}
 }

@@ -15,6 +15,6 @@ public class ConfigApp
 {
 	public static void main(final String[] args)
 	{
-		SpringApplication.run(ConfigApp.class,args);
+		SpringApplication.run(ConfigApp.class, args);
 	}
 }

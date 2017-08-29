@@ -29,18 +29,18 @@ public class QRCodeCmdHandler
 	{
 		log.info("二维码创建命令处理");
 		return Try.of(() -> repository.newInstance(() -> new QRCode(cmd))
-													.invoke(q ->
-													{
-														//转成微信请求格式数据
-														val info = new QRCodeRequest.QRCodeInfo();
-														//场景Str
-														val scene = q.getSceneStr();
-														if (Objects.isNull(scene)) info.setSceneId(q.getSceneId());
-														else info.setSceneStr(q.getSceneStr());
+														.invoke(q ->
+														{
+															//转成微信请求格式数据
+															val info = new QRCodeRequest.QRCodeInfo();
+															//场景Str
+															val scene = q.getSceneStr();
+															if (Objects.isNull(scene)) info.setSceneId(q.getSceneId());
+															else info.setSceneStr(q.getSceneStr());
 
-														return QRCodeRequest.Create.builder().id(q.getId()).actionName(q.getType())
-																		 .qrCodeInfo(info).expireSeconds(q.getExpireSeconds()).build();
-													})
+															return QRCodeRequest.Create.builder().id(q.getId()).actionName(q.getType())
+																				 .qrCodeInfo(info).expireSeconds(q.getExpireSeconds()).build();
+														})
 		).getOrElseThrow((Supplier<RuntimeException>) RuntimeException::new);
 	}
 }

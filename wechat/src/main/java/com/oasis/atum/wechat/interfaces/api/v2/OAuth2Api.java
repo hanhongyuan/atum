@@ -34,14 +34,14 @@ public class OAuth2Api
 
 		//第二步：通过code换取网页授权access_token
 		return client.oauth2(code)
-						 .map(j -> Optional.ofNullable(j.getString("openid"))
-												 .map(s ->
-												 {
-													 val json = new JSONObject();
-													 json.put("openid", s);
-													 return Restful.ok(json);
-												 })
-												 .orElseGet(Restful::ok)
-						 );
+							 .map(j -> Optional.ofNullable(j.getString("openid"))
+														 .map(s ->
+														 {
+															 val json = new JSONObject();
+															 json.put("openid", s);
+															 return Restful.ok(json);
+														 })
+														 .orElseGet(Restful::ok)
+							 );
 	}
 }

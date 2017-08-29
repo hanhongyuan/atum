@@ -1,16 +1,11 @@
 package com.oasis.atum.wechat.interfaces.api.v2;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.PaymentService;
 import com.oasis.atum.wechat.interfaces.request.PaymentRequest;
-import com.oasis.atum.wechat.interfaces.response.Payment;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -49,12 +49,12 @@ public interface TemplateRequest
 		public TemplateRequest.Send setTemplateId(final String templateId)
 		{
 			return TemplateRequest.Send.builder()
-							 .templateId(templateId)
-							 .toUser(this.toUser)
-							 .uri(this.uri)
-							 .miniProgram(this.miniProgram)
-							 .data(this.data)
-							 .build();
+								 .templateId(templateId)
+								 .toUser(this.toUser)
+								 .uri(this.uri)
+								 .miniProgram(this.miniProgram)
+								 .data(this.data)
+								 .build();
 		}
 	}
 

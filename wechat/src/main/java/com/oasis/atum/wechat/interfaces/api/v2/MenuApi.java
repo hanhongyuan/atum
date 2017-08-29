@@ -1,6 +1,5 @@
 package com.oasis.atum.wechat.interfaces.api.v2;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.MenuService;
 import lombok.AllArgsConstructor;
@@ -40,7 +39,7 @@ public class MenuApi
 	{
 		log.info("创建自定义菜单");
 		return data.map(Integer::parseInt)
-						 .flatMap(service::createCustom)
-						 .map(Restful::ok);
+							 .flatMap(service::createCustom)
+							 .map(Restful::ok);
 	}
 }
