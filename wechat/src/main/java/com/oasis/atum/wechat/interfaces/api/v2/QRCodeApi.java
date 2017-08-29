@@ -5,7 +5,6 @@ import com.oasis.atum.base.infrastructure.util.Restful;
 import com.oasis.atum.wechat.application.service.QRCodeService;
 import com.oasis.atum.wechat.interfaces.dto.QRCodeDTO;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
@@ -36,8 +35,8 @@ public class QRCodeApi
 		log.info("二维码列表");
 		val pageable = PageRequest.of(page, size);
 		return service.getQRCodes(pageable)
-						 .collectList()
-						 .map(Restful::ok);
+							 .collectList()
+							 .map(Restful::ok);
 	}
 
 	@PostMapping

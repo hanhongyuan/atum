@@ -34,8 +34,8 @@ public class MenuServiceImpl implements MenuService
 	{
 		//菜单领域服务获取数据
 		return domain.reset()
-						 //请求微信重置微信菜单
-						 .flatMap(client::resetMenu);
+							 //请求微信重置微信菜单
+							 .flatMap(client::resetMenu);
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class MenuServiceImpl implements MenuService
 	{
 		//菜单领域服务获取数据
 		return domain.reset()
-						 //按标签匹配
-						 .map(d -> MenuRequest.Create.builder().button(d.button).matchrule(MenuRequest.Matchrule.builder().tagId(wxId).build()).build())
-						 //请求微信重置微信菜单
-						 .flatMap(client::customMenu)
-						 .map(s -> s.getString("menuid"));
+							 //按标签匹配
+							 .map(d -> MenuRequest.Create.builder().button(d.button).matchrule(MenuRequest.Matchrule.builder().tagId(wxId).build()).build())
+							 //请求微信重置微信菜单
+							 .flatMap(client::customMenu)
+							 .map(s -> s.getString("menuid"));
 	}
 }

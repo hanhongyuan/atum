@@ -72,12 +72,12 @@ public class AxonConfiguration
 	public MongoClient mongoClient()
 	{
 		val uri = BaseUtil.getStringBuilder()
-								.append("mongodb://")
-								.append(username).append(":")
-								.append(password).append("@")
-								.append(mongoUri).append(":")
-								.append(port).append("/")
-								.append(dbName).toString();
+									.append("mongodb://")
+									.append(username).append(":")
+									.append(password).append("@")
+									.append(mongoUri).append(":")
+									.append(port).append("/")
+									.append(dbName).toString();
 		val clientUri = new MongoClientURI(uri);
 		return new MongoClient(clientUri);
 	}

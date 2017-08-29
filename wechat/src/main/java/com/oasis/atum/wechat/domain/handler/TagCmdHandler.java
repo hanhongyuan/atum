@@ -28,14 +28,14 @@ public class TagCmdHandler
 	{
 		log.info("标签创建命令处理");
 		return Try.of(() -> repository.newInstance(() -> new Tag(cmd))
-													.invoke(d ->
-													{
-														//转成微信请求格式数据
-														val tag = new TagRequest.Create(d.getId());
-														tag.setName(cmd.name);
+														.invoke(d ->
+														{
+															//转成微信请求格式数据
+															val tag = new TagRequest.Create(d.getId());
+															tag.setName(cmd.name);
 
-														return tag;
-													})
+															return tag;
+														})
 		).getOrElseThrow((Supplier<RuntimeException>) RuntimeException::new);
 	}
 }

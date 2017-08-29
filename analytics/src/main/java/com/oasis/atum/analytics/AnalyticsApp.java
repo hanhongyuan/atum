@@ -14,7 +14,7 @@ public class AnalyticsApp
 
 	public static void main(final String[] args)
 	{
-		SpringApplication.run(AnalyticsApp.class,args);
+		SpringApplication.run(AnalyticsApp.class, args);
 	}
 
 }

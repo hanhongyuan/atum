@@ -22,8 +22,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-import static io.vavr.API.*;
-
+import static io.vavr.API.Option;
+import static io.vavr.API.Stream;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
@@ -124,7 +124,7 @@ public class CallUpRecord
 	{
 		//通话时长
 		callTime = Stream(event.cmd.beginTime).zipWith(Stream(event.cmd.endTime), (x, y) -> DateUtil.compareTo(x, y, DateField.SECONDS))
-								 .getOrElse(0L);
+									 .getOrElse(0L);
 		callType = Option(event.cmd.callType).getOrElse(callType);
 		ringTime = Option(event.cmd.ringTime).getOrElse(ringTime);
 		beginTime = Option(event.cmd.beginTime).getOrElse(beginTime);

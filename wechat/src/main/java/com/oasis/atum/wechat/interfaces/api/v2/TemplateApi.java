@@ -6,7 +6,6 @@ import com.oasis.atum.wechat.infrastructure.service.WechatClient;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,9 +32,9 @@ public class TemplateApi
 
 		//设置模版信息
 		return data.map(d -> d.setTemplateId(template.getRegister()))
-						 //发送模版
-						 .flatMap(client::sendTemplate)
-						 .map(Restful::ok);
+							 //发送模版
+							 .flatMap(client::sendTemplate)
+							 .map(Restful::ok);
 	}
 
 	@PostMapping("succeed")
@@ -45,9 +44,9 @@ public class TemplateApi
 
 		//设置模版信息
 		return data.map(d -> d.setTemplateId(template.getSuccess()))
-						 //发送模版
-						 .flatMap(client::sendTemplate)
-						 .map(Restful::ok);
+							 //发送模版
+							 .flatMap(client::sendTemplate)
+							 .map(Restful::ok);
 	}
 
 	@PostMapping("cancel")
@@ -57,9 +56,9 @@ public class TemplateApi
 
 		//设置模版信息
 		return data.map(d -> d.setTemplateId(template.getCancel()))
-						 //发送模版
-						 .flatMap(client::sendTemplate)
-						 .map(Restful::ok);
+							 //发送模版
+							 .flatMap(client::sendTemplate)
+							 .map(Restful::ok);
 	}
 
 	@PostMapping("submitted")
@@ -69,8 +68,8 @@ public class TemplateApi
 
 		//设置模版信息
 		return data.map(d -> d.setTemplateId(template.getSubmit()))
-						 //发送模版
-						 .flatMap(client::sendTemplate)
-						 .map(Restful::ok);
+							 //发送模版
+							 .flatMap(client::sendTemplate)
+							 .map(Restful::ok);
 	}
 }

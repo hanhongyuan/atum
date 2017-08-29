@@ -3,8 +3,8 @@ package com.oasis.atum.wechat.domain.entity;
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.wechat.domain.cmd.QRCodeCmd;
-import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
 import com.oasis.atum.wechat.domain.event.QRCodeEvent;
+import com.oasis.atum.wechat.infrastructure.enums.QRCodeType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

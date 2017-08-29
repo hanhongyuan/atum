@@ -11,7 +11,6 @@ import lombok.val;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Repository;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 /**
  * 通话记录命令处理
@@ -35,7 +34,7 @@ public class CallUpRecordCmdHandler
 		log.info("通话记录绑定命令处理");
 
 		return repository.newInstance(() -> new CallUpRecord(cmd))
-						 .invoke(d -> d);
+							 .invoke(d -> d);
 	}
 
 	@CommandHandler
@@ -43,14 +42,14 @@ public class CallUpRecordCmdHandler
 	{
 		log.info("通话记录修改命令处理");
 		val id = redis.getJSONObject(REDIS_KEY_BINDING + cmd.callMobile)
-							 .map(j ->
-							 {
-								 //通话结束解除绑定
-								 redis.delete(REDIS_KEY_BINDING + j.getString("call")).subscribe();
-								 return j.getString("id");
-							 })
-							 //同步阻塞等待返回
-							 .block();
+								 .map(j ->
+								 {
+									 //通话结束解除绑定
+									 redis.delete(REDIS_KEY_BINDING + j.getString("call")).subscribe();
+									 return j.getString("id");
+								 })
+								 //同步阻塞等待返回
+								 .block();
 		//查询手机号绑定关系
 		return repository.load(id).invoke(d -> d.update(id, cmd));
 	}
@@ -61,15 +60,15 @@ public class CallUpRecordCmdHandler
 		log.info("通话记录挂断命令处理");
 
 		return repository.load(cmd.id)
-						 .invoke(d ->
-						 {
-							 //挂断之后解除绑定
-							 redis.delete(d.getCallMobile()).subscribe();
+							 .invoke(d ->
+							 {
+								 //挂断之后解除绑定
+								 redis.delete(d.getCallMobile()).subscribe();
 
-							 return MoorRequest.HangUp.builder()
-												.callId(d.getCallId())
-												.actionId(d.getId())
-												.build();
-						 });
+								 return MoorRequest.HangUp.builder()
+														.callId(d.getCallId())
+														.actionId(d.getId())
+														.build();
+							 });
 	}
 }

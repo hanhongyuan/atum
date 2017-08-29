@@ -40,41 +40,41 @@ public class CallUpServiceImpl implements CallUpService
 	public Mono<CallUpRecordDTO> binding(final MoorDTO.Binding data)
 	{
 		return Mono.just(data)
-						 //创建绑定命令
-						 .map(d -> CallUpRecordCmd.Bind.builder().thirdId(d.thirdId).callMobile(d.call)
-												 .callToMobile(d.to).maxCallTime(d.maxCallTime)
-												 .noticeUri(d.noticeUri).createTime(new Date()).build())
-						 //发送命令
-						 .map(c ->
-						 {
-							 //异步处理结果
-							 val f = new FutureCallback<CallUpRecordCmd.Bind, CallUpRecord>();
+							 //创建绑定命令
+							 .map(d -> CallUpRecordCmd.Bind.builder().thirdId(d.thirdId).callMobile(d.call)
+														 .callToMobile(d.to).maxCallTime(d.maxCallTime)
+														 .noticeUri(d.noticeUri).createTime(new Date()).build())
 							 //发送命令
-							 commandGateway.send(c, f);
-							 return f.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 .map(CallUpRecordAssembler::toDTO);
+							 .map(c ->
+							 {
+								 //异步处理结果
+								 val f = new FutureCallback<CallUpRecordCmd.Bind, CallUpRecord>();
+								 //发送命令
+								 commandGateway.send(c, f);
+								 return f.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 .map(CallUpRecordAssembler::toDTO);
 	}
 
 	@Override
 	public Mono<Void> hangUp(final String id)
 	{
 		return Mono.just(id)
-						 //挂断命令
-						 .map(pk -> CallUpRecordCmd.HangUp.builder().id(id).build())
-						 .map(c ->
-						 {
-							 //异步处理结果
-							 val f = new FutureCallback<CallUpRecordCmd.HangUp, MoorRequest.HangUp>();
-							 //发送命令
-							 commandGateway.send(c, f);
-							 return f.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //容联七陌挂断
-						 .flatMap(client::hangUp)
-						 .then();
+							 //挂断命令
+							 .map(pk -> CallUpRecordCmd.HangUp.builder().id(id).build())
+							 .map(c ->
+							 {
+								 //异步处理结果
+								 val f = new FutureCallback<CallUpRecordCmd.HangUp, MoorRequest.HangUp>();
+								 //发送命令
+								 commandGateway.send(c, f);
+								 return f.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //容联七陌挂断
+							 .flatMap(client::hangUp)
+							 .then();
 	}
 
 	@Override
@@ -84,33 +84,33 @@ public class CallUpServiceImpl implements CallUpService
 	{
 		//修改命令
 		return Mono.just(CallUpRecordCmd.Update.builder()
-											 .callMobile(callNo).callToMobile(calledNo).callType(callType)
-											 .ringTime(ring).beginTime(begin).endTime(end).callState(callState)
-											 .state(state).recordFile(recordFile).fileServer(fileServer).callId(callId)
-											 .build())
-						 .map(c ->
-						 {
-							 //异步处理结果
-							 val f = new FutureCallback<CallUpRecordCmd.Update, CallUpRecord>();
-							 commandGateway.send(c, f);
-							 return f.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //发送数据到回调地址
-						 .flatMap(d -> http.post(d.getNoticeUri(), CallUpRecordAssembler.toDTO(d)))
-						 .then();
+												 .callMobile(callNo).callToMobile(calledNo).callType(callType)
+												 .ringTime(ring).beginTime(begin).endTime(end).callState(callState)
+												 .state(state).recordFile(recordFile).fileServer(fileServer).callId(callId)
+												 .build())
+							 .map(c ->
+							 {
+								 //异步处理结果
+								 val f = new FutureCallback<CallUpRecordCmd.Update, CallUpRecord>();
+								 commandGateway.send(c, f);
+								 return f.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //发送数据到回调地址
+							 .flatMap(d -> http.post(d.getNoticeUri(), CallUpRecordAssembler.toDTO(d)))
+							 .then();
 	}
 
 	@Override
 	public Mono<Void> updateCallUp(final MoorDTO.CallUpCallBack data)
 	{
 		return Mono.just(data)
-						 .map(d -> CallUpRecordCmd.Callback.builder()
-												 .id(d.actionId)
-												 .isSuccess(d.isSuccess)
-												 .message(d.message)
-												 .build())
-						 .map(commandGateway::send)
-						 .then();
+							 .map(d -> CallUpRecordCmd.Callback.builder()
+														 .id(d.actionId)
+														 .isSuccess(d.isSuccess)
+														 .message(d.message)
+														 .build())
+							 .map(commandGateway::send)
+							 .then();
 	}
 }

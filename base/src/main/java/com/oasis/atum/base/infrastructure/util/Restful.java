@@ -17,9 +17,9 @@ public interface Restful
 	static ResponseEntity ok()
 	{
 		return ResponseEntity.ok()
-						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-						 .cacheControl(CacheControl.noCache())
-						 .build();
+							 .contentType(MediaType.APPLICATION_JSON_UTF8)
+							 .cacheControl(CacheControl.noCache())
+							 .build();
 	}
 
 	static <T> ResponseEntity ok(final String key, final T data)
@@ -43,9 +43,9 @@ public interface Restful
 	static <T> ResponseEntity ok(final Optional<T> data)
 	{
 		return data.map(o -> ResponseEntity.ok()
-													 .contentType(MediaType.APPLICATION_JSON_UTF8)
-													 .cacheControl(CacheControl.noCache())
-													 .body(JSONObject.toJSON(data))
+														 .contentType(MediaType.APPLICATION_JSON_UTF8)
+														 .cacheControl(CacheControl.noCache())
+														 .body(JSONObject.toJSON(data))
 		).orElseGet(() -> ResponseEntity.notFound().cacheControl(CacheControl.noCache()).build());
 	}
 
@@ -56,9 +56,9 @@ public interface Restful
 	static ResponseEntity created()
 	{
 		return ResponseEntity.created(null)
-						 .cacheControl(CacheControl.noCache())
-						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-						 .build();
+							 .cacheControl(CacheControl.noCache())
+							 .contentType(MediaType.APPLICATION_JSON_UTF8)
+							 .build();
 	}
 
 	/**
@@ -68,8 +68,8 @@ public interface Restful
 	static ResponseEntity noContent()
 	{
 		return ResponseEntity.noContent()
-						 .cacheControl(CacheControl.noCache())
-						 .build();
+							 .cacheControl(CacheControl.noCache())
+							 .build();
 	}
 
 	/**
@@ -79,9 +79,9 @@ public interface Restful
 	static ResponseEntity badRequest()
 	{
 		return ResponseEntity.badRequest()
-						 .cacheControl(CacheControl.noCache())
-						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-						 .build();
+							 .cacheControl(CacheControl.noCache())
+							 .contentType(MediaType.APPLICATION_JSON_UTF8)
+							 .build();
 	}
 
 	/**
@@ -93,9 +93,9 @@ public interface Restful
 	static <T> ResponseEntity badRequest(final T data)
 	{
 		return ResponseEntity.badRequest()
-						 .cacheControl(CacheControl.noCache())
-						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-						 .body(data);
+							 .cacheControl(CacheControl.noCache())
+							 .contentType(MediaType.APPLICATION_JSON_UTF8)
+							 .body(data);
 	}
 
 	/**
@@ -110,9 +110,9 @@ public interface Restful
 		json.put("code", code);
 		json.put("msg", msg);
 		return ResponseEntity.badRequest()
-						 .cacheControl(CacheControl.noCache())
-						 .contentType(MediaType.APPLICATION_JSON_UTF8)
-						 .body(json);
+							 .cacheControl(CacheControl.noCache())
+							 .contentType(MediaType.APPLICATION_JSON_UTF8)
+							 .body(json);
 	}
 
 	/**

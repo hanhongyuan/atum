@@ -5,7 +5,6 @@ import com.oasis.atum.wechat.domain.event.MenuEvent;
 import com.oasis.atum.wechat.infrastructure.repository.MenuRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
@@ -45,16 +44,16 @@ public class MenuEventHandler
 		log.info("菜单删除事件处理");
 
 		repository.load(event.id)
-			.execute(d -> Option(d.getParentId())
-											//有父类Id说明是子类菜单，只需要删除自身即可.
-											.map(persistence::deleteById)
-											//没有说明是顶级菜单,需要删除自身和子类菜单.
-											.getOrElse(() -> persistence.findByParentIdAndIsShowOrderBySortAsc(event.id, true)
-																				 .collectList()
-																				 //批量删除所有子类
-																				 .flatMap(persistence::deleteAll)
-																				 //删除父类自身
-																				 .flatMap(v -> persistence.deleteById(event.id)))
-			);
+				.execute(d -> Option(d.getParentId())
+													//有父类Id说明是子类菜单，只需要删除自身即可.
+													.map(persistence::deleteById)
+													//没有说明是顶级菜单,需要删除自身和子类菜单.
+													.getOrElse(() -> persistence.findByParentIdAndIsShowOrderBySortAsc(event.id, true)
+																							 .collectList()
+																							 //批量删除所有子类
+																							 .flatMap(persistence::deleteAll)
+																							 //删除父类自身
+																							 .flatMap(v -> persistence.deleteById(event.id)))
+				);
 	}
 }

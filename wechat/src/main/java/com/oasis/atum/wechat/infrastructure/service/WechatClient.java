@@ -12,7 +12,6 @@ import com.oasis.atum.wechat.domain.request.TagRequest;
 import com.oasis.atum.wechat.infrastructure.config.WechatConfiguration;
 import com.oasis.atum.wechat.interfaces.request.TemplateRequest;
 import com.oasis.atum.wechat.interfaces.response.WechatResponse;
-import io.vavr.control.Option;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -29,7 +28,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 
-import static io.vavr.API.*;
+import static io.vavr.API.Option;
 
 /**
  * 微信基础服务
@@ -52,9 +51,9 @@ public class WechatClient
 	public WechatClient(final RedisClient redis, final RestTemplate template, final WechatConfiguration config)
 	{
 		this.client = WebClient.builder()
-										.baseUrl("https://api.weixin.qq.com/")
-										.clientConnector(new ReactorClientHttpConnector())
-										.build();
+											.baseUrl("https://api.weixin.qq.com/")
+											.clientConnector(new ReactorClientHttpConnector())
+											.build();
 		this.redis = redis;
 		this.template = template;
 		this.config = config;
@@ -73,23 +72,23 @@ public class WechatClient
 	private <REP> Mono<REP> get(final String uri, final Class<REP> clazz, final Object... queryString)
 	{
 		val monad = Flux.fromArray(queryString)
-									//规约
-									.reduce((x, y) -> x + "&" + y)
-									//uri?queryString
-									.map(s -> uri + "?" + s);
+										//规约
+										.reduce((x, y) -> x + "&" + y)
+										//uri?queryString
+										.map(s -> uri + "?" + s);
 
 		//uri是否包含access_token=#
 		return monad.filter(s -> s.contains("access_token=#"))
-						 //替换
-						 .flatMap(this::replaceAccessToken)
-						 //不处理
-						 .switchIfEmpty(monad.defaultIfEmpty(uri))
-						 .flatMap(s -> client.get()
-														 .uri(s)
-														 .ifNoneMatch("*")
-														 .ifModifiedSince(ZonedDateTime.now())
-														 .retrieve()
-														 .bodyToMono(clazz));
+							 //替换
+							 .flatMap(this::replaceAccessToken)
+							 //不处理
+							 .switchIfEmpty(monad.defaultIfEmpty(uri))
+							 .flatMap(s -> client.get()
+																 .uri(s)
+																 .ifNoneMatch("*")
+																 .ifModifiedSince(ZonedDateTime.now())
+																 .retrieve()
+																 .bodyToMono(clazz));
 
 	}
 
@@ -101,21 +100,21 @@ public class WechatClient
 	public <REQ, REP> Mono<REP> post(final String uri, final REQ data, final Class<REP> clazz)
 	{
 		return Mono.just(uri)
-						 //uri是否包含access_token=#
-						 .filter(s -> s.contains("access_token=#"))
-						 //如果有则替换成AccessToken
-						 .flatMap(this::replaceAccessToken)
-						 //没有不处理
-						 .defaultIfEmpty(uri)
-						 .map(s ->
-						 {
-							 val request = RequestEntity.post(URI.create(s))
-															 .ifNoneMatch("*")
-															 .contentType(MediaType.APPLICATION_JSON_UTF8)
-															 .acceptCharset(Charsets.UTF_8)
-															 .body(data);
-							 return template.postForObject(URI.create(s), request, clazz);
-						 });
+							 //uri是否包含access_token=#
+							 .filter(s -> s.contains("access_token=#"))
+							 //如果有则替换成AccessToken
+							 .flatMap(this::replaceAccessToken)
+							 //没有不处理
+							 .defaultIfEmpty(uri)
+							 .map(s ->
+							 {
+								 val request = RequestEntity.post(URI.create(s))
+																	 .ifNoneMatch("*")
+																	 .contentType(MediaType.APPLICATION_JSON_UTF8)
+																	 .acceptCharset(Charsets.UTF_8)
+																	 .body(data);
+								 return template.postForObject(URI.create(s), request, clazz);
+							 });
 	}
 
 	/**
@@ -126,21 +125,21 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_ACCESSTOKEN)
-						 .log()
-						 //没有则网络请求微信服务器获取
-						 .switchIfEmpty(get("cgi-bin/token", String.class, "grant_type=client_credential",
-							 "appid=" + config.getAppId(),
-							 "secret=" + config.getSecret())
-															.map(JSON::parseObject)
-															.map(j -> Option(j.getString("access_token"))
-																					.map(d ->
-																					{
-																						log.info("获取微信AccessToken =====> {}", d);
-																						redis.put(REDIS_KEY_ACCESSTOKEN, d, 107L).subscribe();
-																						return d;
-																					})
-																					.getOrElseThrow(RuntimeException::new)
-															));
+							 .log()
+							 //没有则网络请求微信服务器获取
+							 .switchIfEmpty(get("cgi-bin/token", String.class, "grant_type=client_credential",
+									 "appid=" + config.getAppId(),
+									 "secret=" + config.getSecret())
+																	.map(JSON::parseObject)
+																	.map(j -> Option(j.getString("access_token"))
+																								.map(d ->
+																								{
+																									log.info("获取微信AccessToken =====> {}", d);
+																									redis.put(REDIS_KEY_ACCESSTOKEN, d, 107L).subscribe();
+																									return d;
+																								})
+																								.getOrElseThrow(RuntimeException::new)
+																	));
 	}
 
 	/**
@@ -151,18 +150,18 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_JSAPI_TICKET)
-						 .log()
-						 //没有则网络请求微信服务器获取
-						 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=jsapi")
-															.map(j -> Option(j.getString("ticket"))
-																					.map(d ->
-																					{
-																						log.info("获取微信JsApiTicket =====> {}", d);
-																						redis.put(REDIS_KEY_JSAPI_TICKET, d, 108L).subscribe();
-																						return d;
-																					})
-																					.getOrElseThrow(RuntimeException::new)
-															));
+							 .log()
+							 //没有则网络请求微信服务器获取
+							 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=jsapi")
+																	.map(j -> Option(j.getString("ticket"))
+																								.map(d ->
+																								{
+																									log.info("获取微信JsApiTicket =====> {}", d);
+																									redis.put(REDIS_KEY_JSAPI_TICKET, d, 108L).subscribe();
+																									return d;
+																								})
+																								.getOrElseThrow(RuntimeException::new)
+																	));
 	}
 
 	/**
@@ -173,17 +172,17 @@ public class WechatClient
 	{
 		//先从Redis读取
 		return redis.get(REDIS_KEY_API_TICKET)
-						 .log()
-						 //没有则网络请求微信服务器获取
-						 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=wx_card")
-															.map(j -> Option(j.getString("ticket"))
-																					.map(d ->
-																					{
-																						log.info("获取微信ApiTicket =====> {}", d);
-																						redis.put(REDIS_KEY_API_TICKET, d, 109L).subscribe();
-																						return d;
-																					}).getOrElseThrow(RuntimeException::new)
-															));
+							 .log()
+							 //没有则网络请求微信服务器获取
+							 .switchIfEmpty(get("cgi-bin/ticket/getticket", "access_token=#", "type=wx_card")
+																	.map(j -> Option(j.getString("ticket"))
+																								.map(d ->
+																								{
+																									log.info("获取微信ApiTicket =====> {}", d);
+																									redis.put(REDIS_KEY_API_TICKET, d, 109L).subscribe();
+																									return d;
+																								}).getOrElseThrow(RuntimeException::new)
+																	));
 	}
 
 	/**
@@ -194,8 +193,8 @@ public class WechatClient
 	public Mono<JSONObject> oauth2(final String code)
 	{
 		return get("sns/oauth2/access_token", String.class, "appid=" + config.getAppId(),
-			"secret=" + config.getSecret(), "code=" + code, "grant_type=authorization_code")
-						 .map(JSON::parseObject);
+				"secret=" + config.getSecret(), "code=" + code, "grant_type=authorization_code")
+							 .map(JSON::parseObject);
 	}
 
 	/**
@@ -288,17 +287,17 @@ public class WechatClient
 		val request = new JSONObject();
 		request.put("media_id", mediaId);
 		return post("https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=#", request, String.class)
-						 //微信数据编码格式需要转换
-						 .map(s -> new String(s.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8))
-						 //转成JSON
-						 .map(JSON::parseObject)
-						 //获取JSONArray
-						 .map(j -> j.getJSONArray("news_item").stream()
-												 .map(JSON::toJSONString)
-												 //转成NewsItem对象
-												 .map(s -> JSONObject.parseObject(s, WechatResponse.NewsItem.class))
-						 )
-						 .map(Flux::fromStream);
+							 //微信数据编码格式需要转换
+							 .map(s -> new String(s.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8))
+							 //转成JSON
+							 .map(JSON::parseObject)
+							 //获取JSONArray
+							 .map(j -> j.getJSONArray("news_item").stream()
+														 .map(JSON::toJSONString)
+														 //转成NewsItem对象
+														 .map(s -> JSONObject.parseObject(s, WechatResponse.NewsItem.class))
+							 )
+							 .map(Flux::fromStream);
 	}
 
 	/**
@@ -326,11 +325,11 @@ public class WechatClient
 	public Mono<String> jsSign(final long timeStamp, final String nonceStr, final String uri)
 	{
 		return jsApiTicket()
-						 .map(s -> BaseUtil.getStringBuilder().append("jsapi_ticket=").append(s))
-						 .map(sb -> sb.append("&noncestr=").append(nonceStr).append("&timestamp=")
-													.append(timeStamp).append("&url=")
-													.append(uri).toString())
-						 .map(EncryptionUtil::SHA1);
+							 .map(s -> BaseUtil.getStringBuilder().append("jsapi_ticket=").append(s))
+							 .map(sb -> sb.append("&noncestr=").append(nonceStr).append("&timestamp=")
+															.append(timeStamp).append("&url=")
+															.append(uri).toString())
+							 .map(EncryptionUtil::SHA1);
 	}
 
 	/**
@@ -343,13 +342,13 @@ public class WechatClient
 	public Mono<Boolean> check(final String signature, final String timestamp, final String nonce)
 	{
 		return Flux.just(config.getToken(), timestamp, nonce)
-						 // 将token、timestamp、nonce三个参数进行字典序排序
-						 .sort()
-						 // 将三个参数字符串拼接成一个字符串进行sha1加密
-						 .reduce((x, y) -> x + y)
-						 //sha1加密后
-						 .map(EncryptionUtil::SHA1)
-						 // 字符串与signature对比，标识该请求来源于微信
-						 .map(s -> s.equalsIgnoreCase(signature));
+							 // 将token、timestamp、nonce三个参数进行字典序排序
+							 .sort()
+							 // 将三个参数字符串拼接成一个字符串进行sha1加密
+							 .reduce((x, y) -> x + y)
+							 //sha1加密后
+							 .map(EncryptionUtil::SHA1)
+							 // 字符串与signature对比，标识该请求来源于微信
+							 .map(s -> s.equalsIgnoreCase(signature));
 	}
 }

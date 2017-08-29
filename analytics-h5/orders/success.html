@@ -34,16 +34,13 @@
     });
 
     // 异步加载数据
-    $.get("http://localhost:10000/analytics/v2/orders/success").done(function (data)
-    {
+    $.get("http://localhost:10000/analytics/v2/orders/success").done(function (data) {
         //日期列
-        const dates = data.map(function(data)
-        {
+        const dates = data.map(function (data) {
             return data.date;
         });
         //数量列
-        const counts = data.map(function(data)
-        {
+        const counts = data.map(function (data) {
             return data.count;
         })
 

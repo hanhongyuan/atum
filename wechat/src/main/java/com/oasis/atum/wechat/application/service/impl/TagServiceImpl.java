@@ -34,62 +34,62 @@ public class TagServiceImpl implements TagService
 	public Mono<Void> create(final TagDTO dto)
 	{
 		return Mono.justOrEmpty(dto)
-						 //创建命令
-						 .map(d -> TagCmd.Create.builder().id(d.id).name(d.name).createTime(new Date()).build())
-						 .map(c ->
-						 {
-							 //异步命令处理结果
-							 val future = new FutureCallback<TagCmd.Create, TagRequest.Create>();
-							 //发送命令 - 创建标签
-							 commandGateway.send(c, future);
-							 return future.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //请求微信创建标签
-						 .flatMap(d -> client.createTag(d)
-														 .map(j -> j.getJSONObject("tag").getInteger("id"))
-														 //创建命令
-														 .map(id -> TagCmd.Update.builder().id(d.id).wxId(id).build()))
-						 //发送命令 - 修改标签
-						 .map(commandGateway::send)
-						 .then();
+							 //创建命令
+							 .map(d -> TagCmd.Create.builder().id(d.id).name(d.name).createTime(new Date()).build())
+							 .map(c ->
+							 {
+								 //异步命令处理结果
+								 val future = new FutureCallback<TagCmd.Create, TagRequest.Create>();
+								 //发送命令 - 创建标签
+								 commandGateway.send(c, future);
+								 return future.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //请求微信创建标签
+							 .flatMap(d -> client.createTag(d)
+																 .map(j -> j.getJSONObject("tag").getInteger("id"))
+																 //创建命令
+																 .map(id -> TagCmd.Update.builder().id(d.id).wxId(id).build()))
+							 //发送命令 - 修改标签
+							 .map(commandGateway::send)
+							 .then();
 	}
 
 	@Override
 	public Mono<JSONObject> addFans(final Integer wxId, final List<String> openIds)
 	{
 		return repository.findByWxId(wxId)
-						 //创建命令
-						 .map(d -> TagCmd.AddFans.builder().id(d.getId()).openIds(openIds).build())
-						 .map(c ->
-						 {
-							 //异步命令
-							 val future = new FutureCallback<TagCmd.AddFans, TagRequest.AddFans>();
-							 //发送命令
-							 commandGateway.send(c, future);
-							 return future.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //请求微信给标签添加粉丝
-						 .flatMap(client::addTagFans);
+							 //创建命令
+							 .map(d -> TagCmd.AddFans.builder().id(d.getId()).openIds(openIds).build())
+							 .map(c ->
+							 {
+								 //异步命令
+								 val future = new FutureCallback<TagCmd.AddFans, TagRequest.AddFans>();
+								 //发送命令
+								 commandGateway.send(c, future);
+								 return future.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //请求微信给标签添加粉丝
+							 .flatMap(client::addTagFans);
 	}
 
 	@Override
 	public Mono<JSONObject> update(final TagDTO dto)
 	{
 		return Mono.justOrEmpty(dto)
-						 //创建命令
-						 .map(d -> TagCmd.Update.builder().id(d.id).wxId(d.wxId).name(d.name).build())
-						 .map(c ->
-						 {
-							 //异步命令
-							 val future = new FutureCallback<TagCmd.Update, TagRequest.Update>();
-							 //发送命令
-							 commandGateway.send(c, future);
-							 return future.toCompletableFuture();
-						 })
-						 .flatMap(Mono::fromFuture)
-						 //请求微信修改标签
-						 .flatMap(client::updateTag);
+							 //创建命令
+							 .map(d -> TagCmd.Update.builder().id(d.id).wxId(d.wxId).name(d.name).build())
+							 .map(c ->
+							 {
+								 //异步命令
+								 val future = new FutureCallback<TagCmd.Update, TagRequest.Update>();
+								 //发送命令
+								 commandGateway.send(c, future);
+								 return future.toCompletableFuture();
+							 })
+							 .flatMap(Mono::fromFuture)
+							 //请求微信修改标签
+							 .flatMap(client::updateTag);
 	}
 }

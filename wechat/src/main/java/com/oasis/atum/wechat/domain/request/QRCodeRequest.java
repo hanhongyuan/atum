@@ -7,7 +7,6 @@ import io.vavr.control.Try;
 import lombok.Builder;
 import lombok.val;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.function.Supplier;
 

@@ -3,7 +3,6 @@ package com.oasis.atum.base.infrastructure.util;
 import lombok.Synchronized;
 import lombok.val;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static io.vavr.API.Option;
@@ -67,23 +66,23 @@ public final class IdWorker
 	public long nextId()
 	{
 		return Option(System.currentTimeMillis())
-						 .map(t ->
-						 {
-							 //当前时间戳小于上一次Id生成的时间戳,说明系统时间回退过,这个时候应当抛出异常
-							 if (t < lastTimestamp) throw new RuntimeException("系统时间不正常,拒绝为" + (lastTimestamp - t) + "毫秒生成id");
-							 if (t.equals(lastTimestamp))
+							 .map(t ->
 							 {
-								 sequence = (sequence + 1) & sequenceMask;
-								 //毫秒内序列溢出
-								 if (sequence == 0L) blockNextMillis(lastTimestamp);
-							 }
-							 //时间戳改变,毫秒内序列重置
-							 else sequence = 0L;
-							 //上次生成ID的时间截
-							 lastTimestamp = t;
-							 //移位并通过或运算拼到一起组成64位的ID
-							 return ((t - epoch) << timestampLeftShift) | (workerId << workerIdShift) | sequence;
-						 }).get();
+								 //当前时间戳小于上一次Id生成的时间戳,说明系统时间回退过,这个时候应当抛出异常
+								 if (t < lastTimestamp) throw new RuntimeException("系统时间不正常,拒绝为" + (lastTimestamp - t) + "毫秒生成id");
+								 if (t.equals(lastTimestamp))
+								 {
+									 sequence = (sequence + 1) & sequenceMask;
+									 //毫秒内序列溢出
+									 if (sequence == 0L) blockNextMillis(lastTimestamp);
+								 }
+								 //时间戳改变,毫秒内序列重置
+								 else sequence = 0L;
+								 //上次生成ID的时间截
+								 lastTimestamp = t;
+								 //移位并通过或运算拼到一起组成64位的ID
+								 return ((t - epoch) << timestampLeftShift) | (workerId << workerIdShift) | sequence;
+							 }).get();
 	}
 
 	public String nextSID()

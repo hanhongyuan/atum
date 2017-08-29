@@ -2,8 +2,8 @@ package com.oasis.atum.wechat.domain.entity;
 
 import com.oasis.atum.base.infrastructure.util.IdWorker;
 import com.oasis.atum.wechat.domain.cmd.MenuCmd;
-import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import com.oasis.atum.wechat.domain.event.MenuEvent;
+import com.oasis.atum.wechat.infrastructure.enums.MenuType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

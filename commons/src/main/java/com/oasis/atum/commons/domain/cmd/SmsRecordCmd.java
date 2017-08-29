@@ -5,7 +5,6 @@ import lombok.Builder;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 短信记录命令集

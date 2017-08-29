@@ -90,10 +90,10 @@ public interface DateUtil
 		val d = new Duration(new DateTime(x), new DateTime(y));
 
 		return Match(type).of(
-			Case($(DateField.SECONDS), d::getStandardSeconds),
-			Case($(DateField.MINUTES), d::getStandardMinutes),
-			Case($(DateField.HOURS), d::getStandardHours),
-			Case($(DateField.DAYS), d::getStandardDays)
+				Case($(DateField.SECONDS), d::getStandardSeconds),
+				Case($(DateField.MINUTES), d::getStandardMinutes),
+				Case($(DateField.HOURS), d::getStandardHours),
+				Case($(DateField.DAYS), d::getStandardDays)
 		);
 	}
 }

@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -36,19 +35,19 @@ public class PaymentServiceImpl implements PaymentService
 	public Mono<Payment.H5> applet(final PaymentRequest data)
 	{
 		return sendPayments(data, true)
-						 .filter(d -> Objects.nonNull(d.prepay_id))
-						 .map(d ->
-						 {
-							 val builder = Payment.H5.builder()
-															 .appId(Objects.isNull(data.appid) ? config.getAppletId() : data.appid)
-															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(BaseUtil.random(32))
-															 .signType("MD5")
-															 .pazkage("prepay_id=" + d.prepay_id);
-							 val sign = client.paymentSign(builder.build(), true);
+							 .filter(d -> Objects.nonNull(d.prepay_id))
+							 .map(d ->
+							 {
+								 val builder = Payment.H5.builder()
+																	 .appId(Objects.isNull(data.appid) ? config.getAppletId() : data.appid)
+																	 .timeStamp(DateUtil.timeStamp())
+																	 .nonceStr(BaseUtil.random(32))
+																	 .signType("MD5")
+																	 .pazkage("prepay_id=" + d.prepay_id);
+								 val sign = client.paymentSign(builder.build(), true);
 
-							 return builder.paySign(sign).build();
-						 });
+								 return builder.paySign(sign).build();
+							 });
 	}
 
 	@Override
@@ -56,19 +55,19 @@ public class PaymentServiceImpl implements PaymentService
 	public Mono<Payment.H5> jsapi(final PaymentRequest data)
 	{
 		return sendPayments(data)
-						 .filter(d -> Objects.nonNull(d.prepay_id))
-						 .map(d ->
-						 {
-							 val builder = Payment.H5.builder()
-															 .appId(config.getAppId())
-															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(BaseUtil.random(32))
-															 .signType("MD5")
-															 .pazkage("prepay_id=" + d.prepay_id);
-							 val sign = client.paymentSign(builder.build());
+							 .filter(d -> Objects.nonNull(d.prepay_id))
+							 .map(d ->
+							 {
+								 val builder = Payment.H5.builder()
+																	 .appId(config.getAppId())
+																	 .timeStamp(DateUtil.timeStamp())
+																	 .nonceStr(BaseUtil.random(32))
+																	 .signType("MD5")
+																	 .pazkage("prepay_id=" + d.prepay_id);
+								 val sign = client.paymentSign(builder.build());
 
-							 return builder.paySign(sign).build();
-						 });
+								 return builder.paySign(sign).build();
+							 });
 	}
 
 	@Override
@@ -83,29 +82,29 @@ public class PaymentServiceImpl implements PaymentService
 	public Mono<Payment.APP> app(final PaymentRequest data)
 	{
 		return sendPayments(data)
-						 .filter(d -> Objects.nonNull(d.prepay_id))
-						 .map(d ->
-						 {
-							 val builder = Payment.APP.builder()
-															 .appId(config.getAppId())
-															 .partnerId(config.getMchId())
-															 .timeStamp(DateUtil.timeStamp())
-															 .nonceStr(BaseUtil.random(32))
-															 .pazkage("Sign=WXPay")
-															 .prepayId(d.prepay_id);
-							 val sign = client.paymentSign(builder.build());
-							 return builder.sign(sign).build();
-						 });
+							 .filter(d -> Objects.nonNull(d.prepay_id))
+							 .map(d ->
+							 {
+								 val builder = Payment.APP.builder()
+																	 .appId(config.getAppId())
+																	 .partnerId(config.getMchId())
+																	 .timeStamp(DateUtil.timeStamp())
+																	 .nonceStr(BaseUtil.random(32))
+																	 .pazkage("Sign=WXPay")
+																	 .prepayId(d.prepay_id);
+								 val sign = client.paymentSign(builder.build());
+								 return builder.sign(sign).build();
+							 });
 	}
 
 	private Mono<Payment.Response> sendPayments(final PaymentRequest data, boolean... type)
 	{
 		return client.payment(data, type)
-						 .map(s ->
-						 {
-							 val xml = XMLUtil.parseXML(s, Payment.Response.class);
-							 log.info("微信支付返回 =====> {}", xml);
-							 return xml;
-						 });
+							 .map(s ->
+							 {
+								 val xml = XMLUtil.parseXML(s, Payment.Response.class);
+								 log.info("微信支付返回 =====> {}", xml);
+								 return xml;
+							 });
 	}
 }

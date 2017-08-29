@@ -31,8 +31,8 @@ public class MoorClient
 	public MoorClient(final MoorConfiguration config)
 	{
 		this.client = WebClient.builder()
-										.clientConnector(new ReactorClientHttpConnector())
-										.build();
+											.clientConnector(new ReactorClientHttpConnector())
+											.build();
 		this.config = config;
 	}
 
@@ -62,20 +62,20 @@ public class MoorClient
 	private Mono<JSONObject> get(final String uri, final String... queryString)
 	{
 		return Flux.fromArray(queryString)
-						 .log()
-						 //规约
-						 .reduce((x, y) -> x + "&" + y)
-						 //uri?queryString
-						 .map(s -> uri + "?" + s)
-						 .defaultIfEmpty(uri)
-						 .flatMap(s -> client.get()
-														 .uri(s)
-														 .ifNoneMatch("*")
-														 .ifModifiedSince(ZonedDateTime.now())
-														 .retrieve()
-														 .bodyToMono(String.class))
-						 .log()
-						 .map(JSON::parseObject);
+							 .log()
+							 //规约
+							 .reduce((x, y) -> x + "&" + y)
+							 //uri?queryString
+							 .map(s -> uri + "?" + s)
+							 .defaultIfEmpty(uri)
+							 .flatMap(s -> client.get()
+																 .uri(s)
+																 .ifNoneMatch("*")
+																 .ifModifiedSince(ZonedDateTime.now())
+																 .retrieve()
+																 .bodyToMono(String.class))
+							 .log()
+							 .map(JSON::parseObject);
 	}
 
 	private <T> Mono<JSONObject> post(final String uri, final T data)
@@ -83,16 +83,16 @@ public class MoorClient
 		val timeStamp = DateUtil.datetimeStamp();
 
 		return client.post()
-						 .uri(uri + "?sig=" + authenticationParameter(timeStamp))
-						 //接口鉴权
-						 .header("Authorization", authenticationHeader(timeStamp))
-						 .ifNoneMatch("*")
-						 .ifModifiedSince(ZonedDateTime.now())
-						 .body(BodyInserters.fromObject(data))
-						 .retrieve()
-						 .bodyToMono(String.class)
-						 .log()
-						 .map(JSON::parseObject);
+							 .uri(uri + "?sig=" + authenticationParameter(timeStamp))
+							 //接口鉴权
+							 .header("Authorization", authenticationHeader(timeStamp))
+							 .ifNoneMatch("*")
+							 .ifModifiedSince(ZonedDateTime.now())
+							 .body(BodyInserters.fromObject(data))
+							 .retrieve()
+							 .bodyToMono(String.class)
+							 .log()
+							 .map(JSON::parseObject);
 	}
 
 	/**
@@ -103,21 +103,21 @@ public class MoorClient
 	public Mono<JSONObject> callUp(final MoorRequest.CallUp data)
 	{
 		return Optional.ofNullable(data.maxCallTime)
-						 //有限制通话时间
-						 .map(t -> get(config.getCallUp(),
-							 "Action=Webcall", "Account=" + config.getAccount(),
-							 "PBX=" + config.getPBX(), "ServiceNo=" + config.getServiceNo(),
-							 "Exten=" + data.exten, "Variable=phoneNum:" + data.variable,
-							 "MaxCallTime=" + data.maxCallTime, config.getCallbackType(),
-							 config.getWebCallType(), "CallBackUrl=" + config.getCallbackUrl(),
-							 "ActionID=" + data.actionId))
-						 //无限制
-						 .orElseGet(() -> get(config.getCallUp(),
-							 "Action=Webcall", "Account=" + config.getAccount(),
-							 "PBX=" + config.getPBX(), "ServiceNo=" + config.getServiceNo(),
-							 "Exten=" + data.exten, "Variable=phoneNum:" + data.variable,
-							 config.getCallbackType(), config.getWebCallType(),
-							 "CallBackUrl=" + config.getCallbackUrl(), "ActionID=" + data.actionId));
+							 //有限制通话时间
+							 .map(t -> get(config.getCallUp(),
+									 "Action=Webcall", "Account=" + config.getAccount(),
+									 "PBX=" + config.getPBX(), "ServiceNo=" + config.getServiceNo(),
+									 "Exten=" + data.exten, "Variable=phoneNum:" + data.variable,
+									 "MaxCallTime=" + data.maxCallTime, config.getCallbackType(),
+									 config.getWebCallType(), "CallBackUrl=" + config.getCallbackUrl(),
+									 "ActionID=" + data.actionId))
+							 //无限制
+							 .orElseGet(() -> get(config.getCallUp(),
+									 "Action=Webcall", "Account=" + config.getAccount(),
+									 "PBX=" + config.getPBX(), "ServiceNo=" + config.getServiceNo(),
+									 "Exten=" + data.exten, "Variable=phoneNum:" + data.variable,
+									 config.getCallbackType(), config.getWebCallType(),
+									 "CallBackUrl=" + config.getCallbackUrl(), "ActionID=" + data.actionId));
 	}
 
 	/**
@@ -127,6 +127,6 @@ public class MoorClient
 	 */
 	public Mono<JSONObject> hangUp(final MoorRequest.HangUp data)
 	{
-		return post("http://apis.7moor.com/v20160818/call/hangup/"+config.getAccount(),data);
+		return post("http://apis.7moor.com/v20160818/call/hangup/" + config.getAccount(), data);
 	}
 }

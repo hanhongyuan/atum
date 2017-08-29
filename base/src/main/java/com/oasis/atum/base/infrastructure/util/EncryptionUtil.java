@@ -1,8 +1,6 @@
 package com.oasis.atum.base.infrastructure.util;
 
 import lombok.val;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -63,7 +61,7 @@ public interface EncryptionUtil
 	 */
 	static String base64Encode(final String s)
 	{
-		return new String(Base64.getEncoder().encode(s.getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
+		return new String(Base64.getEncoder().encode(s.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
 	}
 
 	/**
@@ -73,6 +71,6 @@ public interface EncryptionUtil
 	 */
 	static String base64Decode(final String s)
 	{
-		return new String(Base64.getDecoder().decode(s.getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
+		return new String(Base64.getDecoder().decode(s.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
 	}
 }

@@ -5,10 +5,10 @@ package com.oasis.atum.base.infrastructure.constant;
  */
 public interface DateField
 {
-	String SECONDS = "seconds";
-	String MINUTES = "minutes";
-	String HOURS   = "hours";
-	String DAYS    = "days";
-	String FULLDATE = "yyyy-MM-dd HH:mm:ss";
-	String TIMESTAMP ="yyyyMMddHHmmss";
+	String SECONDS   = "seconds";
+	String MINUTES   = "minutes";
+	String HOURS     = "hours";
+	String DAYS      = "days";
+	String FULLDATE  = "yyyy-MM-dd HH:mm:ss";
+	String TIMESTAMP = "yyyyMMddHHmmss";
 }

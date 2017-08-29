@@ -7,5 +7,5 @@ public interface RequestField
 {
 	String PAGE = "page";
 	String SIZE = "size";
-	String PK = "{id}";
+	String PK   = "{id}";
 }
