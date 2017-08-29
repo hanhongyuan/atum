@@ -80,6 +80,7 @@ public class MoorApi
 	@GetMapping(params = "mobile")
 	public Mono<ResponseEntity> callUpTo(@RequestParam String mobile)
 	{
+
 		log.info("容联七陌回调 =====> {}", mobile);
 		//从Redis获取绑定关系
 		val key = REDIS_KEY_BINDING + mobile;
